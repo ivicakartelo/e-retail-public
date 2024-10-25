@@ -1,177 +1,21 @@
-/* src/features/departments/DepartmentsList.css */
-
-/* Container for the departments list */
+/* DepartmentsList.css */
 .departments-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  width: 90%; /* Ensure it fits well on mobile screens */
-}
-
-/* Title styling */
-h2 {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin: 20px;
 }
 
-/* Grid layout for the department cards */
 .departments-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Force two columns per row */
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  padding: 10px;
 }
 
-/* Department card styling */
-.department-card {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-/* Card heading styling */
-.department-card h3 {
-  margin-top: 0;
-}
-
-/* Card paragraph styling */
-.department-card p {
-  margin-bottom: 15px;
-  font-size: 14px;
-  color: #666;
-}
-
-/* Button styling */
-.button-update,
-.button-delete,
-.button-add-category {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-left: 10px; /* Add space between buttons */
-}
-
-/* Update button styling */
-.button-update {
-  background-color: #3498db;
-  color: #fff;
-}
-
-.button-update:hover {
-  background-color: #2980b9;
-}
-
-/* Delete button styling */
-.button-delete {
-  background-color: #e74c3c;
-  color: #fff;
-}
-
-.button-delete:hover {
-  background-color: #c0392b;
-}
-
-/* Add Category button styling */
-.button-add-category {
-  background-color: #2ecc71; /* Green color for the Add Category button */
-  color: #fff;
-}
-
-.button-add-category:hover {
-  background-color: #27ae60; /* Darker green on hover */
-}
-
-/* Loading message styling */
-.loading-message {
-  text-align: center;
-  font-size: 18px;
-  color: #666;
-}
-
-/* Error message styling */
-.error-message {
-  text-align: center;
-  color: #e74c3c;
-  font-size: 16px;
-  margin-top: 20px;
-}
-
-/* Mobile-first adjustments */
-@media (max-width: 600px) {
-  /* Ensure container takes full width on mobile */
-  .departments-container {
-    width: 100%;
-    padding: 10px;
-  }
-
-  /* Adjust title size for smaller screens */
-  h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-
-  /* Grid layout adjustments for smaller screens */
-  .departments-list {
-    grid-template-columns: 1fr; /* Single column layout on mobile */
-  }
-
-  /* Adjust card padding for mobile */
-  .department-card {
-    padding: 10px;
-  }
-
-  /* Adjust button styles for smaller screens */
-  .button-update,
-  .button-delete,
-  .button-add-category {
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-
-  /* Adjust paragraph font size for mobile */
-  .department-card p {
-    font-size: 12px;
-  }
-}
-
-/* Styling for the 'Add Department' button */
-.button-add-department {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
-  padding: 10px 20px; /* Padding around the button */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-size: 16px; /* Adjust font size */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for background and scale */
-  margin-bottom: 20px; /* Add some space below the button */
-}
-
-.button-add-department:hover {
-  background-color: #45a049; /* Darker green on hover */
-  transform: scale(1.05); /* Slightly increase size on hover */
-}
-
-.button-add-department:active {
-  background-color: #3e8e41; /* Even darker green when pressed */
-  transform: scale(0.98); /* Slightly shrink when pressed */
-}
-
-.button-add-department:focus {
-  outline: none; /* Remove focus outline */
-  box-shadow: 0 0 5px rgba(72, 181, 89, 0.7); /* Add subtle shadow when focused */
-}
-
-/* Add styles for the Cancel button */
-.button-cancel {
-  background-color: #e74c3c; /* Red background for Cancel */
-  color: white; /* White text */
-}
-
-.button-cancel:hover {
-  background-color: #c0392b; /* Darker red on hover */
+.department-item {
+  font-size: 1.2em;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
