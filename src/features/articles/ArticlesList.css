@@ -1,0 +1,157 @@
+/* src/features/articles/ArticlesList.css */
+
+/* Container for the articles list */
+.articles-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Individual article excerpt styling */
+.article-excerpt {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+  transition: transform 0.2s ease; /* Smooth hover effect */
+}
+
+.article-excerpt:hover {
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+/* Article heading styling */
+.article-excerpt h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Article images styling */
+.article-images {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.article-images img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Article actions styling */
+.article-actions {
+  margin-top: 10px;
+}
+
+/* Button styling */
+.button-update,
+.button-delete,
+.button-remove,
+.button-assign,
+.button-add-article {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-right: 10px;
+}
+
+/* Add Article button styling */
+.button-add-article {
+  background-color: #4caf50; /* Green background */
+  color: white;
+}
+
+/* Update button styling */
+.button-update {
+  background-color: #3498db; /* Blue background */
+  color: #fff;
+}
+
+/* Delete button styling */
+.button-delete,
+.button-remove {
+  background-color: #e74c3c; /* Red background */
+  color: #fff;
+}
+
+.button-remove:hover,
+.button-delete:hover {
+  background-color: #c0392b; /* Darker red on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+.button-remove:focus,
+.button-delete:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.5); /* Red focus ring */
+}
+
+/* Assign Categories button styling */
+.button-assign {
+  background-color: #2ecc71; /* Green background */
+  color: #fff;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Base styles for the Add Article button */
+.button-add-article {
+  background-color: #2ecc71; /* Green background for "Add Article" */
+  color: white; /* White text */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Hover effect for the Add Article button */
+.button-add-article:hover {
+  background-color: #27ae60; /* Darker green on hover */
+}
+
+/* Styles for the Cancel button */
+.button-cancel {
+  background-color: #e74c3c; /* Red background for "Cancel" */
+  color: white; /* White text */
+}
+
+/* Hover effect for the Cancel button */
+.button-cancel:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+
+/* Mobile-first adjustments */
+@media (max-width: 600px) {
+  .articles-list {
+    grid-template-columns: 1fr; /* Single column layout on mobile */
+  }
+
+  .article-excerpt {
+    padding: 15px; /* Slightly reduce padding on mobile */
+  }
+
+  .button-update,
+  .button-delete,
+  .button-remove,
+  .button-assign,
+  .button-add-article {
+    font-size: 14px; /* Smaller button text on mobile */
+    padding: 8px 12px; /* Smaller padding on buttons */
+  }
+}
