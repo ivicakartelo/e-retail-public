@@ -72,6 +72,25 @@ app.delete('/departments/:id', (req, res) => {
     });
 });
 
+// New route to get categories by department ID
+app.get('/departments/:id/categories', (req, res) => {
+  const departmentId = req.params.id;
+
+  const query = `
+    SELECT c.category_id, c.name AS category_name
+    FROM category c
+    WHERE c.department_id = ?;
+  `;
+
+  db.query(query, [departmentId], (error, results) => {
+      if (error) {
+          console.error('Error fetching categories:', error);
+          return res.status(500).json({ error: 'An error occurred while fetching categories.' });
+      }
+      res.status(200).json({ categories: results });
+  });
+});
+
 // Categories Routes
 app.get('/categories', (req, res) => {
     db.query('SELECT * FROM category', (error, results) => {
