@@ -34,6 +34,14 @@ export const updateCategory = createAsyncThunk(
   }
 );
 
+export const fetchCategoriesByDepartment = createAsyncThunk(
+  'departmentCategories/fetchCategoriesByDepartment',
+  async (departmentId) => {
+    const response = await axios.get(`http://localhost:5000/departments/${departmentId}/categories`);
+    return response.data.categories;
+  }
+);
+
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
@@ -65,7 +73,18 @@ const categoriesSlice = createSlice({
           existingCategory.name = name;
           existingCategory.description = description;
         }
-      });
+      })
+      .addCase(fetchCategoriesByDepartment.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchCategoriesByDepartment.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.categories = action.payload;
+      })
+      .addCase(fetchCategoriesByDepartment.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
   },
 });
 

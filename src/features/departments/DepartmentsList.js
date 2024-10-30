@@ -2,12 +2,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDepartments } from './departmentsSlice'; // Adjust the path as necessary
-import { fetchCategoriesByDepartment } from './departmentCategoriesSlice'; // New import
+import { fetchCategoriesByDepartment } from '../categories/categoriesSlice'; // New import
+import { CategoriesList } from '../categories/CategoriesList';
 
 const DepartmentsList = () => {
   const dispatch = useDispatch();
   const { departments, status } = useSelector((state) => state.departments);
-  const { categories } = useSelector((state) => state.departmentCategories); // New state slice for categories
+  const { categories } = useSelector((state) => state.categories); // New state slice for categories
 
   useEffect(() => {
     if (status === 'idle') {
@@ -25,19 +26,20 @@ const DepartmentsList = () => {
       <ul>
         {departments.map((department) => (
           <li key={department.department_id}>
-            <a href="#" onClick={() => handleDepartmentClick(department.department_id)}>
+            <button onClick={() => handleDepartmentClick(department.department_id)}>
               {department.name}
-            </a>
+            </button>
           </li>
         ))}
       </ul>
-
+      <CategoriesList />
+{/*
       <h2>Categories</h2>
       <ul>
         {categories.map((category) => (
           <li key={category.category_id}>{category.category_name}</li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };
