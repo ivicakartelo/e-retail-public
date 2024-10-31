@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link, Outlet } from 'react-router-dom'
 import { DepartmentsList } from './features/departments/DepartmentsList';
 import { CategoriesList } from './features/categories/CategoriesList';
-import { ArticlesList } from './features/articles/ArticlesList';
+//import { ArticlesList } from './features/articles/ArticlesList';
 import './App.css';
 
 const App = () => {
@@ -15,7 +16,7 @@ const App = () => {
                     <CategoriesList />
                 </div>
                 <div className="articles-list">
-                    <ArticlesList />
+                <Outlet />
                 </div>
             </div>
         </div>  
