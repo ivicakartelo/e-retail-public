@@ -1,38 +1,31 @@
-/* App.css */
-.homepage-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
+.app-container {
+  display: flex; /* Use flexbox for the main container */
+  flex-direction: column; /* Stack the departments list on top */
+  height: 100vh; /* Make the container fill the viewport height */
 }
 
-/* Top horizontal section */
-.departments-section {
-  width: 100%;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  background-color: #f9f9f9;
+.departments-list {
+  display: flex; /* Use flexbox for horizontal alignment */
+  justify-content: space-between; /* Space out the items evenly */
+  padding: 10px; /* Optional padding */
+  background-color: #f8f8f8; /* Optional background color */
+  border-bottom: 2px solid #ddd; /* Optional bottom border for separation */
 }
 
-/* Main content area with left and right sections */
 .main-content {
-  display: flex;
-  gap: 20px;
-  width: 100%;
+  display: flex; /* Use flexbox for side-by-side layout */
+  flex: 1; /* Allow it to fill the remaining space */
+  padding: 10px; /* Optional padding */
 }
 
-/* Left vertical section */
-.categories-section {
-  flex: 1;
-  border-right: 1px solid #ccc;
-  padding: 10px;
-  background-color: #fafafa;
-  max-width: 25%;
+.categories-list {
+  flex: 0 0 25%; /* Fixed width for categories on the left (25% of the width) */
+  padding-right: 10px; /* Space between categories and articles */
+  background-color: #e9ecef; /* Optional background color for categories */
 }
 
-/* Right vertical section */
-.articles-section {
-  flex: 3;
-  padding: 10px;
-  background-color: #ffffff;
+.articles-list {
+  flex: 1; /* Allow articles list to fill the remaining space */
+  padding-left: 10px; /* Space between categories and articles */
+  background-color: #ffffff; /* Optional background color for articles */
 }

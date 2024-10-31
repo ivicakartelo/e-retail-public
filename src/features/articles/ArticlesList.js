@@ -6,7 +6,6 @@ import './ArticlesList.css';
 const ArticleExcerpt = ({ article }) => (
   <div className="article-card">
     <h3>{article.name}</h3>
-    <p>{article.description}</p>
   </div>
 );
 

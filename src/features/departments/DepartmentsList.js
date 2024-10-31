@@ -1,14 +1,20 @@
 // DepartmentsList.js
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchDepartments } from './departmentsSlice'; // Adjust the path as necessary
-import { fetchCategoriesByDepartment } from '../categories/categoriesSlice'; // New import
-import { CategoriesList } from '../categories/CategoriesList';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchDepartments } from './departmentsSlice';
+import './DepartmentsList.css';
 
-const DepartmentsList = () => {
+const DepartmentExcerpt = ({ department }) => (
+  <div className="department-card">
+    <h3>{department.name}</h3>
+  </div>
+);
+
+export const DepartmentsList = () => {
   const dispatch = useDispatch();
-  const { departments, status } = useSelector((state) => state.departments);
-  const { categories } = useSelector((state) => state.categories); // New state slice for categories
+  const departments = useSelector((state) => state.departments.departments);
+  const status = useSelector((state) => state.departments.status);
+  const error = useSelector((state) => state.departments.error);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -16,32 +22,22 @@ const DepartmentsList = () => {
     }
   }, [status, dispatch]);
 
-  const handleDepartmentClick = (departmentId) => {
-    dispatch(fetchCategoriesByDepartment(departmentId));
-  };
+  let content;
+
+  if (status === 'loading') {
+    content = <h2 className="loading-message">Loading departments...</h2>;
+  } else if (status === 'succeeded') {
+    content = departments.map((department) => (
+      <DepartmentExcerpt key={department.department_id} department={department} />
+    ));
+  } else if (status === 'failed') {
+    content = <div className="error-message">Error: {error}</div>;
+  }
 
   return (
-    <div>
-      <h1>Departments</h1>
-      <ul>
-        {departments.map((department) => (
-          <li key={department.department_id}>
-            <button onClick={() => handleDepartmentClick(department.department_id)}>
-              {department.name}
-            </button>
-          </li>
-        ))}
-      </ul>
-      <CategoriesList />
-{/*
-      <h2>Categories</h2>
-      <ul>
-        {categories.map((category) => (
-          <li key={category.category_id}>{category.category_name}</li>
-        ))}
-      </ul> */}
-    </div>
+    <section className="departments-container">
+      <h2>Departments</h2>
+      <div className="departments-list">{content}</div>
+    </section>
   );
 };
-
-export default DepartmentsList;
