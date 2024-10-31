@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticles } from './articlesSlice';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './ArticlesList.css';
 
 const ArticleExcerpt = ({ article }) => (
   <div className="article-card">
-    <h3>{article.name}</h3>
+    <h3>
+      <Link to={`/articles/${article.article_id}`}>{article.name}</Link> {/* Link to the specific article */}
+    </h3>
   </div>
 );
 

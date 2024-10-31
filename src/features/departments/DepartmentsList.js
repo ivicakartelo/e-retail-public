@@ -2,11 +2,16 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDepartments } from './departmentsSlice';
+import { Link } from 'react-router-dom';
 import './DepartmentsList.css';
 
 const DepartmentExcerpt = ({ department }) => (
   <div className="department-card">
-    <h3>{department.name}</h3>
+    <h3>
+      <Link to={`/departments/${department.department_id}`}>
+        {department.name}
+      </Link>
+    </h3>
   </div>
 );
 
