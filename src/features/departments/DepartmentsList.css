@@ -1,21 +1,28 @@
-/* DepartmentsList.css */
-.departments-container {
+/* src/features/departments/DepartmentsList.css */
+
+.departments-list-container {
   text-align: center;
-  margin: 20px;
+  padding: 1rem;
 }
 
-.departments-list {
+.departments-list-horizontal {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem;
   justify-content: center;
-  padding: 10px;
 }
 
-.department-item {
-  font-size: 1.2em;
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+.department-card {
+  flex: 0 0 auto;
+  padding: 0.5rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.department-card a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
 }

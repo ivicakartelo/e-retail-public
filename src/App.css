@@ -1,31 +1,27 @@
-.app-container {
-  display: flex; /* Use flexbox for the main container */
-  flex-direction: column; /* Stack the departments list on top */
-  height: 100vh; /* Make the container fill the viewport height */
+/* src/App.css */
+
+.app-layout {
+  display: grid;
+  grid-template-areas:
+      'header header'
+      'sidebar content';
+  grid-template-columns: 1fr 3fr;
+  gap: 1rem;
 }
 
-.departments-list {
-  display: flex; /* Use flexbox for horizontal alignment */
-  justify-content: space-between; /* Space out the items evenly */
-  padding: 10px; /* Optional padding */
-  background-color: #f8f8f8; /* Optional background color */
-  border-bottom: 2px solid #ddd; /* Optional bottom border for separation */
+header {
+  grid-area: header;
+  padding: 1rem;
+  background: #f8f9fa;
 }
 
-.main-content {
-  display: flex; /* Use flexbox for side-by-side layout */
-  flex: 1; /* Allow it to fill the remaining space */
-  padding: 10px; /* Optional padding */
+.sidebar {
+  grid-area: sidebar;
+  padding: 1rem;
+  background: #e9ecef;
 }
 
-.categories-list {
-  flex: 0 0 25%; /* Fixed width for categories on the left (25% of the width) */
-  padding-right: 10px; /* Space between categories and articles */
-  background-color: #e9ecef; /* Optional background color for categories */
-}
-
-.articles-list {
-  flex: 1; /* Allow articles list to fill the remaining space */
-  padding-left: 10px; /* Space between categories and articles */
-  background-color: #ffffff; /* Optional background color for articles */
+.content {
+  grid-area: content;
+  padding: 1rem;
 }
