@@ -16,8 +16,8 @@ root.render(
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />}>
-                    <Route index element={<ArticlesList />} />  {/* Always display ArticlesList */}
-                    <Route path="department/:departmentId" element={<DepartmentDetails />} />  {/* Show DepartmentDetails in sidebar */}
+                    <Route index element={<ArticlesList />} /> {/* Main content */}
+                    <Route path="department/:departmentId" element={<ArticlesList />} /> {/* Main content remains */}
                 </Route>
             </Routes>
         </BrowserRouter>
