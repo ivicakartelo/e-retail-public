@@ -135,6 +135,26 @@ app.put('/categories/:id', (req, res) => {
     });
 });
 
+// New route to get articles by category ID
+app.get('/categories/:categoryId/articles', (req, res) => {
+  const categoryId = req.params.categoryId;
+
+  const query = `
+      SELECT a.*
+      FROM article a
+      JOIN category_article ca ON a.article_id = ca.article_id
+      WHERE ca.category_id = ?;
+  `;
+
+  db.query(query, [categoryId], (error, results) => {
+      if (error) {
+          console.error('Error fetching articles:', error);
+          return res.status(500).json({ error: 'An error occurred while fetching articles.' });
+      }
+      res.status(200).json({ articles: results });
+  });
+});
+
 // Articles Routes
 
 // Get all articles

@@ -48,6 +48,15 @@ export const updateArticle = createAsyncThunk(
   }
 );
 
+// New thunk to fetch articles by category ID
+export const fetchArticlesByCategory = createAsyncThunk(
+  'articles/fetchArticlesByCategory',
+  async (categoryId) => {
+    const response = await axios.get(`http://localhost:5000/categories/${categoryId}/articles`);
+    return response.data.articles;
+  }
+);
+
 const articlesSlice = createSlice({
   name: 'articles',
   initialState,
@@ -90,6 +99,17 @@ const articlesSlice = createSlice({
           existingArticle.promotion_at_department_level = promotion_at_department_level;
           existingArticle.category_ids = category_ids; // Update the category IDs
         }
+      })
+      .addCase(fetchArticlesByCategory.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchArticlesByCategory.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.articles = action.payload;
+      })
+      .addCase(fetchArticlesByCategory.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
