@@ -1,28 +1,30 @@
 /* src/features/departments/DepartmentsList.css */
 
-.departments-list-container {
-  text-align: center;
-  padding: 1rem;
+.departments-list {
+  margin: 20px;
 }
 
-.departments-list-horizontal {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  padding: 0.5rem;
-  justify-content: center;
+.departments-list h2 {
+  margin-bottom: 10px;
+  font-size: 24px; /* Adjust the font size as needed */
+}
+
+.departments-container {
+  display: flex; /* Use flexbox to arrange items horizontally */
+  overflow-x: auto; /* Allow horizontal scrolling if there are many items */
+  padding: 10px 0; /* Add some padding to the container */
 }
 
 .department-card {
-  flex: 0 0 auto;
-  padding: 0.5rem;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  text-align: center;
+  margin-right: 20px; /* Space between department cards */
+  padding: 10px 20px; /* Padding inside each department card */
+  background-color: #f0f0f0; /* Background color for department cards */
+  border-radius: 5px; /* Rounded corners */
+  text-decoration: none; /* Remove underline from links */
+  color: #333; /* Text color */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
-.department-card a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
+.department-card:hover {
+  background-color: #e0e0e0; /* Darker background on hover */
 }

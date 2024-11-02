@@ -1,3 +1,5 @@
+// src/features/departments/DepartmentsList.js
+
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDepartments } from './departmentsSlice';
@@ -22,9 +24,9 @@ export const DepartmentsList = () => {
     }, [status, dispatch]);
 
     return (
-        <section className="departments-list-container">
+        <section className="departments-list">
             <h2>Departments</h2>
-            <div className="departments-list-horizontal">
+            <div className="departments-container">
                 {departments.map((department) => (
                     <DepartmentExcerpt key={department.department_id} department={department} />
                 ))}

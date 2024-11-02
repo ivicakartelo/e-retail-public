@@ -18,8 +18,13 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
+          {/* Default Route for CategoriesList when no department is selected */}
           <Route index element={<ArticlesList />} />
+
+          {/* Route for Department Details */}
           <Route path="department/:departmentId" element={<DepartmentDetails />} />
+
+          {/* Route for Category Articles within a Department */}
           <Route path="department/:departmentId/category/:categoryId" element={<CategoryArticles />} />
         </Route>
       </Routes>
