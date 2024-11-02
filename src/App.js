@@ -1,32 +1,27 @@
 // src/App.js
-
 import React from 'react';
+import { Outlet, useParams } from 'react-router-dom';
 import { DepartmentsList } from './features/departments/DepartmentsList';
 import { CategoriesList } from './features/categories/CategoriesList';
 import DepartmentDetails from './features/departments/DepartmentDetails';
-import { Outlet, useParams } from 'react-router-dom';
 import './App.css';
 
 const App = () => {
-    const { departmentId } = useParams(); // Get departmentId from the URL
+    const { departmentId } = useParams(); // Get departmentId to control sidebar content
 
     return (
-        <div className="app">
-            <DepartmentsList /> {/* Horizontal list of departments */}
-
+        <div className="app-layout">
+            <header>
+                <DepartmentsList /> {/* Horizontal display at the top */}
+            </header>
             <div className="content-wrapper">
-                <div className="categories-wrapper">
-                    {departmentId ? (
-                        <DepartmentDetails departmentId={departmentId} /> // Display DepartmentDetails if departmentId exists
-                    ) : (
-                        <CategoriesList /> // Otherwise, display CategoriesList
-                    )}
-                </div>
-
-                {/* Main content area to display nested route content like ArticlesList or CategoryArticles */}
-                <div className="main-content">
-                    <Outlet /> {/* Renders matched nested route component */}
-                </div>
+                <aside className="sidebar">
+                    {/* Render DepartmentDetails if a department is selected, else render CategoriesList */}
+                    {departmentId ? <DepartmentDetails departmentId={departmentId} /> : <CategoriesList />}
+                </aside>
+                <main className="content">
+                    <Outlet /> {/* Displays ArticlesList or other main content */}
+                </main>
             </div>
         </div>
     );
