@@ -7,7 +7,7 @@ import './CategoriesList.css';
 const CategoryExcerpt = ({ category }) => (
   <div className="category-card">
     <h3>
-      <Link to={`/categories/${category.category_id}`}>{category.name}</Link> {/* Link to the specific category */}
+      <Link to={`/category/${category.category_id}`}>{category.name}</Link> {/* Link to the specific category */}
     </h3>
   </div>
 );

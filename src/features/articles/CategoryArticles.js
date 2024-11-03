@@ -23,7 +23,7 @@ const CategoryArticles = () => {
       <h2>Articles for Category {categoryId}</h2>
       <ul>
         {articles.map((article) => (
-          <li key={article.id}>{article.title}</li>
+          <li key={article.article_id}>{article.name}</li>
         ))}
       </ul>
     </div>

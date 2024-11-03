@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 import store from './app/store';
 import App from './App';
 import { ArticlesList } from './features/articles/ArticlesList';
-import DepartmentDetails from './features/departments/DepartmentDetails';
+import CategoryArticles from './features/articles/CategoryArticles';
+//import DepartmentDetails from './features/departments/DepartmentDetails';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -18,6 +19,7 @@ root.render(
                 <Route path="/" element={<App />}>
                     <Route index element={<ArticlesList />} /> {/* Main content */}
                     <Route path="department/:departmentId" element={<ArticlesList />} /> {/* Main content remains */}
+                    <Route path="category/:categoryId" element={<CategoryArticles />} /> {/* Main content remains */}
                 </Route>
             </Routes>
         </BrowserRouter>
