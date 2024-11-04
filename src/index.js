@@ -7,7 +7,6 @@ import store from './app/store';
 import App from './App';
 import { ArticlesList } from './features/articles/ArticlesList';
 import CategoryArticles from './features/articles/CategoryArticles';
-import DepartmentDetails from './features/departments/DepartmentDetails';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -17,18 +16,14 @@ root.render(
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />}>
-                    <Route index element={<ArticlesList />} /> {/* Main content */}
+                    <Route index element={<ArticlesList />} /> {/* Default view */}
                     
-                    {/* Route for when departmentId is available */}
+                    {/* Main department view that includes articles and department details */}
                     <Route path="department/:departmentId" element={<ArticlesList />} />
-
-                    {/* Route for when categoryId is available 
-                    <Route path="category/:categoryId" element={<DepartmentDetails />} />
-                    */}
-                    {/* Route for when only categoryId is present (if needed) */}
-                    <Route path="category/:categoryId" element={<CategoryArticles />} />
                     
-                    </Route>
+                    {/* Route for category articles, maintaining departmentId in the URL */}
+                    <Route path="department/:departmentId/category/:categoryId" element={<CategoryArticles />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     </Provider>

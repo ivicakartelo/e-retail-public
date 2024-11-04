@@ -22,7 +22,8 @@ const DepartmentDetails = () => {
                 <ul>
                     {categories.map((category) => (
                         <li key={category.category_id}>
-                            <Link to={`/category/${category.category_id}`}>
+                            <Link to={`/department/${departmentId}/category/${category.category_id}`}>
+                            
                                 {category.category_name}
                             </Link>
                         </li>
