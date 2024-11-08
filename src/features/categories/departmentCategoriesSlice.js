@@ -1,23 +1,18 @@
-// src/features/categories/categoriesSlice.js
+// src/features/departmentCategories/departmentCategoriesSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
-  const response = await axios.get('http://localhost:5000/categories');
-  return response.data;
-});
-
+// Async thunk to fetch categories by department ID
 export const fetchCategoriesByDepartment = createAsyncThunk(
     'departmentCategories/fetchCategoriesByDepartment',
     async (departmentId) => {
         const response = await axios.get(`http://localhost:5000/departments/${departmentId}/categories`);
-        
         return response.data.categories;
     }
 );
 
-const categoriesSlice = createSlice({
+const departmentCategoriesSlice = createSlice({
     name: 'departmentCategories',
     initialState: {
         categories: [],
@@ -37,19 +32,8 @@ const categoriesSlice = createSlice({
             .addCase(fetchCategoriesByDepartment.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
-            })
-            .addCase(fetchCategories.pending, (state) => {
-              state.status = 'loading';
-            })
-            .addCase(fetchCategories.fulfilled, (state, action) => {
-              state.status = 'succeeded';
-              state.categories = action.payload;
-            })
-            .addCase(fetchCategories.rejected, (state, action) => {
-              state.status = 'failed';
-              state.error = action.error.message;
             });
     },
 });
 
-export default categoriesSlice.reducer;
+export default departmentCategoriesSlice.reducer;

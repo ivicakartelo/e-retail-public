@@ -13,6 +13,7 @@ const DepartmentExcerpt = ({ department }) => (
 );
 
 export const DepartmentsList = () => {
+    console.log("DepartmentsList render")
     const dispatch = useDispatch();
     const departments = useSelector((state) => state.departments.departments);
     const status = useSelector((state) => state.departments.status);

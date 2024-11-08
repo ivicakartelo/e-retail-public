@@ -3,7 +3,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import departmentsReducer from '../features/departments/departmentsSlice';
 import categoriesReducer from '../features/categories/categoriesSlice';
 import articlesReducer from '../features/articles/articlesSlice';
-import departmentCategoriesReducer from '../features/categories/categoriesSlice';
+import departmentCategoriesReducer from '../features/categories/departmentCategoriesSlice';
+import categoryArticlesReducer from '../features/articles/categoryArticlesSlice';
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     categories: categoriesReducer,
     articles: articlesReducer,
     departmentCategories: departmentCategoriesReducer, 
+    categoryArticles: categoryArticlesReducer,
   },
 });
 

@@ -13,6 +13,7 @@ const CategoryExcerpt = ({ category }) => (
 );
 
 export const CategoriesList = () => {
+  console.log("CategoriesList render")
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
   const status = useSelector((state) => state.categories.status);

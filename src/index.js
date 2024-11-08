@@ -24,6 +24,7 @@ root.render(
                     {/* Route for category articles, maintaining departmentId in the URL */}
                     <Route path="department/:departmentId/category/:categoryId" element={<CategoryArticles />} />
                 </Route>
+
             </Routes>
         </BrowserRouter>
     </Provider>

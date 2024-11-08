@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategoriesByDepartment } from '../categories/categoriesSlice';
 
 const DepartmentDetails = () => {
+    console.log("DepartmentDetails render")
     const { departmentId } = useParams();
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.departmentCategories.categories);

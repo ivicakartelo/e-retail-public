@@ -13,6 +13,7 @@ const ArticleExcerpt = ({ article }) => (
 );
 
 export const ArticlesList = () => {
+  console.log("ArticlesList render")
   const dispatch = useDispatch();
   const articles = useSelector((state) => state.articles.articles);
   const status = useSelector((state) => state.articles.status);
@@ -20,6 +21,7 @@ export const ArticlesList = () => {
 
   useEffect(() => {
     if (status === 'idle') {
+      console.log(status)
       dispatch(fetchArticles());
     }
   }, [status, dispatch]);
