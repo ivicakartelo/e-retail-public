@@ -8,17 +8,8 @@ export const fetchCategories = createAsyncThunk('categories/fetchCategories', as
   return response.data;
 });
 
-export const fetchCategoriesByDepartment = createAsyncThunk(
-    'departmentCategories/fetchCategoriesByDepartment',
-    async (departmentId) => {
-        const response = await axios.get(`http://localhost:5000/departments/${departmentId}/categories`);
-        
-        return response.data.categories;
-    }
-);
-
 const categoriesSlice = createSlice({
-    name: 'departmentCategories',
+    name: 'categories',
     initialState: {
         categories: [],
         status: 'idle',
@@ -27,17 +18,6 @@ const categoriesSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchCategoriesByDepartment.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(fetchCategoriesByDepartment.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.categories = action.payload;
-            })
-            .addCase(fetchCategoriesByDepartment.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            })
             .addCase(fetchCategories.pending, (state) => {
               state.status = 'loading';
             })
