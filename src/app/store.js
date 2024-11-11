@@ -5,6 +5,7 @@ import categoriesReducer from '../features/categories/categoriesSlice';
 import articlesReducer from '../features/articles/articlesSlice';
 import departmentCategoriesReducer from '../features/categories/departmentCategoriesSlice';
 import categoryArticlesReducer from '../features/articles/categoryArticlesSlice';
+import articleSingleReducer from '../features/articles/articleSingleSlice';
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     articles: articlesReducer,
     departmentCategories: departmentCategoriesReducer, 
     categoryArticles: categoryArticlesReducer,
+    articleSingle: articleSingleReducer
   },
 });
 

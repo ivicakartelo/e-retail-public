@@ -7,6 +7,7 @@ import store from './app/store';
 import App from './App';
 import { ArticlesList } from './features/articles/ArticlesList';
 import CategoryArticles from './features/articles/CategoryArticles';
+import ArticleSingle from './features/articles/ArticleSingle';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -21,10 +22,12 @@ root.render(
                     {/* Main department view that includes articles and department details */}
                     <Route path="department/:departmentId" element={<ArticlesList />} />
                     
-                    {/* Route for category articles, maintaining departmentId in the URL */}
+                    {/* Route for category articles within a department */}
                     <Route path="department/:departmentId/category/:categoryId" element={<CategoryArticles />} />
+                    
+                    {/* Route for a single article, using department and category in the path */}
+                    <Route path="department/:departmentId/category/:categoryId/article/:articleId" element={<ArticleSingle />} />
                 </Route>
-
             </Routes>
         </BrowserRouter>
     </Provider>

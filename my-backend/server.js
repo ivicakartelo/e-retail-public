@@ -166,7 +166,7 @@ app.get('/articles', (req, res) => {
   });
 
 // Get article by ID including its associated categories
-app.get('/articles/:id', (req, res) => {
+app.get('/article/:id', (req, res) => {
     const { id } = req.params;
 
     const query = `
@@ -187,6 +187,7 @@ app.get('/articles/:id', (req, res) => {
 
         if (results.length > 0) {
             const article = results[0];
+            console.log(article)
             article.category_ids = article.category_ids ? article.category_ids.split(',').map(Number) : [];
             res.status(200).json(article);
         } else {
