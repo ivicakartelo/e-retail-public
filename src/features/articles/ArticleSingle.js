@@ -2,8 +2,8 @@
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchArticleById, resetStatus } from './articleSingleSlice'; // Import resetStatus
-import { useParams } from 'react-router-dom';
+import { fetchArticleById } from './articleSingleSlice';
+import { useParams, Link } from 'react-router-dom';
 
 const ArticleSingle = () => {
     const { articleId } = useParams();
@@ -13,19 +13,15 @@ const ArticleSingle = () => {
     const error = useSelector((state) => state.articleSingle.error);
 
     useEffect(() => {
-        // Reset status whenever articleId changes
-        dispatch(resetStatus());
-    }, [articleId, dispatch]);
-
-    useEffect(() => {
-        if (status === 'idle' && articleId) {
+        if (articleId) {
             dispatch(fetchArticleById(articleId));
+        } else {
+            console.error("No articleId found in URL parameters.");
         }
-    }, [status, dispatch, articleId]);
+    }, [articleId, dispatch]);
 
     if (status === 'loading') return <p>Loading...</p>;
     if (status === 'failed') return <p>Error: {error}</p>;
-
     if (!article) return <p>No article found.</p>;
 
     return (
@@ -34,6 +30,7 @@ const ArticleSingle = () => {
             <p>{article.description}</p>
             <img src={article.image_1} alt={article.name} />
             <img src={article.image_2} alt={`${article.name} alternate`} />
+            <Link to="/">Back to Home</Link>
         </div>
     );
 };
