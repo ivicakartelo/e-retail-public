@@ -27,6 +27,12 @@ root.render(
                     
                     {/* Route for a single article, using department and category in the path */}
                     <Route path="department/:departmentId/category/:categoryId/article/:articleId" element={<ArticleSingle />} />
+
+                    {/* Standalone route for viewing articles without department context */}
+                    <Route path="article/:articleId" element={<ArticleSingle />} />
+                    
+                    {/* Standalone route for viewing categories without department context */}
+                    <Route path="category/:categoryId" element={<CategoryArticles />} />
                 </Route>
             </Routes>
         </BrowserRouter>

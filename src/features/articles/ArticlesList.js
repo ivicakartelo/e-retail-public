@@ -7,7 +7,7 @@ import './ArticlesList.css';
 const ArticleExcerpt = ({ article }) => (
   <div className="article-card">
     <h3>
-      <Link to={`/articles/${article.article_id}`}>{article.name}</Link> {/* Link to the specific article */}
+      <Link to={`/article/${article.article_id}`}>{article.name}</Link> {/* Link to the specific article */}
     </h3>
   </div>
 );

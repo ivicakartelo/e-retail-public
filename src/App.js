@@ -5,22 +5,21 @@ import { DepartmentsList } from './features/departments/DepartmentsList';
 import { CategoriesList } from './features/categories/CategoriesList';
 import DepartmentDetails from './features/departments/DepartmentDetails';
 import './App.css';
-import store from './app/store'; // Adjust path as necessary
+import store from './app/store';
 
 const App = () => {
-    const { departmentId, categoryId } = useParams(); // Get departmentId and categoryId from URL params
-    // App.js or main component where store is used
+    const { departmentId } = useParams();
 
-console.log("Initial Redux state:", store.getState().articleSingle); // This should log the initial state of articleSingle
-    
-return (
+    console.log("Initial Redux state:", store.getState().articleSingle);
+
+    return (
         <div className="app-layout">
             <header>
                 <DepartmentsList /> {/* Horizontal display at the top */}
             </header>
             <div className="content-wrapper">
                 <aside className="sidebar">
-                    {/* Always render DepartmentDetails as long as departmentId is present */}
+                    {/* Conditionally render DepartmentDetails or CategoriesList based on departmentId */}
                     {departmentId ? (
                         <DepartmentDetails departmentId={departmentId} />
                     ) : (
