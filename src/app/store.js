@@ -6,6 +6,7 @@ import articlesReducer from '../features/articles/articlesSlice';
 import departmentCategoriesReducer from '../features/categories/departmentCategoriesSlice';
 import categoryArticlesReducer from '../features/articles/categoryArticlesSlice';
 import articleSingleReducer from '../features/articles/articleSingleSlice';
+import basketReducer from '../features/basket/basketSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,7 +15,8 @@ const store = configureStore({
     articles: articlesReducer,
     departmentCategories: departmentCategoriesReducer, 
     categoryArticles: categoryArticlesReducer,
-    articleSingle: articleSingleReducer
+    articleSingle: articleSingleReducer,
+    basket: basketReducer
   },
 });
 

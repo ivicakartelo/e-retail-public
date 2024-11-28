@@ -9,6 +9,7 @@ import App from './App';
 import { ArticlesList } from './features/articles/ArticlesList';
 import CategoryArticles from './features/articles/CategoryArticles';
 import ArticleSingle from './features/articles/ArticleSingle';
+import Basket from './features/basket/Basket';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -24,6 +25,7 @@ root.render(
                     <Route path="department/:departmentId/category/:categoryId/article/:articleId" element={<ArticleSingle />} />
                     <Route path="article/:articleId" element={<ArticleSingle />} />
                     <Route path="category/:categoryId" element={<CategoryArticles />} />
+                    <Route path="/basket" element={<Basket />} /> {/* Basket route */}
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -2,30 +2,45 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticles } from './articlesSlice';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { addToBasket } from '../basket/basketSlice'; // Import the action
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './ArticlesList.css';
 
-const ArticleExcerpt = ({ article }) => (
-  <div className="article-card">
-    <h3>
-      <Link to={`/article/${article.article_id}`}>{article.name}</Link> {/* Link to the specific article */}
-    </h3>
-    <p><strong>ID:</strong> {article.article_id}</p>
-    <p><strong>Description:</strong> {article.description}</p>
-    <p><strong>Price:</strong> ${Number(article.price).toFixed(2)}</p>
+const ArticleExcerpt = ({ article }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize useNavigate
 
-    {/* Display images with fallback */}
-    <div className="article-images">
-      <img
-        src={article.image_1 ? `http://localhost:5000/assets/images/${article.image_1}` : '/assets/images/placeholder.jpg'}
-        alt={`${article.name} - image_1`}
-      />
-      <img
-        src={article.image_2 ? `http://localhost:5000/assets/images/${article.image_2}` : '/assets/images/placeholder.jpg'}
-        alt={`${article.name} - image_2`}
-      />
+  const handleAddToBasket = () => {
+    console.log('Adding to basket:', article); // Verify function execution
+    dispatch(addToBasket(article)); // Dispatch the article to the basket
+    navigate('/basket'); // Navigate to the basket page
+  };
+  
+
+  return (
+    <div className="article-card">
+      <h3>
+        <Link to={`/article/${article.article_id}`}>{article.name}</Link>
+      </h3>
+      <p><strong>ID:</strong> {article.article_id}</p>
+      <p><strong>Description:</strong> {article.description}</p>
+      <p><strong>Price:</strong> ${Number(article.price).toFixed(2)}</p>
+      <div className="article-images">
+        <img
+          src={article.image_1 ? `http://localhost:5000/assets/images/${article.image_1}` : '/assets/images/placeholder.jpg'}
+          alt={`${article.name} - image_1`}
+        />
+        <img
+          src={article.image_2 ? `http://localhost:5000/assets/images/${article.image_2}` : '/assets/images/placeholder.jpg'}
+          alt={`${article.name} - image_2`}
+        />
+      </div>
+      <button className="add-to-basket" onClick={handleAddToBasket}>
+        Add to Basket
+      </button>
     </div>
-  </div>
-);
+  );
+};
 
 export const ArticlesList = () => {
   console.log("ArticlesList render");
