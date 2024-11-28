@@ -2,10 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -167,33 +169,38 @@ app.get('/articles', (req, res) => {
 
 // Get article by ID including its associated categories
 app.get('/article/:id', (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    const query = `
-      SELECT 
-        a.article_id, a.name, a.description, a.image_1, a.image_2, 
-        a.promotion_at_homepage_level, a.promotion_at_department_level,
-        GROUP_CONCAT(ca.category_id) AS category_ids
-      FROM 
-        article a
-      LEFT JOIN 
-        category_article ca ON a.article_id = ca.article_id
-      WHERE 
-        a.article_id = ?
-    `;
+  // Update the SQL query to include the 'price' field
+  const query = `
+    SELECT 
+      a.article_id, a.name, a.description, a.image_1, a.image_2, 
+      a.promotion_at_homepage_level, a.promotion_at_department_level, a.price,  -- Added price
+      GROUP_CONCAT(ca.category_id) AS category_ids
+    FROM 
+      article a
+    LEFT JOIN 
+      category_article ca ON a.article_id = ca.article_id
+    WHERE 
+      a.article_id = ?
+  `;
 
-    db.query(query, [id], (error, results) => {
-        if (error) return res.status(500).json({ error });
+  db.query(query, [id], (error, results) => {
+      if (error) return res.status(500).json({ error });
 
-        if (results.length > 0) {
-            const article = results[0];
-            console.log(article)
-            article.category_ids = article.category_ids ? article.category_ids.split(',').map(Number) : [];
-            res.status(200).json(article);
-        } else {
-            res.status(404).json({ message: 'Article not found' });
-        }
-    });
+      if (results.length > 0) {
+          const article = results[0];
+          console.log(article);  // Logging the article data to the console
+          
+          // Process category_ids to convert them into an array of numbers
+          article.category_ids = article.category_ids ? article.category_ids.split(',').map(Number) : [];
+          
+          // Send the article with the 'price' field
+          res.status(200).json(article);
+      } else {
+          res.status(404).json({ message: 'Article not found' });
+      }
+  });
 });
 
 // New route to get associated categories
