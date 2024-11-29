@@ -38,16 +38,46 @@ const Basket = () => {
     }
 
     const doc = new jsPDF();
-    const invoiceNumber = generateInvoiceNumber();
 
-    // Add a title and invoice number
-    doc.setFontSize(18);
-    doc.text('Invoice', 14, 20);
+    // Add company logo and details
+    const companyDetails = {
+      name: "Awesome Company Inc.",
+      address: "123 Business St., Commerce City, CA 94016",
+      bankDetails: "Bank Account: 123456789, IBAN: US00ABC123456789, SWIFT: ABCDUS33",
+      email: "contact@awesomecompany.com",
+      phone: "+1 (555) 123-4567",
+    };
+
+    // Logo Placeholder
+    const logoX = 14;
+    const logoY = 10;
+    const logoWidth = 30;
+    const logoHeight = 30;
+    doc.setFont('Helvetica', 'normal');
     doc.setFontSize(12);
-    doc.text(`Invoice Number: ${invoiceNumber}`, 14, 30);
-    doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 37);
+    doc.setTextColor(0, 0, 0);
+    doc.text('[LOGO]', logoX, logoY);
 
-    // Add invoice table
+    // Company Information
+    doc.setFontSize(16);
+    doc.setTextColor(0, 51, 153); // Blue color for company name
+    doc.text(companyDetails.name, 50, 20);
+
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0); // Black for regular text
+    doc.text(companyDetails.address, 50, 27);
+    doc.text(`Phone: ${companyDetails.phone}`, 50, 32);
+    doc.text(`Email: ${companyDetails.email}`, 50, 37);
+    doc.text(`Bank Details: ${companyDetails.bankDetails}`, 50, 42);
+
+    // Generate invoice number and date
+    const invoiceNumber = generateInvoiceNumber();
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0); // Black for the rest
+    doc.text(`Invoice Number: ${invoiceNumber}`, 14, 60);
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 67);
+
+    // Add table for basket items
     const tableData = basketItems.map((item, index) => [
       index + 1,
       item.name,
@@ -59,7 +89,20 @@ const Basket = () => {
     doc.autoTable({
       head: [['#', 'Item Name', 'Price', 'Quantity', 'Total']],
       body: tableData,
-      startY: 45,
+      startY: 80,
+      theme: 'grid',
+      headStyles: {
+        fillColor: [0, 51, 153],
+        textColor: [255, 255, 255],
+        fontSize: 11,
+        fontStyle: 'bold',
+      },
+      bodyStyles: {
+        fontSize: 10,
+      },
+      alternateRowStyles: {
+        fillColor: [240, 240, 240],
+      },
     });
 
     // Calculate grand total
@@ -67,8 +110,9 @@ const Basket = () => {
       .reduce((total, item) => total + item.price * item.quantity, 0)
       .toFixed(2);
 
-    // Add grand total at the bottom
-    doc.setFontSize(14);
+    // Add grand total
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0); // Black for text
     doc.text(`Grand Total: $${grandTotal}`, 14, doc.previousAutoTable.finalY + 10);
 
     // Save the PDF
