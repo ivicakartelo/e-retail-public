@@ -1,18 +1,22 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, clearBasket } from './basketSlice';
+import { addToBasket, removeItem, clearBasket } from './basketSlice';
 import './Basket.css'; // Optional: Add styles if needed
 
 const Basket = () => {
   const basketItems = useSelector((state) => state.basket.items);
   const dispatch = useDispatch();
 
-  const handleRemove = (id) => {
-    if (!id) {
-      console.error('Invalid item id:', id);
-      return; // Prevent dispatching if id is missing
+  const handleIncrement = (id) => {
+    dispatch(addToBasket({ article_id: id })); // Use existing `addToBasket` to increment quantity
+  };
+
+  const handleDecrement = (id, quantity) => {
+    if (quantity === 1) {
+      dispatch(removeItem({ article_id: id })); // Remove item if quantity becomes 0
+    } else {
+      dispatch(removeItem({ article_id: id, decrementOnly: true })); // Decrease quantity by 1
     }
-    dispatch(removeItem({ article_id: id })); // Ensure payload matches reducer expectations
   };
 
   const handleClearBasket = () => {
@@ -39,22 +43,36 @@ const Basket = () => {
               </tr>
             </thead>
             <tbody>
-            {basketItems.map((item) => (
-  <tr key={item.article_id}>
-    <td>{item.name}</td>
-    <td>${Number(item.price).toFixed(2)}</td>
-    <td>{item.quantity}</td>
-    <td>${(item.price * item.quantity).toFixed(2)}</td>
-    <td>
-      <button
-        className="basket-remove-button"
-        onClick={() => handleRemove(item.article_id)} // Use article_id as the identifier
-      >
-        Remove
-      </button>
-    </td>
-  </tr>
-))}
+              {basketItems.map((item) => (
+                <tr key={item.article_id}>
+                  <td>{item.name}</td>
+                  <td>${Number(item.price).toFixed(2)}</td>
+                  <td>
+                    <button
+                      className="quantity-button"
+                      onClick={() => handleDecrement(item.article_id, item.quantity)}
+                    >
+                      -
+                    </button>
+                    {item.quantity}
+                    <button
+                      className="quantity-button"
+                      onClick={() => handleIncrement(item.article_id)}
+                    >
+                      +
+                    </button>
+                  </td>
+                  <td>${(item.price * item.quantity).toFixed(2)}</td>
+                  <td>
+                    <button
+                      className="basket-remove-button"
+                      onClick={() => handleDecrement(item.article_id, item.quantity)}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <div className="basket-actions">

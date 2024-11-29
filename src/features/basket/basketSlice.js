@@ -23,12 +23,16 @@ const basketSlice = createSlice({
         return; // Skip processing if payload is invalid
       }
     
-      const index = state.items.findIndex(
-        (item) => item.article_id === action.payload.article_id
-      );
+      const { article_id, decrementOnly } = action.payload;
+      const existingItem = state.items.find((item) => item.article_id === article_id);
     
-      if (index !== -1) {
-        state.items.splice(index, 1); // Remove the item from the basket
+      if (existingItem) {
+        if (decrementOnly && existingItem.quantity > 1) {
+          existingItem.quantity -= 1; // Decrement quantity if greater than 1
+        } else {
+          // Remove the item if decrementOnly is false or quantity becomes 0
+          state.items = state.items.filter((item) => item.article_id !== article_id);
+        }
       }
     },
     clearBasket: (state) => {
