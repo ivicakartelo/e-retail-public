@@ -18,10 +18,15 @@ const basketSlice = createSlice({
       }
     },
     removeItem: (state, action) => {
+      if (!action.payload || !action.payload.article_id) {
+        console.error('Invalid payload in removeItem:', action.payload);
+        return; // Skip processing if payload is invalid
+      }
+    
       const index = state.items.findIndex(
         (item) => item.article_id === action.payload.article_id
       );
-
+    
       if (index !== -1) {
         state.items.splice(index, 1); // Remove the item from the basket
       }

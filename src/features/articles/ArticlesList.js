@@ -11,9 +11,13 @@ const ArticleExcerpt = ({ article }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleAddToBasket = () => {
-    console.log('Adding to basket:', article); // Verify function execution
-    dispatch(addToBasket(article)); // Dispatch the article to the basket
-    navigate('/basket'); // Navigate to the basket page
+    if (!article.article_id) {
+      console.error('Invalid article object:', article);
+      return; // Prevent dispatching if article_id is missing
+    }
+    dispatch(addToBasket(article));
+    console.log('Added to basket:', article);
+    navigate('/basket');
   };
   
 

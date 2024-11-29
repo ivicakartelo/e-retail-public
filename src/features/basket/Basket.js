@@ -8,7 +8,11 @@ const Basket = () => {
   const dispatch = useDispatch();
 
   const handleRemove = (id) => {
-    dispatch(removeItem(id));
+    if (!id) {
+      console.error('Invalid item id:', id);
+      return; // Prevent dispatching if id is missing
+    }
+    dispatch(removeItem({ article_id: id })); // Ensure payload matches reducer expectations
   };
 
   const handleClearBasket = () => {
@@ -35,22 +39,22 @@ const Basket = () => {
               </tr>
             </thead>
             <tbody>
-              {basketItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>${Number(item.price).toFixed(2)}</td>
-                  <td>{item.quantity}</td>
-                  <td>${(item.price * item.quantity).toFixed(2)}</td>
-                  <td>
-                    <button
-                      className="basket-remove-button"
-                      onClick={() => handleRemove(item.id)}
-                    >
-                      Remove
-                    </button>
-                  </td>
-                </tr>
-              ))}
+            {basketItems.map((item) => (
+  <tr key={item.article_id}>
+    <td>{item.name}</td>
+    <td>${Number(item.price).toFixed(2)}</td>
+    <td>{item.quantity}</td>
+    <td>${(item.price * item.quantity).toFixed(2)}</td>
+    <td>
+      <button
+        className="basket-remove-button"
+        onClick={() => handleRemove(item.article_id)} // Use article_id as the identifier
+      >
+        Remove
+      </button>
+    </td>
+  </tr>
+))}
             </tbody>
           </table>
           <div className="basket-actions">
