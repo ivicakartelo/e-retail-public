@@ -1,27 +1,67 @@
 .category-articles-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns layout */
+  gap: 20px; /* Space between the cards */
+}
+
+.article-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.article-card img.article-image {
+  max-width: 48%; /* Images take less than half width */
+  height: auto;
+  margin: 5px; /* Space between images */
+  display: inline-block; /* Side by side alignment */
+}
+
+.article-images-wrapper {
+  display: flex;
+  justify-content: space-between; /* Ensure images stay apart */
+  width: 100%; /* Full width of the card */
+}
+
+.article-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.article-card p {
+  margin: 5px 0;
+}
+
+.add-to-basket {
+  padding: 10px 15px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-basket:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .category-articles-grid {
+    grid-template-columns: 1fr; /* Single column for narrow screens */
   }
-  
-  .article-card {
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
+
+  .article-images-wrapper {
+    flex-direction: column; /* Stack images vertically */
+    align-items: center; /* Center images */
   }
-  
+
   .article-card img.article-image {
-    max-width: 100%;
-    height: auto;
-    margin: 10px 0;
+    max-width: 80%; /* Adjust image size for small screens */
   }
-  
-  .article-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-  }
-  
-  .article-card p {
-    margin: 5px 0;
-  }  
+}
