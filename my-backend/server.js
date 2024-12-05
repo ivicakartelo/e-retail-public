@@ -395,3 +395,55 @@ app.delete('/articles/:id/remove-categories', (req, res) => {
         }
     );
 });
+
+// Search for articles by name or description
+app.get('/search', (req, res) => {
+  const { query } = req.query; // Get the search query from the request's query parameter
+
+  if (!query) {
+      return res.status(400).json({ error: 'Search query is required.' });
+  }
+
+  // SQL query to search for articles by name or description
+  const articleSearchQuery = `
+      SELECT a.*, GROUP_CONCAT(ca.category_id) AS category_ids
+      FROM article a
+      LEFT JOIN category_article ca ON a.article_id = ca.article_id
+      WHERE a.name LIKE ? OR a.description LIKE ?
+      GROUP BY a.article_id;
+  `;
+
+  // Escape the query to avoid SQL injection
+  const searchTerm = `%${query}%`;
+
+  db.query(articleSearchQuery, [searchTerm, searchTerm], (error, articleResults) => {
+      if (error) {
+          console.error('Error searching for articles:', error);
+          return res.status(500).json({ error: 'An error occurred while searching for articles.' });
+      }
+
+      // Process the result to format category_ids into an array
+      articleResults.forEach((article) => {
+          article.category_ids = article.category_ids ? article.category_ids.split(',').map(Number) : [];
+      });
+
+      // SQL query to search for categories by name or description
+      const categorySearchQuery = `
+          SELECT * FROM category
+          WHERE name LIKE ? OR description LIKE ?;
+      `;
+
+      db.query(categorySearchQuery, [searchTerm, searchTerm], (error, categoryResults) => {
+          if (error) {
+              console.error('Error searching for categories:', error);
+              return res.status(500).json({ error: 'An error occurred while searching for categories.' });
+          }
+
+          // Return the search results for both articles and categories
+          res.status(200).json({
+              articles: articleResults,
+              categories: categoryResults,
+          });
+      });
+  });
+});

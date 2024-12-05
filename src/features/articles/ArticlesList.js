@@ -26,8 +26,6 @@ const ArticleExcerpt = ({ article }) => {
       <h3>
         <Link to={`/article/${article.article_id}`}>{article.name}</Link>
       </h3>
-      <p><strong>ID:</strong> {article.article_id}</p>
-      <p><strong>Description:</strong> {article.description}</p>
       <p><strong>Price:</strong> ${Number(article.price).toFixed(2)}</p>
       <div className="article-images">
         <img

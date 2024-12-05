@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToBasket, removeItem, clearBasket } from './basketSlice';
+import { addToBasket, removeArticle, clearBasket } from './basketSlice';
 import jsPDF from 'jspdf'; // Add jsPDF for PDF generation
 import 'jspdf-autotable'; // Import autoTable for tables
 import './Basket.css'; // Optional: Add styles if needed
 
 const Basket = () => {
-  const basketItems = useSelector((state) => state.basket.items);
+  const basketArticles = useSelector((state) => state.basket.articles);
   const dispatch = useDispatch();
 
   // Generate a random invoice number
@@ -19,10 +19,10 @@ const Basket = () => {
 
   const handleRemove = (id) => {
     if (!id) {
-      console.error('Invalid item id:', id);
+      console.error('Invalid article id:', id);
       return; // Prevent dispatching if id is missing
     }
-    dispatch(removeItem({ article_id: id })); // Ensure payload matches reducer expectations
+    dispatch(removeArticle({ article_id: id })); // Ensure payload matches reducer expectations
   };
 
   const handleClearBasket = () => {
@@ -32,7 +32,7 @@ const Basket = () => {
   };
 
   const handleGenerateInvoice = () => {
-    if (basketItems.length === 0) {
+    if (basketArticles.length === 0) {
       alert('Your basket is empty. Cannot generate an invoice.');
       return;
     }
@@ -77,17 +77,17 @@ const Basket = () => {
     doc.text(`Invoice Number: ${invoiceNumber}`, 14, 60);
     doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 67);
 
-    // Add table for basket items
-    const tableData = basketItems.map((item, index) => [
+    // Add table for basket articles
+    const tableData = basketArticles.map((article, index) => [
       index + 1,
-      item.name,
-      `$${Number(item.price).toFixed(2)}`,
-      item.quantity,
-      `$${(item.price * item.quantity).toFixed(2)}`,
+      article.name,
+      `$${Number(article.price).toFixed(2)}`,
+      article.quantity,
+      `$${(article.price * article.quantity).toFixed(2)}`,
     ]);
 
     doc.autoTable({
-      head: [['#', 'Item Name', 'Price', 'Quantity', 'Total']],
+      head: [['#', 'Article Name', 'Price', 'Quantity', 'Total']],
       body: tableData,
       startY: 80,
       theme: 'grid',
@@ -106,8 +106,8 @@ const Basket = () => {
     });
 
     // Calculate grand total
-    const grandTotal = basketItems
-      .reduce((total, item) => total + item.price * item.quantity, 0)
+    const grandTotal = basketArticles
+      .reduce((total, article) => total + article.price * article.quantity, 0)
       .toFixed(2);
 
     // Add grand total
@@ -122,14 +122,14 @@ const Basket = () => {
   return (
     <div className="basket">
       <h2>Your Basket</h2>
-      {basketItems.length === 0 ? (
+      {basketArticles.length === 0 ? (
         <p>Your basket is empty.</p>
       ) : (
         <div>
           <table className="basket-table">
             <thead>
               <tr>
-                <th>Item</th>
+                <th>Article</th>
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total</th>
@@ -137,32 +137,34 @@ const Basket = () => {
               </tr>
             </thead>
             <tbody>
-              {basketItems.map((item) => (
-                <tr key={item.article_id}>
-                  <td>{item.name}</td>
-                  <td>${Number(item.price).toFixed(2)}</td>
+              {basketArticles.map((article) => (
+                <tr key={article.article_id}>
+                  <td>{article.name}</td>
+                  <td>${Number(article.price).toFixed(2)}</td>
                   <td>
                     <div className="quantity-control">
                       <button
                         className="minus-button"
-                        onClick={() => dispatch(removeItem({ article_id: item.article_id }))}
+                        onClick={() =>
+                          dispatch(removeArticle({ article_id: article.article_id }))
+                        }
                       >
                         -
                       </button>
-                      <span>{item.quantity}</span>
+                      <span>{article.quantity}</span>
                       <button
                         className="plus-button"
-                        onClick={() => dispatch(addToBasket(item))}
+                        onClick={() => dispatch(addToBasket(article))}
                       >
                         +
                       </button>
                     </div>
                   </td>
-                  <td>${(item.price * item.quantity).toFixed(2)}</td>
+                  <td>${(article.price * article.quantity).toFixed(2)}</td>
                   <td>
                     <button
                       className="basket-remove-button"
-                      onClick={() => handleRemove(item.article_id)}
+                      onClick={() => handleRemove(article.article_id)}
                     >
                       Remove
                     </button>
@@ -175,8 +177,8 @@ const Basket = () => {
             <p>
               <strong>
                 Total Amount: $
-                {basketItems
-                  .reduce((total, item) => total + item.price * item.quantity, 0)
+                {basketArticles
+                  .reduce((total, article) => total + article.price * article.quantity, 0)
                   .toFixed(2)}
               </strong>
             </p>

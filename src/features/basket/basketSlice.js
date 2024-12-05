@@ -3,43 +3,47 @@ import { createSlice } from '@reduxjs/toolkit';
 const basketSlice = createSlice({
   name: 'basket',
   initialState: {
-    items: [], // Each item has { article_id, name, price, quantity, ... }
+    articles: [], // Each article has { article_id, name, price, quantity, ... }
   },
   reducers: {
     addToBasket: (state, action) => {
-      const existingItem = state.items.find(
-        (item) => item.article_id === action.payload.article_id
+      const existingArticle = state.articles.find(
+        (article) => article.article_id === action.payload.article_id
       );
 
-      if (existingItem) {
-        existingItem.quantity += 1; // Increment quantity if item exists
+      if (existingArticle) {
+        existingArticle.quantity += 1; // Increment quantity if article exists
       } else {
-        state.items.push({ ...action.payload, quantity: 1 }); // Add new item
+        state.articles.push({ ...action.payload, quantity: 1 }); // Add new article
       }
     },
-    removeItem: (state, action) => {
+    removeArticle: (state, action) => {
       if (!action.payload || !action.payload.article_id) {
-        console.error('Invalid payload in removeItem:', action.payload);
+        console.error('Invalid payload in removeArticle:', action.payload);
         return; // Skip processing if payload is invalid
       }
     
       const { article_id, decrementOnly } = action.payload;
-      const existingItem = state.items.find((item) => item.article_id === article_id);
+      const existingArticle = state.articles.find(
+        (article) => article.article_id === article_id
+      );
     
-      if (existingItem) {
-        if (decrementOnly && existingItem.quantity > 1) {
-          existingItem.quantity -= 1; // Decrement quantity if greater than 1
+      if (existingArticle) {
+        if (decrementOnly && existingArticle.quantity > 1) {
+          existingArticle.quantity -= 1; // Decrement quantity if greater than 1
         } else {
-          // Remove the item if decrementOnly is false or quantity becomes 0
-          state.items = state.items.filter((item) => item.article_id !== article_id);
+          // Remove the article if decrementOnly is false or quantity becomes 0
+          state.articles = state.articles.filter(
+            (article) => article.article_id !== article_id
+          );
         }
       }
     },
     clearBasket: (state) => {
-      state.items = []; // Clear all items from the basket
+      state.articles = []; // Clear all articles from the basket
     },
   },
 });
 
-export const { addToBasket, removeItem, clearBasket } = basketSlice.actions;
+export const { addToBasket, removeArticle, clearBasket } = basketSlice.actions;
 export default basketSlice.reducer;

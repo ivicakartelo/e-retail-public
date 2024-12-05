@@ -1,47 +1,50 @@
-/* Header.css */
-
-/* General styling for the header */
 .app-header {
-    background-color: #333; /* Dark background for the header */
-    color: #fff; /* White text color */
-    padding: 1rem; /* Padding for the header */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 2px -2px gray; /* Optional: Adds shadow below header */
-  }
-  
-  /* Style for the navigation */
-  .app-header nav {
-    display: flex;
-    gap: 20px; /* Spacing between links */
-  }
-  
-  /* Style for the navigation links */
-  .app-header nav a {
-    color: #fff; /* White text color for links */
-    text-decoration: none; /* Remove underline from links */
-    font-size: 1.1rem; /* Font size for links */
-    font-weight: 600; /* Bold font for links */
-    padding: 5px 10px; /* Padding around links */
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-  }
-  
-  /* Hover effect for the navigation links */
-  .app-header nav a:hover {
-    background-color: #575757; /* Darker background on hover */
-    border-radius: 5px; /* Rounded corners for the hover effect */
-  }
-  
-  /* Mobile Responsiveness */
-  @media (max-width: 600px) {
-    .app-header {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .app-header nav {
-      flex-direction: column;
-      gap: 10px;
-    }
-  }  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #333;
+  color: white;
+}
+
+.app-header nav {
+  display: flex;
+  gap: 15px;
+}
+
+.app-header nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.app-header nav a:hover {
+  text-decoration: underline;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.search-button {
+  padding: 5px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}

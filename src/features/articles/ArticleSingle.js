@@ -39,27 +39,32 @@ const ArticleSingle = () => {
 
   return (
     <div className="article-single">
+  <div className="article-content">
+    {/* Images Section */}
+    <div className="images-wrapper">
+      <img
+        src={article.image_1 
+          ? `http://localhost:5000/assets/images/${article.image_1}` 
+          : '/assets/images/placeholder.jpg'}
+        alt={article.name}
+        className="article-image"
+      />
+      <img
+        src={article.image_2 
+          ? `http://localhost:5000/assets/images/${article.image_2}` 
+          : '/assets/images/placeholder.jpg'}
+        alt={`${article.name} alternate`}
+        className="article-image"
+      />
+    </div>
+
+    {/* Text and Buttons Section */}
+    <div className="text-content">
       <h2>{article.name}</h2>
       <p>{article.description}</p>
       <p>
         <strong>Price:</strong> {price ? `$${price}` : 'Price not available'}
       </p>
-      <div className="images-wrapper">
-        <img
-          src={article.image_1 
-            ? `http://localhost:5000/assets/images/${article.image_1}` 
-            : '/assets/images/placeholder.jpg'}
-          alt={article.name}
-          className="article-image"
-        />
-        <img
-          src={article.image_2 
-            ? `http://localhost:5000/assets/images/${article.image_2}` 
-            : '/assets/images/placeholder.jpg'}
-          alt={`${article.name} alternate`}
-          className="article-image"
-        />
-      </div>
       <button className="add-to-basket" onClick={handleAddToBasket}>
         Add to Basket
       </button>
@@ -67,6 +72,8 @@ const ArticleSingle = () => {
         Back to Home
       </Link>
     </div>
+  </div>
+</div>
   );
 };
 
