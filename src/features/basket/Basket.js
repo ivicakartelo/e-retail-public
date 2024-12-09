@@ -16,15 +16,15 @@ const Basket = () => {
     const randomNumber = Math.floor(1000 + Math.random() * 9000); // Random 4-digit number
     return `${prefix}-${timestamp}-${randomNumber}`;
   };
-
+/*
   const handleRemove = (id) => {
     if (!id) {
       console.error('Invalid article id:', id);
       return; // Prevent dispatching if id is missing
     }
-    dispatch(removeArticle({ article_id: id })); // Ensure payload matches reducer expectations
-  };
-
+    dispatch(removeArticle({ id }));
+  }
+*/
   const handleClearBasket = () => {
     if (window.confirm('Are you sure you want to clear the basket?')) {
       dispatch(clearBasket());
@@ -51,8 +51,6 @@ const Basket = () => {
     // Logo Placeholder
     const logoX = 14;
     const logoY = 10;
-    const logoWidth = 30;
-    const logoHeight = 30;
     doc.setFont('Helvetica', 'normal');
     doc.setFontSize(12);
     doc.setTextColor(0, 0, 0);
@@ -146,7 +144,7 @@ const Basket = () => {
                       <button
                         className="minus-button"
                         onClick={() =>
-                          dispatch(removeArticle({ article_id: article.article_id }))
+                          dispatch(removeArticle({ article_id: article.article_id, decrementOnly: true }))
                         }
                       >
                         -
@@ -164,7 +162,9 @@ const Basket = () => {
                   <td>
                     <button
                       className="basket-remove-button"
-                      onClick={() => handleRemove(article.article_id)}
+                      onClick={() => 
+                        dispatch(removeArticle({ article_id: article.article_id, decrementOnly: true }))
+                      }
                     >
                       Remove
                     </button>
