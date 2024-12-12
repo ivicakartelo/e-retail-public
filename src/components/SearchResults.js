@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import './SearchResults.css';
 
@@ -9,32 +9,28 @@ const SearchResults = () => {
   const [error, setError] = useState(null);
 
   const location = useLocation();
-  const query = new URLSearchParams(location.search).get('query'); // Get the search query from the URL
+  const query = new URLSearchParams(location.search).get('query');
 
   useEffect(() => {
-    if (query) {
-      const fetchResults = async () => {
-        try {
-          setLoading(true);
-          const response = await axios.get(`http://localhost:5000/search?query=${encodeURIComponent(query)}`);
-          setResults(response.data); // Set the search results
-        } catch (err) {
-          setError('An error occurred while fetching the search results.');
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchResults();
-    }
+    const fetchResults = async () => {
+      if (!query) return;
+
+      try {
+        setLoading(true);
+        const response = await axios.get(`http://localhost:5000/search?query=${encodeURIComponent(query)}`);
+        setResults(response.data);
+      } catch (err) {
+        setError('An error occurred while fetching the search results.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
   }, [query]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="search-results">
@@ -47,7 +43,9 @@ const SearchResults = () => {
             <ul>
               {results.articles.map((article) => (
                 <li key={article.article_id}>
-                  <h3>{article.name}</h3>
+                  <h3>
+                    <Link to={`/article/${article.article_id}`}>{article.name}</Link>
+                  </h3>
                   <p>{article.description}</p>
                   <p><strong>Categories:</strong> {article.category_ids.join(', ')}</p>
                 </li>
@@ -64,7 +62,9 @@ const SearchResults = () => {
             <ul>
               {results.categories.map((category) => (
                 <li key={category.category_id}>
-                  <h3>{category.name}</h3>
+                  <h3>
+                    <Link to={`/category/${category.category_id}`}>{category.name}</Link>
+                  </h3>
                   <p>{category.description}</p>
                 </li>
               ))}
