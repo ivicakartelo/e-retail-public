@@ -106,6 +106,7 @@ const BasketArticlesList = ({
 // Main Basket Component
 const Basket = () => {
   const basketArticles = useSelector((state) => state.basket.articles);
+  console.log(basketArticles)
   const dispatch = useDispatch();
 
   const generateInvoiceNumber = () => {
@@ -167,7 +168,7 @@ const Basket = () => {
       article.name,
       `$${Number(article.price).toFixed(2)}`,
       article.quantity,
-      `$${(article.price * article.quantity).toFixed(2)}`,
+      `$${(article.price * Number(article.quantity)).toFixed(2)}`,
     ]);
 
     doc.autoTable({

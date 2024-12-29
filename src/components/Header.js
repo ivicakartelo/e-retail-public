@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import RegistrationPage from './RegistrationPage';
 import './Header.css';
 
 const Header = () => {
@@ -29,6 +30,8 @@ const Header = () => {
         />
         <button type="submit" className="search-button">Search</button>
       </form>
+      {/* Register Button */}
+      <RegistrationPage />
     </header>
   );
 };
