@@ -12,6 +12,8 @@ import ArticleSingle from './features/articles/ArticleSingle';
 import Basket from './features/basket/Basket';
 import SearchResults from './components/SearchResults';
 import { AddUserForm } from './features/users/AddUserForm';
+import Dashboard from './components/Dashboard'; // Your dashboard or home component
+import Login from './components/Login';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -30,6 +32,8 @@ root.render(
                     <Route path="/basket" element={<Basket />} /> {/* Basket route */}
                     <Route path="/search" element={<SearchResults />} />
                     <Route path="/registration" element={<AddUserForm />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
                 </Route>
             </Routes>
         </BrowserRouter>

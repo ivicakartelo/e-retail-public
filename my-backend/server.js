@@ -1,20 +1,51 @@
+require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
+//const mysql = require('mysql2/promise');
 const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
+app.use(express.json()); // Middleware to parse JSON request bodies
 
+// Setup session middleware
+app.use(session({
+    secret: 'your-secret-key', // Change this to a secure secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: false, // Set this to true if using https
+      httpOnly: true, // Prevents JavaScript access to the cookie
+      maxAge: 24 * 60 * 60 * 1000, // 1 day expiration
+    }
+  }));
+
+
+// MySQL connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'e_retail'
-});
+  host: 'localhost',
+  user: 'root',
+  password: '', // Use your actual password
+  database: 'e_retail'
+});  // Enable promise support
+
+// Helper function to generate JWT token
+// Generate a JWT token for the user
+const generateToken = (user) => {
+  const secretKey = process.env.JWT_SECRET;
+  return jwt.sign(
+    { user_id: user.user_id, email: user.email, role: user.role },
+    secretKey,
+    { expiresIn: '1h' }
+  );
+};
 
 db.connect(err => {
     if (err) {
@@ -24,9 +55,70 @@ db.connect(err => {
     console.log('connected as id ' + db.threadId);
 });
 
-app.listen(5000, () => {
-    console.log('Server is running on port 5000');
+// POST route for login
+// User login route
+app.post('/users/login', (req, res) => {
+  const { email, password } = req.body;
+  console.log("Received email:", email);
+  console.log("Received password:", password);
+
+  // Query the database to find the user by email
+  db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Server error during database query' });
+    }
+
+    const user = results[0];
+    console.log("User found:", user);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Compare the password (hashed) with the one in the database
+    try {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      // Create session for the user
+      req.session.user = {
+        user_id: user.user_id,
+        email: user.email,
+        role: user.role,
+      };
+
+      // Generate JWT token
+      const token = generateToken(user);
+
+      // Respond with success
+      res.json({
+        message: 'Login successful',
+        token, // Include JWT if required
+        role: user.role,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error during password comparison' });
+    }
+  });
 });
+
+// Protected route example (requires authentication via session)
+app.get('/users/protected', (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+
+  res.json({ message: 'This is a protected route.', user: req.session.user });
+});
+
+// Start the server
+  app.listen(5000, () => {
+    console.log('Server is running on port 5000');
+  });
 
 // Departments Routes
 app.get('/departments', (req, res) => {
@@ -462,26 +554,36 @@ app.get('/users', (req, res) => {
   });
   
   // Add a new user
-  app.post('/users', (req, res) => {
+  app.post('/users', async (req, res) => {
     const { name, email, password, role } = req.body;
-  
+
     if (!name || !email || !password || !role) {
         console.error('Missing required fields: name, email, password, or role');
         return res.status(400).json({ error: 'Name, email, password, and role are required.' });
     }
-  
-    db.query(
-        'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
-        [name, email, password, role],
-        (error, results) => {
-            if (error) {
-                console.error('Database error:', error);
-                return res.status(500).json({ error });
+
+    try {
+        // Hash the password
+        const saltRounds = 10; // Number of hashing rounds
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Insert the user with the hashed password into the database
+        db.query(
+            'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
+            [name, email, hashedPassword, role],
+            (error, results) => {
+                if (error) {
+                    console.error('Database error:', error);
+                    return res.status(500).json({ error });
+                }
+                res.status(201).json({ user_id: results.insertId, name, email, role });
             }
-            res.status(201).json({ user_id: results.insertId, name, email, role });
-        }
-    );
-  });
+        );
+    } catch (error) {
+        console.error('Error during password hashing:', error);
+        res.status(500).json({ error: 'Server error during password hashing' });
+    }
+});
   
   // Update an existing user
   app.put('/users/:id', (req, res) => {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import RegistrationPage from './RegistrationPage';
 import './Header.css';
 
 const Header = () => {
@@ -16,7 +15,7 @@ const Header = () => {
 
   return (
     <header className="app-header">
-      <nav>
+      <nav className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/basket">View Basket</Link>
       </nav>
@@ -30,8 +29,14 @@ const Header = () => {
         />
         <button type="submit" className="search-button">Search</button>
       </form>
-      {/* Register Button */}
-      <RegistrationPage />
+      <div className="auth-buttons">
+        <Link to="/registration">
+          <button className="registration-button">Register</button>
+        </Link>
+        <Link to="/login">
+          <button className="login-button">Login</button>
+        </Link>
+      </div>
     </header>
   );
 };

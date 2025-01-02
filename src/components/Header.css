@@ -1,50 +1,92 @@
+/* General header container styling */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  background-color: #333;
-  color: white;
+  padding: 10px 30px;
+  background-color: #343a40; /* Dark background */
+  color: #fff; /* White text */
+  border-bottom: 2px solid #495057; /* Subtle border for separation */
+  height: 60px; /* Fixed height for consistent alignment */
 }
 
-.app-header nav {
-  display: flex;
-  gap: 15px;
-}
-
-.app-header nav a {
-  color: white;
+/* Navigation links styling */
+.nav-links a {
+  margin: 0 15px;
   text-decoration: none;
+  color: #ffffff; /* Matches header text color */
+  font-size: 16px;
 }
 
-.app-header nav a:hover {
+.nav-links a:hover {
   text-decoration: underline;
+  color: #ffc107; /* Highlight on hover */
 }
 
+/* Search form styling */
 .search-form {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: center; /* Aligns input and button vertically */
+  flex-grow: 1; /* Fills remaining space */
+  margin: 0 20px; /* Spacing between search and other elements */
+  max-width: 400px; /* Limits maximum width */
+  background-color: #495057; /* Matches header background */
+  border-radius: 4px; /* Rounded corners */
+  padding: 5px; /* Space around the input and button */
 }
 
 .search-input {
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  flex-grow: 1; /* Expands input field */
+  padding: 10px;
+  border: none; /* Removes default border */
+  border-radius: 4px 0 0 4px; /* Rounded left corners */
   font-size: 14px;
+  height: 40px; /* Ensures consistent height with button */
+  box-sizing: border-box; /* Includes padding and border in height calculation */
+}
+
+.search-input::placeholder {
+  color: #aaa; /* Placeholder text in gray */
 }
 
 .search-button {
-  padding: 5px 15px;
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  border-radius: 0 4px 4px 0; /* Rounded right corners */
   font-size: 14px;
-  transition: background-color 0.3s ease;
+  height: 40px; /* Matches input height */
+  box-sizing: border-box; /* Includes padding and border in height calculation */
+  cursor: pointer;
 }
 
 .search-button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Slightly darker blue on hover */
+}
+
+/* Authentication buttons container */
+.auth-buttons {
+  display: flex; /* Horizontal layout */
+  align-items: center; /* Aligns buttons vertically */
+  gap: 10px; /* Spacing between buttons */
+}
+
+/* Authentication buttons styling */
+.registration-button,
+.login-button {
+  display: inline-block; /* Ensures consistent sizing */
+  padding: 10px 20px; /* Button size */
+  background-color: #28a745; /* Green color */
+  color: white; /* Text color */
+  border: none; /* Removes default borders */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.registration-button:hover,
+.login-button:hover {
+  background-color: #218838; /* Darker green on hover */
 }
