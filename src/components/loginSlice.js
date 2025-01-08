@@ -34,9 +34,6 @@ const loginSlice = createSlice({
         state.user = action.payload.user; // Assuming action.payload contains user object
         state.token = action.payload.token; // Save token globally
         state.error = null;
-
-        // Save token in localStorage for persistence
-        localStorage.setItem('token', action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isAuthenticated = false;
