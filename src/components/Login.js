@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from './loginSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,18 +9,23 @@ const Login = () => {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.login.user); // Access user from Redux state
+
+  // Automatically navigate based on user role when the user logs in
+  useEffect(() => {
+    if (user?.role === 'admin') {
+      navigate('/dashboard'); // Redirect to dashboard for admin
+    } else if (user?.role === 'customer') {
+      navigate('/customer'); // Redirect to customer for customer
+    }
+  }, [user, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await dispatch(loginUser({ email, password })).unwrap();
-      if (response.role === 'admin') {
-        navigate('/dashboard');
-      } else if (response.role === 'customer') {
-        navigate('/home');
-      }
+      console.log('Login successful:', response);
     } catch (err) {
-      // Extract the error message if available or set a default message
       setError(err.message || 'An error occurred. Please try again.');
     }
   };
@@ -28,22 +33,27 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {error && <div>{error}</div>}  {/* Render only the error message */}
-        <button type="submit">Login</button>
-      </form>
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+
+      {!user ? (
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit">Login</button>
+        </form>
+      ) : (
+        <div>Welcome, {user.name}!</div>
+      )}
     </div>
   );
 };

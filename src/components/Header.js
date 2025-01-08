@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { logout } from './loginSlice'; // Import the logout action
+import WelcomeMessage from './WelcomeMessage';
 import './Header.css';
 
 const Header = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.login.user);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchTerm.trim()) {
-      navigate(`/search?query=${encodeURIComponent(searchTerm)}`);
-    }
+  const handleLogout = () => {
+    dispatch(logout()); // Clear user state
+    navigate('/login'); // Redirect to login page
   };
 
   return (
@@ -19,23 +21,22 @@ const Header = () => {
         <Link to="/">Home</Link>
         <Link to="/basket">View Basket</Link>
       </nav>
-      <form className="search-form" onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Search articles..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-        <button type="submit" className="search-button">Search</button>
-      </form>
       <div className="auth-buttons">
-        <Link to="/registration">
-          <button className="registration-button">Register</button>
-        </Link>
-        <Link to="/login">
-          <button className="login-button">Login</button>
-        </Link>
+        <WelcomeMessage />
+        {user ? (
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link to="/registration">
+              <button className="registration-button">Register</button>
+            </Link>
+            <Link to="/login">
+              <button className="login-button">Login</button>
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );

@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-//const mysql = require('mysql2/promise');
 const path = require('path');
 
 const app = express();
@@ -40,6 +39,7 @@ const db = mysql.createConnection({
 // Generate a JWT token for the user
 const generateToken = (user) => {
   const secretKey = process.env.JWT_SECRET;
+  console.log('JWT Secret Key:', process.env.JWT_SECRET || 'default-secret-key');
   return jwt.sign(
     { user_id: user.user_id, email: user.email, role: user.role },
     secretKey,
@@ -59,8 +59,6 @@ db.connect(err => {
 // User login route
 app.post('/users/login', (req, res) => {
   const { email, password } = req.body;
-  console.log("Received email:", email);
-  console.log("Received password:", password);
 
   // Query the database to find the user by email
   db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
@@ -70,34 +68,26 @@ app.post('/users/login', (req, res) => {
     }
 
     const user = results[0];
-    console.log("User found:", user);
-
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Compare the password (hashed) with the one in the database
+    // Compare the password
     try {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
 
-      // Create session for the user
-      req.session.user = {
-        user_id: user.user_id,
-        email: user.email,
-        role: user.role,
-      };
-
       // Generate JWT token
       const token = generateToken(user);
+      console.log('Generated JWT:', token);
 
-      // Respond with success
+      // Respond with user details and token
       res.json({
         message: 'Login successful',
-        token, // Include JWT if required
-        role: user.role,
+        token,
+        user: { name: user.name, email: user.email, role: user.role },
       });
     } catch (err) {
       console.error(err);

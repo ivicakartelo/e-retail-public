@@ -1,36 +1,51 @@
-// loginSlice.js
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const loginUser = createAsyncThunk('auth/login', async (credentials) => {
+// Async action for login
+export const loginUser = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
+  try {
     const response = await axios.post('http://localhost:5000/users/login', credentials);
-    return response.data;
+    return response.data; // Assuming response contains user details and token
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || 'Login failed');
+  }
 });
 
 const loginSlice = createSlice({
-    name: 'login',
-    initialState: {
-        isAuthenticated: false,
-        user: null,
-        token: null,
-        error: null,
+  name: 'login',
+  initialState: {
+    isAuthenticated: false,
+    user: null,
+    token: null,
+    error: null,
+  },
+  reducers: {
+    logout(state) {
+      state.isAuthenticated = false;
+      state.user = null;
+      state.token = null;
+      state.error = null;
     },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(loginUser.fulfilled, (state, action) => {
-                state.isAuthenticated = true;
-                state.user = action.payload;
-                state.token = action.payload.token;
-                state.error = null;
-            })
-            .addCase(loginUser.rejected, (state, action) => {
-                state.isAuthenticated = false;
-                state.user = null;
-                state.token = null;
-                state.error = action.error.message;
-            });
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isAuthenticated = true;
+        state.user = action.payload.user; // Assuming action.payload contains user object
+        state.token = action.payload.token; // Save token globally
+        state.error = null;
+
+        // Save token in localStorage for persistence
+        localStorage.setItem('token', action.payload.token);
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.user = null;
+        state.token = null;
+        state.error = action.payload; // Use the error message from the rejected action
+      });
+  },
 });
 
+export const { logout } = loginSlice.actions; // Export the logout action
 export default loginSlice.reducer;

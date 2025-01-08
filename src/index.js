@@ -14,6 +14,8 @@ import SearchResults from './components/SearchResults';
 import { AddUserForm } from './features/users/AddUserForm';
 import Dashboard from './components/Dashboard'; // Your dashboard or home component
 import Login from './components/Login';
+import PrivateRoute from './components/PrivateRoute';
+import Customer from './components/Customer';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -33,7 +35,8 @@ root.render(
                     <Route path="/search" element={<SearchResults />} />
                     <Route path="/registration" element={<AddUserForm />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>
+                    <Route path="/customer" element={<PrivateRoute><Customer /></PrivateRoute>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
