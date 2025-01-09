@@ -2,10 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const WelcomeMessage = () => {
-  const { user, error } = useSelector((state) => ({
-    user: state?.login?.user,
-    error: state?.login?.error,
-  }));
+  // Directly select user and error, not creating a new object
+  const user = useSelector((state) => state?.login?.user);
+  const error = useSelector((state) => state?.login?.error);
 
   // Debugging logs
   console.log("User:", user);
