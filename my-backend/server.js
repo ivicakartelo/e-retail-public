@@ -41,7 +41,7 @@ const generateToken = (user) => {
   const secretKey = process.env.JWT_SECRET;
   console.log('JWT Secret Key:', process.env.JWT_SECRET || 'default-secret-key');
   return jwt.sign(
-    { user_id: user.user_id, email: user.email, role: user.role },
+    { user_id: user.user_id, email: user.email, role: user.role, name: user.name }, // Include name in the payload
     secretKey,
     { expiresIn: '1h' }
   );
@@ -56,7 +56,6 @@ db.connect(err => {
 });
 
 // POST route for login
-// User login route
 app.post('/users/login', (req, res) => {
   const { email, password } = req.body;
 

@@ -1,5 +1,4 @@
 // loginSlice.js
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -28,6 +27,17 @@ const isValidToken = (token) => {
   }
 };
 
+// Function to extract user details from a valid token
+const extractUserFromToken = (token) => {
+  if (!token) return null;
+  try {
+    const decoded = JSON.parse(atob(token.split('.')[1])); // Decode the JWT token
+    return { name: decoded.name || null, email: decoded.email || null }; // Extract user info
+  } catch (error) {
+    return null;
+  }
+};
+
 const initialState = {
   isAuthenticated: false,
   user: null,
@@ -35,15 +45,15 @@ const initialState = {
   error: null,
 };
 
-// Retrieve token and user from localStorage if available
+// Retrieve token from localStorage if available
 const persistedToken = localStorage.getItem('token');
-const persistedUser = localStorage.getItem('user');
 
-// Check if the token is valid
-if (persistedToken && persistedUser && isValidToken(persistedToken)) {
+// Check if the token is valid and extract user info
+if (persistedToken && isValidToken(persistedToken)) {
+  const user = extractUserFromToken(persistedToken);
   initialState.isAuthenticated = true;
   initialState.token = persistedToken;
-  initialState.user = JSON.parse(persistedUser);
+  initialState.user = user;
 }
 
 const loginSlice = createSlice({
@@ -56,22 +66,20 @@ const loginSlice = createSlice({
       state.token = null;
       state.error = null;
 
-      // Remove from localStorage
+      // Remove token from localStorage
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
-        state.user = action.payload.user; // Assuming action.payload contains user object
+        state.user = extractUserFromToken(action.payload.token); // Extract user from token
         state.token = action.payload.token; // Save token globally
         state.error = null;
 
-        // Save token and user to localStorage
+        // Save token to localStorage
         localStorage.setItem('token', action.payload.token);
-        localStorage.setItem('user', JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isAuthenticated = false;
