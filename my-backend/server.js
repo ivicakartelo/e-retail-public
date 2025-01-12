@@ -86,7 +86,7 @@ app.post('/users/login', (req, res) => {
       res.json({
         message: 'Login successful',
         token,
-        user: { name: user.name, email: user.email, role: user.role },
+        //user: { name: user.name, email: user.email, role: user.role },
       });
     } catch (err) {
       console.error(err);
