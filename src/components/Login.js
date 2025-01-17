@@ -18,18 +18,15 @@ const Login = () => {
     try {
       // Dispatch loginUser action to log in
       const response = await dispatch(loginUser({ email, password })).unwrap();
-      console.log('Login successful:', response);
-
+      
       // Decode the user role from the token if available (directly from response)
       const decodedToken = JSON.parse(atob(response.token.split('.')[1]));
       const role = decodedToken.role;
 
       // Navigate based on the decoded role from token
       if (role === 'admin') {
-        console.log('Redirecting to dashboard');
         navigate('/dashboard'); // Redirect to dashboard for admin
       } else if (role === 'customer') {
-        console.log('Redirecting to customer page');
         navigate('/customer'); // Redirect to customer for customer
       } else {
         navigate('/customer'); // Fallback to /customer if role is unknown
