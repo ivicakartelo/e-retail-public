@@ -14,7 +14,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoading(true); // Start loading
     try {
       // Dispatch loginUser action to log in
       const response = await dispatch(loginUser({ email, password })).unwrap();
@@ -34,13 +34,9 @@ const Login = () => {
     } catch (err) {
       setError(err.message || 'An error occurred. Please try again.');
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Stop loading
     }
   };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div>
@@ -54,6 +50,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={isLoading} // Disable input while loading
           />
         </div>
         <div>
@@ -63,9 +60,12 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={isLoading} // Disable input while loading
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Logging in...' : 'Login'} {/* Show loading text */}
+        </button>
       </form>
     </div>
   );
