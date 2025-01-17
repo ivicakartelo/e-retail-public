@@ -35,6 +35,14 @@ const db = mysql.createConnection({
   database: 'e_retail'
 });  // Enable promise support
 
+db.connect(err => {
+    if (err) {
+        console.error('error connecting: ' + err.stack);
+        return;
+    }
+    console.log('connected as id ' + db.threadId);
+});
+
 // Helper function to generate JWT token
 // Generate a JWT token for the user
 const generateToken = (user) => {
@@ -46,14 +54,6 @@ const generateToken = (user) => {
     { expiresIn: '1h' }
   );
 };
-
-db.connect(err => {
-    if (err) {
-        console.error('error connecting: ' + err.stack);
-        return;
-    }
-    console.log('connected as id ' + db.threadId);
-});
 
 // POST route for login
 app.post('/users/login', (req, res) => {
@@ -82,7 +82,7 @@ app.post('/users/login', (req, res) => {
       const token = generateToken(user);
       console.log('Generated JWT:', token);
 
-      // Respond with user details and token
+      // Respond token
       res.json({
         message: 'Login successful',
         token,

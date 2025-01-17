@@ -8,7 +8,8 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post('http://localhost:5000/users/login', credentials);
-      return response.data; // Assuming response contains user details and token
+      console.log(response.data)
+      return response.data; // Assuming response contains user details in token
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
     }
@@ -32,7 +33,7 @@ const extractUserFromToken = (token) => {
   if (!token) return null;
   try {
     const decoded = JSON.parse(atob(token.split('.')[1])); // Decode the JWT token
-    return { name: decoded.name || null, email: decoded.email || null }; // Extract user info
+    return { name: decoded.name || null, email: decoded.email || null, role: decoded.role || null }; // Extract user info
   } catch (error) {
     return null;
   }
@@ -45,7 +46,7 @@ const initialState = {
   error: null,
 };
 
-// Retrieve token from localStorage if available
+  // Retrieve token from localStorage if available
 const persistedToken = localStorage.getItem('token');
 
 // Check if the token is valid and extract user info
@@ -75,7 +76,9 @@ const loginSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = extractUserFromToken(action.payload.token); // Extract user from token
+        console.log(state.user)
         state.token = action.payload.token; // Save token globally
+        console.log(action.payload.token)
         state.error = null;
 
         // Save token to localStorage

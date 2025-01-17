@@ -35,8 +35,8 @@ root.render(
                     <Route path="/search" element={<SearchResults />} />
                     <Route path="/registration" element={<AddUserForm />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>
-                    <Route path="/customer" element={<PrivateRoute><Customer /></PrivateRoute>}/>
+                    <Route path="/dashboard" element={<PrivateRoute requiredRole="admin"><Dashboard /></PrivateRoute>} />
+                    <Route path="/customer" element={<PrivateRoute requiredRole="customer"><Customer /></PrivateRoute>} />
                 </Route>
             </Routes>
         </BrowserRouter>
