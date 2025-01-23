@@ -62,7 +62,6 @@ app.post('/users/login', (req, res) => {
   // Query the database to find the user by email
   db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
     if (err) {
-      console.error(err);
       return res.status(500).json({ message: 'Server error during database query' });
     }
 
@@ -89,7 +88,6 @@ app.post('/users/login', (req, res) => {
         //user: { name: user.name, email: user.email, role: user.role },
       });
     } catch (err) {
-      console.error(err);
       res.status(500).json({ message: 'Server error during password comparison' });
     }
   });

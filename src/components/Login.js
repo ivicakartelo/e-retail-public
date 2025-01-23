@@ -32,7 +32,7 @@ const Login = () => {
         navigate('/customer'); // Fallback to /customer if role is unknown
       }
     } catch (err) {
-      setError(err.message || 'An error occurred. Please try again.');
+      setError(err || 'An error occurred. Please try again.');
     } finally {
       setIsLoading(false); // Stop loading
     }
