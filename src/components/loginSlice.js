@@ -47,7 +47,7 @@ const initialState = {
 };
 
   // Retrieve token from localStorage if available
-const persistedToken = localStorage.getItem('token');
+const persistedToken = sessionStorage.getItem('token');
 
 // Check if the token is valid and extract user info
 if (persistedToken && isValidToken(persistedToken)) {
@@ -68,7 +68,7 @@ const loginSlice = createSlice({
       state.error = null;
 
       // Remove token from localStorage
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
     },
   },
   extraReducers: (builder) => {
@@ -82,7 +82,7 @@ const loginSlice = createSlice({
         state.error = null;
 
         // Save token to localStorage
-        localStorage.setItem('token', action.payload.token);
+        sessionStorage.setItem('token', action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isAuthenticated = false;
