@@ -1,49 +1,90 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+// Async action to handle checkout
+export const checkoutBasket = createAsyncThunk(
+  'basket/checkoutBasket',
+  async (orderData, { rejectWithValue }) => {
+    try {
+      const response = await fetch('http://localhost:5000/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to place order');
+
+      return data; // Return data (order confirmation, order_id, etc.)
+    } catch (error) {
+      return rejectWithValue(error.message); // Reject with error message if request fails
+    }
+  }
+);
+
+// Initial state
+const initialState = {
+  articles: [],        // List of articles in the basket
+  orderStatus: 'idle',  // Status of the checkout (idle, loading, succeeded, failed)
+  orderError: null,     // Error message if the checkout failed
+};
+
+// Basket slice
 const basketSlice = createSlice({
   name: 'basket',
-  initialState: {
-    articles: [], // Each article has { article_id, name, price, quantity, ... }
-  },
+  initialState,
   reducers: {
     addToBasket: (state, action) => {
-      const existingArticle = state.articles.find(
-        (article) => article.article_id === action.payload.article_id
-      );
-
-      if (existingArticle) {
-        existingArticle.quantity += 1; // Increment quantity if article exists
+      // Check if article already exists in the basket
+      const existingItem = state.articles.find((item) => item.article_id === action.payload.article_id);
+      if (existingItem) {
+        // If exists, increment the quantity
+        existingItem.quantity += 1;
       } else {
-        state.articles.push({ ...action.payload, quantity: 1 }); // Add new article
+        // Otherwise, add the new article to the basket with quantity 1
+        state.articles.push({ ...action.payload, quantity: 1 });
       }
     },
     removeArticle: (state, action) => {
-      if (!action.payload || !action.payload.article_id) {
-        console.error('Invalid payload in removeArticle:', action.payload);
-        return; // Skip processing if payload is invalid
-      }
-    
-      const { article_id, decrementOnly } = action.payload;
-      const existingArticle = state.articles.find(
-        (article) => article.article_id === article_id
-      );
-    
-      if (existingArticle) {
-        if (decrementOnly && existingArticle.quantity > 1) {
-          existingArticle.quantity -= 1; // Decrement quantity if greater than 1
+      const index = state.articles.findIndex((item) => item.article_id === action.payload.article_id);
+      if (index !== -1) {
+        // If decrement only is true, decrease quantity
+        if (action.payload.decrementOnly) {
+          state.articles[index].quantity -= 1;
+          // If quantity reaches zero, remove item from basket
+          if (state.articles[index].quantity <= 0) state.articles.splice(index, 1);
         } else {
-          // Remove the article if decrementOnly is false or quantity becomes 0
-          state.articles = state.articles.filter(
-            (article) => article.article_id !== article_id
-          );
+          // If remove is true, remove the entire item from the basket
+          state.articles.splice(index, 1);
         }
       }
     },
     clearBasket: (state) => {
-      state.articles = []; // Clear all articles from the basket
+      // Clear all articles from the basket
+      state.articles = [];
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(checkoutBasket.pending, (state) => {
+        // When checkout is in progress, set loading status
+        state.orderStatus = 'loading';
+        state.orderError = null;
+      })
+      .addCase(checkoutBasket.fulfilled, (state, action) => {
+        // On successful checkout, set succeeded status and clear basket
+        state.orderStatus = 'succeeded';
+        state.articles = []; // Clear basket on success
+      })
+      .addCase(checkoutBasket.rejected, (state, action) => {
+        // On checkout failure, set failed status and store error message
+        state.orderStatus = 'failed';
+        state.orderError = action.payload; // Store error message from the rejected thunk
+      });
   },
 });
 
+// Export actions for dispatching in components
 export const { addToBasket, removeArticle, clearBasket } = basketSlice.actions;
+
+// Export reducer to be included in store
 export default basketSlice.reducer;

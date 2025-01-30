@@ -33,7 +33,7 @@ const extractUserFromToken = (token) => {
   if (!token) return null;
   try {
     const decoded = JSON.parse(atob(token.split('.')[1])); // Decode the JWT token
-    return { name: decoded.name || null, email: decoded.email || null, role: decoded.role || null }; // Extract user info
+    return { user_id: decoded.user_id || null, name: decoded.name || null, email: decoded.email || null, role: decoded.role || null }; // Extract user info
   } catch (error) {
     return null;
   }

@@ -107,6 +107,60 @@ app.get('/users/protected', (req, res) => {
     console.log('Server is running on port 5000');
   });
 
+  // Convert the callback style connection methods to promise-based
+const queryAsync = (sql, params) => {
+  return new Promise((resolve, reject) => {
+    db.query(sql, params, (err, results) => {
+      if (err) return reject(err);
+      resolve(results);
+    });
+  });
+};
+
+app.post("/orders", async (req, res) => {
+  try {
+    const { user_id, articles, total_amount } = req.body;
+
+    // Validate request data
+    if (!user_id || !articles?.length || !total_amount) {
+      return res.status(400).json({ error: "Invalid order data" });
+    }
+
+    // Validate each article has a price
+    for (const article of articles) {
+      if (!article.price) {
+        return res.status(400).json({ error: `Article with ID ${article.article_id} is missing a price` });
+      }
+    }
+
+    // Insert into `orders` table
+    const orderResult = await queryAsync(
+      "INSERT INTO orders (user_id, total_amount) VALUES (?, ?)",
+      [user_id, total_amount]
+    );
+    const order_id = orderResult.insertId;
+
+    // Insert order items into `order_items` table
+    for (const article of articles) {
+      // Ensure price is valid before inserting
+      if (article.price === null || article.price === undefined) {
+        return res.status(400).json({ error: `Invalid price for article ID ${article.article_id}` });
+      }
+
+      await queryAsync(
+        "INSERT INTO order_items (order_id, article_id, quantity, price) VALUES (?, ?, ?, ?)",
+        [order_id, article.article_id, article.quantity, article.price]
+      );
+    }
+
+    // Successful response
+    res.status(201).json({ message: "Order placed successfully!", order_id, status: "pending" });
+  } catch (error) {
+    console.error(error);  // Log error for debugging
+    res.status(500).json({ error: "Order processing error" });
+  }
+});
+
 // Departments Routes
 app.get('/departments', (req, res) => {
     db.query('SELECT * FROM department', (error, results) => {
