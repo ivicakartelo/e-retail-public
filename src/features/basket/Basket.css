@@ -56,3 +56,36 @@
   .basket-clear-button {
     background-color: #ff9900; /* Orange color for clear basket button */
   }  
+
+  /* Button styling for checkout and invoice generation */
+.basket-checkout-button, .basket-invoice-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.basket-checkout-button {
+  background-color: #4caf50; /* Green color for checkout button */
+  color: white;
+}
+
+.basket-checkout-button.disabled {
+  background-color: #ccc; /* Disabled state */
+  cursor: not-allowed;
+}
+
+.basket-checkout-button:hover:not(.disabled) {
+  background-color: #45a049;
+}
+
+.basket-invoice-button {
+  background-color: #2196f3; /* Blue color for invoice button */
+  color: white;
+}
+
+.basket-invoice-button:hover {
+  background-color: #1976d2;
+}
