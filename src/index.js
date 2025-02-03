@@ -16,7 +16,6 @@ import Dashboard from './components/Dashboard'; // Your dashboard or home compon
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Customer from './components/Customer';
-
 const container = document.getElementById('root');
 const root = createRoot(container);
 

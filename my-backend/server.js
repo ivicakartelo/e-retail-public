@@ -161,6 +161,36 @@ app.post("/orders", async (req, res) => {
   }
 });
 
+app.get("/orders", async (req, res) => {
+  try {
+    const { user_id } = req.query;
+
+    if (!user_id) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
+    // Fetch orders for the given user, ordering by order_date instead of created_at
+    const orders = await queryAsync(
+      "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC", // Changed to use order_date
+      [user_id]
+    );
+
+    // Fetch order items for each order
+    for (const order of orders) {
+      const orderItems = await queryAsync(
+        "SELECT oi.article_id, oi.quantity, oi.price, a.name FROM order_items oi JOIN article a ON oi.article_id = a.article_id WHERE oi.order_id = ?",
+        [order.order_id]
+      );
+      order.items = orderItems; // Updated to "items" instead of "articles"
+    }
+
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching orders" });
+  }
+});
+
 // Departments Routes
 app.get('/departments', (req, res) => {
     db.query('SELECT * FROM department', (error, results) => {
