@@ -33,7 +33,7 @@ const db = mysql.createConnection({
   user: 'root',
   password: '', // Use your actual password
   database: 'e_retail'
-});  // Enable promise support
+});
 
 db.connect(err => {
     if (err) {
@@ -169,7 +169,7 @@ app.get("/orders", async (req, res) => {
       return res.status(400).json({ error: "User ID is required" });
     }
 
-    // Fetch orders for the given user, ordering by order_date instead of created_at
+    // Fetch orders for the given user, ordering by order_date
     const orders = await queryAsync(
       "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC", // Changed to use order_date
       [user_id]

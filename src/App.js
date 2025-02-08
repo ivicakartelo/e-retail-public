@@ -15,6 +15,7 @@ const App = () => {
         <div className="app-layout">
             <Header /> {/* Add the Header here */}
             <header>
+                
                 <DepartmentsList />
             </header>
             <div className="content-wrapper">

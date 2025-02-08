@@ -61,13 +61,14 @@ const BasketList = ({ articles, onIncrement, onDecrement, onRemove, onClear, onC
           <button className="basket-clear-button" onClick={onClear}>
             Clear Basket
           </button>
-          <button
-            className={`basket-checkout-button ${!isUserLoggedIn ? 'disabled' : ''}`}
-            onClick={onCheckout}
+          <button 
+            className={`basket-checkout-button ${!isUserLoggedIn ? 'disabled' : ''}`} 
+            onClick={onCheckout} 
             disabled={!isUserLoggedIn}
           >
             Checkout
           </button>
+          {!isUserLoggedIn && <p className="checkout-disabled-text">Please log in to proceed to checkout.</p>}
         </div>
       </>
     )}
@@ -90,18 +91,13 @@ const Basket = () => {
       alert('Your basket is empty.');
       return;
     }
-  
-    if (!user) {
-      alert('You must be logged in to checkout!');
-      return;
-    }
-  
+
     const orderData = {
       user_id: user.user_id,
       articles: basketArticles.map(({ article_id, name, price, quantity }) => ({ article_id, name, price, quantity })),
       total_amount: basketArticles.reduce((total, article) => total + article.price * article.quantity, 0).toFixed(2),
     };
-  
+
     try {
       const data = await dispatch(checkoutBasket(orderData)).unwrap();
       setOrder({ ...orderData, order_id: data.order_id });

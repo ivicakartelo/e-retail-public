@@ -35,6 +35,10 @@
   /* Orders Section */
   .my-orders {
     margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #ddd;
   }
   
   .my-orders h2 {
@@ -43,16 +47,24 @@
     margin-bottom: 20px;
   }
   
+  /* Scrollable Table Container */
+  .orders-table-container {
+    max-height: 400px;  /* Limit the height of the table content */
+    overflow-y: auto;   /* Enable vertical scrolling */
+    display: block;     /* Ensure this container behaves as a block to allow scrolling */
+  }
+  
+  /* Table Styles */
   .orders-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 30px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   
-  .orders-table th, .orders-table td {
+  .orders-table th,
+  .orders-table td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -61,8 +73,12 @@
   .orders-table th {
     background-color: #f8f8f8;
     font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1;  /* Ensure it stays on top when scrolling */
   }
   
+  /* Row Styles */
   .orders-table tr:nth-child(even) {
     background-color: #f9f9f9;
   }
@@ -91,11 +107,6 @@
   }
   
   /* Loading & Error Messages */
-  p {
-    font-size: 1.1rem;
-    color: #888;
-  }
-  
   .error-message {
     color: red;
     font-weight: bold;
@@ -106,7 +117,7 @@
     color: #888;
   }
   
-  /* Media Queries for Responsive Design */
+  /* Responsive Design */
   @media (max-width: 768px) {
     .dashboard-container {
       padding: 15px;
