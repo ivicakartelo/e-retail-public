@@ -123,24 +123,25 @@ CREATE TABLE `users` (
   `email` VARCHAR(100) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   `role` ENUM('customer', 'admin') NOT NULL DEFAULT 'customer',
-  `address` VARCHAR(255) DEFAULT NULL, -- New address field
+  `delivery_address` VARCHAR(255) DEFAULT NULL, -- New field for delivery address
+  `billing_address` VARCHAR(255) DEFAULT NULL, -- New field for billing address
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `users` (`name`, `email`, `password`, `role`, `address`)
+INSERT INTO `users` (`name`, `email`, `password`, `role`, `delivery_address`, `billing_address`)
 VALUES
-('Alice Johnson', 'alice.johnson@example.com', 'password_hash_1', 'customer', '123 Main St, Springfield, IL'),
-('Bob Smith', 'bob.smith@example.com', 'password_hash_2', 'customer', '456 Elm St, Shelbyville, IN'),
-('Charlie Brown', 'charlie.brown@example.com', 'password_hash_3', 'customer', '789 Oak St, Capital City, NY'),
-('Diana Prince', 'diana.prince@example.com', 'password_hash_4', 'customer', '321 Pine St, Metropolis, CA'),
-('Ethan Hunt', 'ethan.hunt@example.com', 'password_hash_5', 'customer', '654 Maple St, Gotham, NJ'),
-('Fiona Gallagher', 'fiona.gallagher@example.com', 'password_hash_6', 'customer', '987 Birch St, Star City, TX'),
-('George Taylor', 'george.taylor@example.com', 'password_hash_7', 'admin', '111 Admin Blvd, Central City, DC'),
-('Hannah Lee', 'hannah.lee@example.com', 'password_hash_8', 'customer', '222 Cedar St, Coast City, FL'),
-('Ian Wright', 'ian.wright@example.com', 'password_hash_9', 'customer', '333 Walnut St, Emerald City, WA'),
-('Julia Roberts', 'julia.roberts@example.com', 'password_hash_10', 'admin', '444 Admin Lane, National City, MD');
+('Alice Johnson', 'alice.johnson@example.com', 'password_hash_1', 'customer', '123 Main St, Springfield, IL', '123 Main St, Springfield, IL'),
+('Bob Smith', 'bob.smith@example.com', 'password_hash_2', 'customer', '456 Elm St, Shelbyville, IN', '456 Elm St, Shelbyville, IN'),
+('Charlie Brown', 'charlie.brown@example.com', 'password_hash_3', 'customer', '789 Oak St, Capital City, NY', '789 Oak St, Capital City, NY'),
+('Diana Prince', 'diana.prince@example.com', 'password_hash_4', 'customer', '321 Pine St, Metropolis, CA', '321 Pine St, Metropolis, CA'),
+('Ethan Hunt', 'ethan.hunt@example.com', 'password_hash_5', 'customer', '654 Maple St, Gotham, NJ', '654 Maple St, Gotham, NJ'),
+('Fiona Gallagher', 'fiona.gallagher@example.com', 'password_hash_6', 'customer', '987 Birch St, Star City, TX', '987 Birch St, Star City, TX'),
+('George Taylor', 'george.taylor@example.com', 'password_hash_7', 'admin', '111 Admin Blvd, Central City, DC', '111 Admin Blvd, Central City, DC'),
+('Hannah Lee', 'hannah.lee@example.com', 'password_hash_8', 'customer', '222 Cedar St, Coast City, FL', '222 Cedar St, Coast City, FL'),
+('Ian Wright', 'ian.wright@example.com', 'password_hash_9', 'customer', '333 Walnut St, Emerald City, WA', '333 Walnut St, Emerald City, WA'),
+('Julia Roberts', 'julia.roberts@example.com', 'password_hash_10', 'admin', '444 Admin Lane, National City, MD', '444 Admin Lane, National City, MD');
 
 CREATE TABLE `orders` (
   `order_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,

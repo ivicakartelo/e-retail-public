@@ -615,90 +615,105 @@ app.get('/search', (req, res) => {
 
 // Get all users
 app.get('/users', (req, res) => {
-    db.query('SELECT * FROM users', (error, results) => {
-        if (error) {
-            console.error('Database error:', error);
-            return res.status(500).json({ error });
-        }
-        res.status(200).json(results);
-    });
+  db.query('SELECT * FROM users', (error, results) => {
+      if (error) {
+          console.error('Database error:', error);
+          return res.status(500).json({ error });
+      }
+      res.status(200).json(results);
   });
-  
-  // Add a new user
-  app.post('/users', async (req, res) => {
-    const { name, email, password, role } = req.body;
-
-    if (!name || !email || !password || !role) {
-        console.error('Missing required fields: name, email, password, or role');
-        return res.status(400).json({ error: 'Name, email, password, and role are required.' });
-    }
-
-    try {
-        // Hash the password
-        const saltRounds = 10; // Number of hashing rounds
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        // Insert the user with the hashed password into the database
-        db.query(
-            'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
-            [name, email, hashedPassword, role],
-            (error, results) => {
-                if (error) {
-                    console.error('Database error:', error);
-                    return res.status(500).json({ error });
-                }
-                res.status(201).json({ user_id: results.insertId, name, email, role });
-            }
-        );
-    } catch (error) {
-        console.error('Error during password hashing:', error);
-        res.status(500).json({ error: 'Server error during password hashing' });
-    }
 });
-  
-  // Update an existing user
-  app.put('/users/:id', (req, res) => {
-    const { id } = req.params;
-    const { name, email, role } = req.body;
-  
-    if (!name || !email || !role) {
-        console.error('Missing required fields: name, email, or role');
-        return res.status(400).json({ error: 'Name, email, and role are required.' });
-    }
-  
-    db.query(
-        'UPDATE users SET name = ?, email = ?, role = ? WHERE user_id = ?',
-        [name, email, role, id],
-        (error, results) => {
-            if (error) {
-                console.error('Database error:', error);
-                return res.status(500).json({ error });
-            }
-            res.status(204).end();
-        }
-    );
-  });
-  
-  // Delete a user
-  app.delete('/users/:id', (req, res) => {
-    const { id } = req.params;
-  
-    // Soft delete: set the `deleted_at` column to the current timestamp
-    db.query(
-        'UPDATE users SET deleted_at = NOW() WHERE user_id = ?', 
-        [id], 
-        (error, results) => {
-            if (error) {
-                console.error('Database error:', error);
-                return res.status(500).json({ error });
-            }
-  
-            // Check if a row was affected (i.e., the user_id exists)
-            if (results.affectedRows === 0) {
-                return res.status(404).json({ error: 'User not found.' });
-            }
-  
-            res.status(204).end(); // Return no content on successful deletion
-        }
-    );
-  });
+
+// Add a new user
+app.post('/users', async (req, res) => {
+  const { name, email, password, role, delivery_address, billing_address } = req.body; // Include delivery and billing addresses
+
+  // Validate required fields
+  if (!name || !email || !password || !role || !delivery_address || !billing_address) {
+      console.error('Missing required fields: name, email, password, role, delivery_address, or billing_address');
+      return res.status(400).json({ error: 'Name, email, password, role, delivery_address, and billing_address are required.' });
+  }
+
+  try {
+      // Hash the password
+      const saltRounds = 10; // Number of hashing rounds
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      // Insert the user with the hashed password and addresses into the database
+      db.query(
+          'INSERT INTO users (name, email, password, role, delivery_address, billing_address) VALUES (?, ?, ?, ?, ?, ?)', // Include delivery and billing addresses
+          [name, email, hashedPassword, role, delivery_address, billing_address],
+          (error, results) => {
+              if (error) {
+                  console.error('Database error:', error);
+                  return res.status(500).json({ error });
+              }
+              res.status(201).json({
+                  user_id: results.insertId,
+                  name,
+                  email,
+                  role,
+                  delivery_address,
+                  billing_address,
+              });
+          }
+      );
+  } catch (error) {
+      console.error('Error during password hashing:', error);
+      res.status(500).json({ error: 'Server error during password hashing' });
+  }
+});
+
+// Update an existing user
+app.put('/users/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, email, role, delivery_address, billing_address } = req.body; // Include delivery and billing addresses
+
+  // Validate required fields
+  if (!name || !email || !role || !delivery_address || !billing_address) {
+      console.error('Missing required fields: name, email, role, delivery_address, or billing_address');
+      return res.status(400).json({ error: 'Name, email, role, delivery_address, and billing_address are required.' });
+  }
+
+  db.query(
+      'UPDATE users SET name = ?, email = ?, role = ?, delivery_address = ?, billing_address = ? WHERE user_id = ?', // Include delivery and billing addresses
+      [name, email, role, delivery_address, billing_address, id],
+      (error, results) => {
+          if (error) {
+              console.error('Database error:', error);
+              return res.status(500).json({ error });
+          }
+
+          // Check if a row was affected (i.e., the user_id exists)
+          if (results.affectedRows === 0) {
+              return res.status(404).json({ error: 'User not found.' });
+          }
+
+          res.status(204).end(); // Return no content on successful update
+      }
+  );
+});
+
+// Delete a user
+app.delete('/users/:id', (req, res) => {
+  const { id } = req.params;
+
+  // Soft delete: set the `deleted_at` column to the current timestamp
+  db.query(
+      'UPDATE users SET deleted_at = NOW() WHERE user_id = ?',
+      [id],
+      (error, results) => {
+          if (error) {
+              console.error('Database error:', error);
+              return res.status(500).json({ error });
+          }
+
+          // Check if a row was affected (i.e., the user_id exists)
+          if (results.affectedRows === 0) {
+              return res.status(404).json({ error: 'User not found.' });
+          }
+
+          res.status(204).end(); // Return no content on successful deletion
+      }
+  );
+});
