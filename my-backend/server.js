@@ -649,12 +649,7 @@ app.post('/users', async (req, res) => {
                   return res.status(500).json({ error });
               }
               res.status(201).json({
-                  user_id: results.insertId,
-                  name,
-                  email,
-                  role,
-                  delivery_address,
-                  billing_address,
+                  user_id: results.insertId
               });
           }
       );
