@@ -123,10 +123,22 @@ CREATE TABLE `users` (
   `email` VARCHAR(100) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   `role` ENUM('customer', 'admin') NOT NULL DEFAULT 'customer',
-  `delivery_address` VARCHAR(255) DEFAULT NULL, -- New field for delivery address
-  `billing_address` VARCHAR(255) DEFAULT NULL, -- New field for billing address
+
+  -- Delivery Address fields
+  `delivery_street` VARCHAR(255) DEFAULT NULL,
+  `delivery_city` VARCHAR(100) DEFAULT NULL,
+  `delivery_state` VARCHAR(100) DEFAULT NULL,  -- State is optional
+  `delivery_country` VARCHAR(100) DEFAULT NULL,
+
+  -- Billing Address fields
+  `billing_street` VARCHAR(255) DEFAULT NULL,
+  `billing_city` VARCHAR(100) DEFAULT NULL,
+  `billing_state` VARCHAR(100) DEFAULT NULL,  -- State is optional
+  `billing_country` VARCHAR(100) DEFAULT NULL,
+
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
