@@ -125,16 +125,20 @@ CREATE TABLE `users` (
   `role` ENUM('customer', 'admin') NOT NULL DEFAULT 'customer',
 
   -- Delivery Address fields
+  `delivery_name` VARCHAR(100) DEFAULT NULL,  -- Name of the recipient
   `delivery_street` VARCHAR(255) DEFAULT NULL,
   `delivery_city` VARCHAR(100) DEFAULT NULL,
   `delivery_state` VARCHAR(100) DEFAULT NULL,  -- State is optional
   `delivery_country` VARCHAR(100) DEFAULT NULL,
+  `delivery_zip_code` VARCHAR(20) DEFAULT NULL, -- Added zip code field
 
   -- Billing Address fields
+  `billing_name` VARCHAR(100) DEFAULT NULL,  -- Name for the bill
   `billing_street` VARCHAR(255) DEFAULT NULL,
   `billing_city` VARCHAR(100) DEFAULT NULL,
   `billing_state` VARCHAR(100) DEFAULT NULL,  -- State is optional
   `billing_country` VARCHAR(100) DEFAULT NULL,
+  `billing_zip_code` VARCHAR(20) DEFAULT NULL, -- Added zip code field
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
@@ -142,18 +146,50 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `users` (`name`, `email`, `password`, `role`, `delivery_address`, `billing_address`)
+INSERT INTO `users` 
+(`name`, `email`, `password`, `role`, 
+ `delivery_name`, `delivery_street`, `delivery_city`, `delivery_state`, `delivery_country`, `delivery_zip_code`, 
+ `billing_name`, `billing_street`, `billing_city`, `billing_state`, `billing_country`, `billing_zip_code`) 
 VALUES
-('Alice Johnson', 'alice.johnson@example.com', 'password_hash_1', 'customer', '123 Main St, Springfield, IL', '123 Main St, Springfield, IL'),
-('Bob Smith', 'bob.smith@example.com', 'password_hash_2', 'customer', '456 Elm St, Shelbyville, IN', '456 Elm St, Shelbyville, IN'),
-('Charlie Brown', 'charlie.brown@example.com', 'password_hash_3', 'customer', '789 Oak St, Capital City, NY', '789 Oak St, Capital City, NY'),
-('Diana Prince', 'diana.prince@example.com', 'password_hash_4', 'customer', '321 Pine St, Metropolis, CA', '321 Pine St, Metropolis, CA'),
-('Ethan Hunt', 'ethan.hunt@example.com', 'password_hash_5', 'customer', '654 Maple St, Gotham, NJ', '654 Maple St, Gotham, NJ'),
-('Fiona Gallagher', 'fiona.gallagher@example.com', 'password_hash_6', 'customer', '987 Birch St, Star City, TX', '987 Birch St, Star City, TX'),
-('George Taylor', 'george.taylor@example.com', 'password_hash_7', 'admin', '111 Admin Blvd, Central City, DC', '111 Admin Blvd, Central City, DC'),
-('Hannah Lee', 'hannah.lee@example.com', 'password_hash_8', 'customer', '222 Cedar St, Coast City, FL', '222 Cedar St, Coast City, FL'),
-('Ian Wright', 'ian.wright@example.com', 'password_hash_9', 'customer', '333 Walnut St, Emerald City, WA', '333 Walnut St, Emerald City, WA'),
-('Julia Roberts', 'julia.roberts@example.com', 'password_hash_10', 'admin', '444 Admin Lane, National City, MD', '444 Admin Lane, National City, MD');
+('Alice Johnson', 'alice@example.com', 'hashed_password_1', 'customer', 
+ 'Alice Johnson', '123 Main St', 'New York', 'NY', 'USA', '10001', 
+ 'Alice Johnson', '123 Main St', 'New York', 'NY', 'USA', '10001'),
+
+('Bob Smith', 'bob@example.com', 'hashed_password_2', 'customer', 
+ 'Bob Smith', '456 Elm St', 'Los Angeles', 'CA', 'USA', '90001', 
+ 'Bob Smith', '456 Elm St', 'Los Angeles', 'CA', 'USA', '90001'),
+
+('Charlie Brown', 'charlie@example.com', 'hashed_password_3', 'customer', 
+ 'Charlie Brown', '789 Pine St', 'Chicago', 'IL', 'USA', '60601', 
+ 'Charlie Brown', '789 Pine St', 'Chicago', 'IL', 'USA', '60601'),
+
+('Diana Prince', 'diana@example.com', 'hashed_password_4', 'admin', 
+ 'Diana Prince', '321 Oak St', 'Miami', 'FL', 'USA', '33101', 
+ 'Diana Prince', '321 Oak St', 'Miami', 'FL', 'USA', '33101'),
+
+('Edward Wilson', 'edward@example.com', 'hashed_password_5', 'customer', 
+ 'Edward Wilson', '555 Cedar St', 'Seattle', 'WA', 'USA', '98101', 
+ 'Edward Wilson', '555 Cedar St', 'Seattle', 'WA', 'USA', '98101'),
+
+('Fiona Davis', 'fiona@example.com', 'hashed_password_6', 'customer', 
+ 'Fiona Davis', '777 Birch St', 'Austin', 'TX', 'USA', '73301', 
+ 'Fiona Davis', '777 Birch St', 'Austin', 'TX', 'USA', '73301'),
+
+('George Harris', 'george@example.com', 'hashed_password_7', 'admin', 
+ 'George Harris', '888 Maple St', 'Denver', 'CO', 'USA', '80201', 
+ 'George Harris', '888 Maple St', 'Denver', 'CO', 'USA', '80201'),
+
+('Hannah Lee', 'hannah@example.com', 'hashed_password_8', 'customer', 
+ 'Hannah Lee', '999 Walnut St', 'Boston', 'MA', 'USA', '02108', 
+ 'Hannah Lee', '999 Walnut St', 'Boston', 'MA', 'USA', '02108'),
+
+('Isaac Turner', 'isaac@example.com', 'hashed_password_9', 'customer', 
+ 'Isaac Turner', '222 Spruce St', 'San Francisco', 'CA', 'USA', '94101', 
+ 'Isaac Turner', '222 Spruce St', 'San Francisco', 'CA', 'USA', '94101'),
+
+('Julia Roberts', 'julia@example.com', 'hashed_password_10', 'customer', 
+ 'Julia Roberts', '333 Willow St', 'Houston', 'TX', 'USA', '77001', 
+ 'Julia Roberts', '333 Willow St', 'Houston', 'TX', 'USA', '77001');
 
 CREATE TABLE `orders` (
   `order_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
