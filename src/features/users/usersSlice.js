@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const API_URL = 'http://localhost:5000/users';
+
 const initialState = {
   users: [],
   status: 'idle',
@@ -9,29 +11,43 @@ const initialState = {
 
 // Fetch all users
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-  const response = await axios.get('http://localhost:5000/users');
-  return response.data;
+  try {
+    const response = await axios.get(API_URL);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch users');
+  }
 });
 
 // Add a new user
 export const addUser = createAsyncThunk('users/addUser', async (newUser) => {
-  const response = await axios.post('http://localhost:5000/users', newUser);
-  console.log(response.data)
-  return { user_id: response.data, ...newUser };
-  //return response.data;
+  try {
+    const response = await axios.post(API_URL, newUser);
+    return { user_id: response.data.user_id, ...newUser };
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to add user');
+  }
 });
 
 // Delete a user
 export const deleteUser = createAsyncThunk('users/deleteUser', async (id) => {
-  await axios.delete(`http://localhost:5000/users/${id}`);
-  return { id };
+  try {
+    await axios.delete(`${API_URL}/${id}`);
+    return { id };
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to delete user');
+  }
 });
 
 // Update a user
 export const updateUser = createAsyncThunk('users/updateUser', async (updatedUser) => {
-  const { user_id, ...data } = updatedUser;
-  await axios.put(`http://localhost:5000/users/${user_id}`, data);
-  return updatedUser;
+  try {
+    const { user_id, ...data } = updatedUser;
+    await axios.put(`${API_URL}/${user_id}`, data);
+    return updatedUser;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update user');
+  }
 });
 
 const usersSlice = createSlice({
@@ -52,20 +68,16 @@ const usersSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addUser.fulfilled, (state, action) => {
-        state.users.push(action.payload); // Automatically includes delivery_address and billing_address
+        state.users.push(action.payload);
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.users = state.users.filter((user) => user.user_id !== action.payload.id);
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        const { user_id, name, email, role, delivery_address, billing_address } = action.payload; // Include delivery and billing addresses
-        const existingUser = state.users.find((user) => user.user_id === user_id);
-        if (existingUser) {
-          existingUser.name = name;
-          existingUser.email = email;
-          existingUser.role = role;
-          existingUser.delivery_address = delivery_address; // Update delivery address
-          existingUser.billing_address = billing_address; // Update billing address
+        const updatedUser = action.payload;
+        const existingUserIndex = state.users.findIndex((user) => user.user_id === updatedUser.user_id);
+        if (existingUserIndex !== -1) {
+          state.users[existingUserIndex] = updatedUser;
         }
       });
   },
