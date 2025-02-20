@@ -8,6 +8,7 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post('http://localhost:5000/users/login', credentials);     
+      console.log(response.data)
       return response.data; // Assuming response contains user details in token
     } 
     catch (error) {
@@ -21,6 +22,7 @@ const isValidToken = (token) => {
   if (!token) return false;
   try {
     const decoded = JSON.parse(atob(token.split('.')[1])); // Decode the JWT token
+    console.log(decoded)
     const expiration = decoded.exp * 1000; // Convert expiration to milliseconds
     return expiration > Date.now(); // Check if token is still valid
   } catch (error) {
@@ -33,7 +35,24 @@ const extractUserFromToken = (token) => {
   if (!token) return null;
   try {
     const decoded = JSON.parse(atob(token.split('.')[1])); // Decode the JWT token
-    return { user_id: decoded.user_id || null, name: decoded.name || null, email: decoded.email || null, role: decoded.role || null }; // Extract user info
+    console.log(decoded)
+  return {user_id: decoded.user_id || null, 
+          name: decoded.name || null, 
+          email: decoded.email || null, 
+          role: decoded.role || null,
+          delivery_name: decoded.delivery_name || null,
+          delivery_street: decoded.delivery_street || null,
+          delivery_city: decoded.delivery_city || null,
+          delivery_state: decoded.delivery_state || null,
+          delivery_country: decoded.delivery_country || null,
+          delivery_zip_code: decoded.delivery_zip_code || null,
+          billing_name: decoded.billing_name || null,
+          billing_street: decoded.billing_street || null,
+          billing_city: decoded.billing_city || null,
+          billing_state: decoded.billing_state || null,
+          billing_country: decoded.billing_country || null,
+          billing_zip_code: decoded.billing_zip_code || null,
+        }; 
   } catch (error) {
     return null;
   }

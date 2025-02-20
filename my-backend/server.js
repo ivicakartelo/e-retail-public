@@ -48,11 +48,7 @@ db.connect(err => {
 const generateToken = (user) => {
   const secretKey = process.env.JWT_SECRET;
   console.log('JWT Secret Key:', process.env.JWT_SECRET || 'default-secret-key');
-  return jwt.sign(
-    { user_id: user.user_id, email: user.email, role: user.role, name: user.name }, // Include name in the payload
-    secretKey,
-    { expiresIn: '1h' }
-  );
+  return jwt.sign({ ...user }, secretKey, { expiresIn: '1h' });
 };
 
 // POST route for login
@@ -66,11 +62,12 @@ app.post('/users/login', (req, res) => {
     }
 
     const user = results[0];
+    console.log(user)
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Compare the password
+    // Compare the passwordGenerated JWT
     try {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
@@ -84,8 +81,7 @@ app.post('/users/login', (req, res) => {
       // Respond token
       res.json({
         message: 'Login successful',
-        token,
-        //user: { name: user.name, email: user.email, role: user.role },
+        token
       });
     } catch (err) {
       res.status(500).json({ message: 'Server error during password comparison' });

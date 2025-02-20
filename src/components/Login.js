@@ -21,6 +21,7 @@ const Login = () => {
       
       // Decode the user role from the token if available (directly from response)
       const decodedToken = JSON.parse(atob(response.token.split('.')[1]));
+      console.log(decodedToken)
       const role = decodedToken.role;
 
       // Navigate based on the decoded role from token
