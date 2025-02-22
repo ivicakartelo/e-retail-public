@@ -14,6 +14,9 @@ app.use(bodyParser.json());
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 app.use(express.json()); // Middleware to parse JSON request bodies
 
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { Order } = require('./models'); // Import the Order model
+
 // Setup session middleware
 app.use(session({
     secret: 'your-secret-key', // Change this to a secure secret key
@@ -776,5 +779,48 @@ app.delete('/users/:id', async (req, res) => {
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
+// Create a payment intent
+app.post('/create-payment-intent', async (req, res) => {
+  const { amount } = req.body; // Amount in cents
+
+  try {
+    // Create PaymentIntent
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: 'usd', // Change to the desired currency
+    });
+
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+// Endpoint for successful payment, to update order status
+app.post('/payment-success', async (req, res) => {
+  const { paymentIntentId, orderId } = req.body;
+
+  try {
+    // Retrieve the payment intent from Stripe
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    if (paymentIntent.status === 'succeeded') {
+      // Update order status in MySQL
+      const updateOrderQuery = "UPDATE orders SET status = 'paid' WHERE order_id = ?";
+      await queryAsync(updateOrderQuery, [orderId]);
+
+      return res.json({ message: 'Payment successful, order updated!' });
+    } 
+    
+    res.status(400).json({ error: 'Payment failed' });
+
+  } catch (error) {
+    console.error("Error updating order:", error);
+    res.status(500).json({ error: error.message });
   }
 });

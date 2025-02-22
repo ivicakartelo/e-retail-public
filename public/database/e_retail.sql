@@ -195,7 +195,7 @@ CREATE TABLE `orders` (
   `order_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT(10) UNSIGNED NOT NULL,
   `order_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `status` ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
+  `status` ENUM('pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
   `total_amount` DECIMAL(10,2) NOT NULL,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL, -- Soft delete column
   PRIMARY KEY (`order_id`),
