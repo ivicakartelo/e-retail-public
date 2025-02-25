@@ -1,5 +1,4 @@
 // src/index.js
-
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -12,10 +11,18 @@ import ArticleSingle from './features/articles/ArticleSingle';
 import Basket from './features/basket/Basket';
 import SearchResults from './components/SearchResults';
 import { AddUserForm } from './features/users/AddUserForm';
-import Dashboard from './components/Dashboard'; // Your dashboard or home component
+import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Customer from './components/Customer';
+
+// Stripe imports
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import PaymentPage from './features/payment/PaymentPage';
+
+const stripePromise = loadStripe('pk_test_51Nsp8pGVpnEZZ9cgc7w8adY5cH1sgLWAhWVxaUmOin7csuXbWZIa0tNIvuQZiIXOJr9oEv6wzZ0cstyVeCX1DK5k00MqzLKQx8');
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 
@@ -30,12 +37,22 @@ root.render(
                     <Route path="department/:departmentId/category/:categoryId/article/:articleId" element={<ArticleSingle />} />
                     <Route path="article/:articleId" element={<ArticleSingle />} />
                     <Route path="category/:categoryId" element={<CategoryArticles />} />
-                    <Route path="/basket" element={<Basket />} /> {/* Basket route */}
+                    <Route path="/basket" element={<Basket />} />
                     <Route path="/search" element={<SearchResults />} />
                     <Route path="/registration" element={<AddUserForm />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/dashboard" element={<PrivateRoute requiredRole="admin"><Dashboard /></PrivateRoute>} />
                     <Route path="/customer" element={<PrivateRoute requiredRole="customer"><Customer /></PrivateRoute>} />
+                    
+                    {/* Stripe Payment Route (Wrap Only Payment Page in Elements) */}
+                    <Route 
+                        path="/payment/:orderId" 
+                        element={
+                            <Elements stripe={stripePromise}>
+                                <PaymentPage />
+                            </Elements>
+                        } 
+                    />
                 </Route>
             </Routes>
         </BrowserRouter>

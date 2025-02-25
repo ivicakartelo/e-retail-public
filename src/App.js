@@ -6,11 +6,12 @@ import { DepartmentsList } from './features/departments/DepartmentsList';
 import { CategoriesList } from './features/categories/CategoriesList';
 import DepartmentDetails from './features/departments/DepartmentDetails';
 import Header from './components/Header'; // Import the Header component
-import { Elements, loadStripe } from '@stripe/react-stripe-js'; // Import Stripe components
+import { Elements } from '@stripe/react-stripe-js'; // ✅ Corrected Stripe import
+import { loadStripe } from '@stripe/stripe-js'; // ✅ Corrected Stripe import
 import './App.css';
 
 // Load Stripe.js script with your public key
-const stripePromise = loadStripe('your-stripe-public-key'); // Replace with your Stripe public key
+const stripePromise = loadStripe('your-stripe-public-key'); // Replace with your actual Stripe key
 
 const App = () => {
     const { departmentId } = useParams();

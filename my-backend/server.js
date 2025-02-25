@@ -15,7 +15,6 @@ app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 app.use(express.json()); // Middleware to parse JSON request bodies
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { Order } = require('./models'); // Import the Order model
 
 // Setup session middleware
 app.use(session({
@@ -783,44 +782,78 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 // Create a payment intent
+// Endpoint to create PaymentIntent
 app.post('/create-payment-intent', async (req, res) => {
-  const { amount } = req.body; // Amount in cents
+  const { total_amount, order_id } = req.body; // Use total_amount instead of amount
 
   try {
-    // Create PaymentIntent
+    // Convert total_amount to cents (Stripe requires amounts in cents)
+    const amountInCents = Math.round(total_amount * 100);  // Convert to cents
+
+    // Create PaymentIntent with metadata (order_id)
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount,
-      currency: 'usd', // Change to the desired currency
+      amount: amountInCents,  // Total amount in cents
+      currency: 'usd',  // You can change this to the desired currency
+      metadata: { order_id },  // Attach order_id to metadata
     });
 
+    // Respond with the clientSecret to confirm payment
     res.send({
       clientSecret: paymentIntent.client_secret,
     });
   } catch (error) {
+    // Handle any errors and return a 500 response
     res.status(500).send({ error: error.message });
   }
 });
 
-// Endpoint for successful payment, to update order status
-app.post('/payment-success', async (req, res) => {
-  const { paymentIntentId, orderId } = req.body;
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET; // Set in .env
 
+// Stripe Webhook to handle automatic payment confirmation
+app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+
+  let event;
   try {
-    // Retrieve the payment intent from Stripe
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    console.error('⚠️ Webhook Error:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
 
-    if (paymentIntent.status === 'succeeded') {
-      // Update order status in MySQL
+  if (event.type === 'payment_intent.succeeded') {
+    const paymentIntent = event.data.object;
+    const order_id = paymentIntent.metadata.order_id; // Get order_id from metadata
+
+    try {
       const updateOrderQuery = "UPDATE orders SET status = 'paid' WHERE order_id = ?";
-      await queryAsync(updateOrderQuery, [orderId]);
+      await queryAsync(updateOrderQuery, [order_id]);
+      console.log(`✅ Order ${order_id} marked as paid.`);
+    } catch (error) {
+      console.error('DB Update Error:', error);
+      return res.status(500).json({ error: error.message });
+    }
+  }
 
-      return res.json({ message: 'Payment successful, order updated!' });
-    } 
-    
-    res.status(400).json({ error: 'Payment failed' });
+  res.sendStatus(200);
+});
 
+app.get('/orders/:order_id', async (req, res) => {
+  const { order_id } = req.params;  // Retrieve order_id from the URL parameters
+  console.log(order_id)
+  try {
+    // Query the database to get the order details based on the order_id
+    const orderQuery = "SELECT * FROM orders WHERE order_id = ?";
+    const [order] = await queryAsync(orderQuery, [order_id]);
+    console.log(order)
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    // Respond with the order details
+    res.json(order);
   } catch (error) {
-    console.error("Error updating order:", error);
+    console.error('Error fetching order details:', error);
     res.status(500).json({ error: error.message });
   }
 });
