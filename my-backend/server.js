@@ -846,6 +846,7 @@ app.get('/orders/:order_id', async (req, res) => {
     const orderQuery = "SELECT * FROM orders WHERE order_id = ?";
     const [order] = await queryAsync(orderQuery, [order_id]);
     console.log(order)
+    console.log(JSON.stringify(order, null, 2));
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
@@ -854,6 +855,24 @@ app.get('/orders/:order_id', async (req, res) => {
     res.json(order);
   } catch (error) {
     console.error('Error fetching order details:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/payment-success', async (req, res) => {
+  const { paymentIntentId, order_id } = req.body;
+
+  try {
+    // Assuming you're updating the order status to 'paid' after a successful payment
+    const updateOrderQuery = "UPDATE orders SET status = 'paid' WHERE order_id = ?";
+    await queryAsync(updateOrderQuery, [order_id]);
+
+    console.log(`✅ Payment successful for Order ${order_id} with PaymentIntent: ${paymentIntentId}`);
+
+    // Respond with a success message
+    res.status(200).send({ message: 'Payment successful!' });
+  } catch (error) {
+    console.error('Error updating order status:', error);
     res.status(500).json({ error: error.message });
   }
 });

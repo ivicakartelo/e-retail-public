@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToBasket, removeArticle, clearBasket, checkoutBasket } from './basketSlice';
 import OrderSummary from './OrderSummary';
 import './Basket.css';
+import { Link } from 'react-router-dom'; // For navigation
 
 const BasketItem = ({ article, onIncrement, onDecrement, onRemove }) => (
   <tr>
@@ -110,7 +111,16 @@ const Basket = () => {
   return (
     <div className="basket">
       {order ? (
-        <OrderSummary order={order} onClose={() => setOrder(null)} />
+        <div>
+          <OrderSummary order={order} onClose={() => setOrder(null)} />
+          {/* Link to payment page for Stripe */}
+          <div>
+            <p>Your order has been placed successfully! You can pay using Stripe:</p>
+            <Link to={`/payment/${order.order_id}`} className="pay-with-stripe-button">
+              Pay with Stripe
+            </Link>
+          </div>
+        </div>
       ) : (
         <>
           <h2>Your Basket</h2>

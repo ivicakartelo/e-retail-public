@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; // If you use URL params like order_id
+import { useParams, useNavigate } from 'react-router-dom'; 
+import './PaymentPage.css';  // Import custom styles
 
 const PaymentPage = () => {
   const { orderId } = useParams();  
   const [totalAmount, setTotalAmount] = useState(0); 
+  const [cardholderName, setCardholderName] = useState("");  // State to store cardholder's name
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();  // Hook to navigate to other pages
 
   // Fetch the order amount from your server
   useEffect(() => {
@@ -43,10 +46,14 @@ const PaymentPage = () => {
       });
 
       const { clientSecret } = data;
+      console.log("Payment Intent Created:", data.clientSecret);
 
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
-          card: elements.getElement(CardElement),
+          card: elements.getElement(CardNumberElement),  // Send card number as part of the payment
+          billing_details: {
+            name: cardholderName,  // Include the name of the cardholder
+          },
         },
       });
 
@@ -67,12 +74,54 @@ const PaymentPage = () => {
     }
   };
 
+  // Handle the Cancel button click to navigate to the previous page
+  const handleCancel = () => {
+    navigate(-1);  // Navigate back to the previous page
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="payment-form" onSubmit={handleSubmit}>
       <h3>Complete Your Payment</h3>
-      <CardElement />
+
+      {/* Cardholder Name */}
+      <div className="form-row">
+        <label htmlFor="cardholder-name">Cardholder Name</label>
+        <input
+          id="cardholder-name"
+          type="text"
+          value={cardholderName}
+          onChange={(e) => setCardholderName(e.target.value)}  // Update cardholder's name
+          placeholder="Cardholder Name"
+          required
+        />
+      </div>
+
+      {/* Card Number */}
+      <div className="form-row">
+        <label>Card Number</label>
+        <CardNumberElement className="card-element" />
+      </div>
+
+      {/* Expiration Date */}
+      <div className="form-row">
+        <label>Expiration Date</label>
+        <CardExpiryElement className="card-element" />
+      </div>
+
+      {/* CVC */}
+      <div className="form-row">
+        <label>CVC</label>
+        <CardCvcElement className="card-element" />
+      </div>
+
+      {/* Submit Button */}
       <button type="submit" disabled={!stripe}>
-        Pay ${totalAmount.toFixed(2)}  {/* ✅ Display correctly formatted amount */}
+        Pay ${totalAmount.toFixed(2)}  {/* Display correctly formatted amount */}
+      </button>
+
+      {/* Cancel Button */}
+      <button type="button" onClick={handleCancel} className="cancel-button">
+        Cancel
       </button>
     </form>
   );
