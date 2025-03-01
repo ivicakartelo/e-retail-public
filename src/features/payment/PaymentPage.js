@@ -121,7 +121,7 @@ const PaymentPage = () => {
 
       {/* Cancel Button */}
       <button type="button" onClick={handleCancel} className="cancel-button">
-        Cancel
+        Close
       </button>
     </form>
   );

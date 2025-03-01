@@ -1,29 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateUser } from './usersSlice';
+import { logout } from '../../components/loginSlice'; // Import the logout action
 import './UpdateUserForm.css';
 
 export const UpdateUserForm = ({ user, setShowEditForm }) => {
-  const [formData, setFormData] = useState({
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    delivery_name: user.delivery_name || '',
-    delivery_street: user.delivery_street || '',
-    delivery_city: user.delivery_city || '',
-    delivery_state: user.delivery_state || '',
-    delivery_country: user.delivery_country || '',
-    delivery_zip_code: user.delivery_zip_code || '',
-    billing_name: user.billing_name || '',
-    billing_street: user.billing_street || '',
-    billing_city: user.billing_city || '',
-    billing_state: user.billing_state || '',
-    billing_country: user.billing_country || '',
-    billing_zip_code: user.billing_zip_code || '',
-  });
-
+  const [formData, setFormData] = useState({ ...user });
   const dispatch = useDispatch();
   const canSave = Boolean(formData.name) && Boolean(formData.email);
+
+  useEffect(() => {
+    // When the user prop updates, reset formData
+    setFormData({ ...user });
+  }, [user]); // Ensures form updates with new user data
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,6 +25,12 @@ export const UpdateUserForm = ({ user, setShowEditForm }) => {
   const onSaveChangesClicked = async () => {
     if (canSave) {
       await dispatch(updateUser({ user_id: user.user_id, ...formData }));
+
+      // Show alert and log out
+      alert('Your data has been updated. You will now be logged out. Please log in again to see the changes.');
+      dispatch(logout());
+      //dispatch(logoutUser()); // This should clear auth state and redirect to login
+
       setShowEditForm(false);
     }
   };
@@ -44,16 +39,16 @@ export const UpdateUserForm = ({ user, setShowEditForm }) => {
     <form>
       <label>Name</label>
       <input name="name" value={formData.name} onChange={handleChange} />
-      
+
       <label>Email</label>
       <input name="email" value={formData.email} onChange={handleChange} />
-      
+
       <label>Role</label>
       <select name="role" value={formData.role} onChange={handleChange}>
         <option value="customer">Customer</option>
         <option value="admin">Admin</option>
       </select>
-      
+
       <h3>Delivery Address</h3>
       <label>Name</label>
       <input name="delivery_name" value={formData.delivery_name} onChange={handleChange} />
@@ -67,7 +62,7 @@ export const UpdateUserForm = ({ user, setShowEditForm }) => {
       <input name="delivery_country" value={formData.delivery_country} onChange={handleChange} />
       <label>Zip Code</label>
       <input name="delivery_zip_code" value={formData.delivery_zip_code} onChange={handleChange} />
-      
+
       <h3>Billing Address</h3>
       <label>Name</label>
       <input name="billing_name" value={formData.billing_name} onChange={handleChange} />
@@ -81,7 +76,7 @@ export const UpdateUserForm = ({ user, setShowEditForm }) => {
       <input name="billing_country" value={formData.billing_country} onChange={handleChange} />
       <label>Zip Code</label>
       <input name="billing_zip_code" value={formData.billing_zip_code} onChange={handleChange} />
-      
+
       <button type="button" onClick={onSaveChangesClicked} disabled={!canSave}>
         Save Changes
       </button>

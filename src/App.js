@@ -1,17 +1,10 @@
-// src/App.js
-
 import React from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { DepartmentsList } from './features/departments/DepartmentsList';
 import { CategoriesList } from './features/categories/CategoriesList';
 import DepartmentDetails from './features/departments/DepartmentDetails';
 import Header from './components/Header'; // Import the Header component
-import { Elements } from '@stripe/react-stripe-js'; // ✅ Corrected Stripe import
-import { loadStripe } from '@stripe/stripe-js'; // ✅ Corrected Stripe import
 import './App.css';
-
-// Load Stripe.js script with your public key
-const stripePromise = loadStripe('your-stripe-public-key'); // Replace with your actual Stripe key
 
 const App = () => {
     const { departmentId } = useParams();
@@ -33,10 +26,7 @@ const App = () => {
                 </aside>
 
                 <main className="content">
-                    {/* Wrap the payment form with the Elements provider */}
-                    <Elements stripe={stripePromise}>
-                        <Outlet />
-                    </Elements>
+                    <Outlet /> {/* No need for <Elements> here */}
                 </main>
             </div>
         </div>

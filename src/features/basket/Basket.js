@@ -115,7 +115,9 @@ const Basket = () => {
           <OrderSummary order={order} onClose={() => setOrder(null)} />
           {/* Link to payment page for Stripe */}
           <div>
-            <p>Your order has been placed successfully! You can pay using Stripe:</p>
+            <p>Your order has been placed successfully!
+                The invoice will be in your Downloads folder if you press the "Download Invoice" button.
+                You can pay immediately by card using Stripe.</p>
             <Link to={`/payment/${order.order_id}`} className="pay-with-stripe-button">
               Pay with Stripe
             </Link>
