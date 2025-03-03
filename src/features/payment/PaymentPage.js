@@ -1,77 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  CardNumberElement, 
-  CardExpiryElement, 
-  CardCvcElement, 
-  useStripe, 
-  useElements 
-} from '@stripe/react-stripe-js';
+import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import './PaymentPage.css';
 
 const PaymentPage = () => {
   const { orderId } = useParams();  
+  const [totalAmount, setTotalAmount] = useState(0); 
+  const [cardholderName, setCardholderName] = useState("");  
+  const [loading, setLoading] = useState(false); // 🔹 New loading state
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-
-  const [totalAmount, setTotalAmount] = useState(0); 
-  const [cardholderName, setCardholderName] = useState("");  
-  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     const fetchOrderAmount = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/orders/${orderId}`);
-        setTotalAmount(Number(response.data.total_amount)); 
+        setTotalAmount(Number(response.data.total_amount));
       } catch (error) {
         console.error('Error fetching order details:', error);
       }
     };
-    
-    if (orderId) fetchOrderAmount();
+    if (orderId) {
+      fetchOrderAmount();
+    }
   }, [orderId]);
-
-  const handlePayment = async (clientSecret) => {
-    return stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardNumberElement),
-        billing_details: { name: cardholderName },
-      },
-    });
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!stripe || !elements || totalAmount === 0) return;
 
-    setLoading(true);
+    setLoading(true); // 🔹 Show loading animation
 
     try {
-      // Create Payment Intent
       const { data } = await axios.post('http://localhost:5000/create-payment-intent', {
-        total_amount: totalAmount * 100,
+        total_amount: totalAmount * 100,  
         order_id: orderId,
       });
 
-      const result = await handlePayment(data.clientSecret);
+      const { clientSecret } = data;
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardNumberElement),
+          billing_details: { name: cardholderName },
+        },
+      });
 
       if (result.error) {
         console.log(result.error.message);
-      } else if (result.paymentIntent.status === 'succeeded') {
-        await axios.post('http://localhost:5000/payment-success', {
-          paymentIntentId: result.paymentIntent.id,
-          order_id: orderId,
-        });
+      } else {
+        if (result.paymentIntent.status === 'succeeded') {
+          await axios.post('http://localhost:5000/payment-success', {
+            paymentIntentId: result.paymentIntent.id,
+            order_id: orderId,
+          });
 
-        alert('Payment successful! Thank you for your purchase.');
-        navigate('/');  // 🔹 Redirect to home
+          alert('Payment successful!');
+        }
       }
     } catch (error) {
       console.error('Payment failed:', error);
     } finally {
-      setLoading(false);
+      setLoading(false); // 🔹 Hide loading animation
     }
   };
 
@@ -106,7 +98,8 @@ const PaymentPage = () => {
         <CardCvcElement className="card-element" />
       </div>
 
-      {loading && <div className="loading-spinner"></div>}
+      {/* Loading Animation */}
+      {loading && <div className="loading-spinner"></div>} {/* 🔹 Add this */}
 
       <button type="submit" disabled={!stripe || loading}>
         {loading ? "Processing..." : `Pay $${totalAmount.toFixed(2)}`}
