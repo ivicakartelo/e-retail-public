@@ -788,7 +788,7 @@ app.post('/create-payment-intent', async (req, res) => {
 
   try {
     // Convert total_amount to cents (Stripe requires amounts in cents)
-    const amountInCents = Math.round(total_amount * 100);  // Convert to cents
+    const amountInCents = Math.round(total_amount);
 
     // Create PaymentIntent with metadata (order_id)
     const paymentIntent = await stripe.paymentIntents.create({
