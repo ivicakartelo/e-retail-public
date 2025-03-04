@@ -57,7 +57,8 @@ const PaymentPage = () => {
             order_id: orderId,
           });
 
-          alert('Payment successful!');
+          alert('Payment successful! Thank you for your purchase.');
+          navigate('/');
         }
       }
     } catch (error) {
