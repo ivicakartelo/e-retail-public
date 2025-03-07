@@ -1,31 +1,60 @@
 /* src/App.css */
 
 .app-layout {
-  display: flex; /* Use flexbox for layout */
+  display: flex;
   flex-direction: column;
-  height: 100vh; /* Full height of the viewport */
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Ensures full width */
+  overflow: hidden; /* Prevents overflow outside screen */
 }
 
 header {
-  background: #007bff; /* Example header background */
-  color: white; /* Example header text color */
-  padding: 10px; /* Example header padding */
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
 }
 
+/* Wrapper for sidebar & main content */
 .content-wrapper {
-  display: flex; /* Flex container for sidebar and main content */
-  flex: 1; /* Allow this area to grow and fill the remaining space */
+  display: flex;
+  flex: 1; /* Takes up remaining space */
+  max-width: 1200px; /* Prevents it from becoming too wide */
+  width: 100%;
+  margin: 0 auto; /* Centers the content */
+  overflow: hidden;
 }
 
+/* Sidebar (Departments or Categories) */
 .sidebar {
-  width: 250px; /* Fixed width for sidebar */
-  padding: 20px; /* Padding around sidebar content */
-  background-color: #f4f4f4; /* Light background color for sidebar */
-  border-right: 1px solid #ccc; /* Optional: border for visual separation */
+  width: 250px; /* Fixed width */
+  max-width: 25vw; /* Responsive width */
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ccc;
+  overflow-y: auto; /* Allows scrolling if needed */
 }
 
+/* Main content area */
 .content {
-  flex: 1; /* Allow main content to take the remaining space */
-  padding: 20px; /* Padding around main content */
-  background-color: #fff; /* White background for main content */
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  overflow-y: auto; /* Allows scrolling if needed */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column; /* Stack sidebar on top of content */
+    max-width: 100%;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+    border-right: none; /* Removes sidebar border in mobile */
+  }
 }

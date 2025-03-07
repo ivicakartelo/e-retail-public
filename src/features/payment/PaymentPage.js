@@ -4,13 +4,16 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import './PaymentPage.css';
 
+
 const PaymentPage = () => {
   const { orderId } = useParams();  
   const [totalAmount, setTotalAmount] = useState(0); 
   const [cardholderName, setCardholderName] = useState("");  
   const [loading, setLoading] = useState(false); // 🔹 New loading state
+  
   const stripe = useStripe();
   const elements = useElements();
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +32,8 @@ const PaymentPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!stripe || !elements || totalAmount === 0) return;
+    if (!stripe || !elements || totalAmount === 0) 
+      return;
 
     setLoading(true); // 🔹 Show loading animation
 
@@ -58,7 +62,7 @@ const PaymentPage = () => {
           });
 
           alert('Payment successful! Thank you for your purchase.');
-          navigate('/');
+          navigate('/thank-you');
         }
       }
     } catch (error) {

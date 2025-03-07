@@ -15,11 +15,11 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Customer from './components/Customer';
-
 // Stripe imports
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import PaymentPage from './features/payment/PaymentPage';
+import ThankYouPage from './features/payment/ThankYouPage';
 
 const stripePromise = loadStripe('pk_test_51Nsp8pGVpnEZZ9cgc7w8adY5cH1sgLWAhWVxaUmOin7csuXbWZIa0tNIvuQZiIXOJr9oEv6wzZ0cstyVeCX1DK5k00MqzLKQx8');
 
@@ -53,6 +53,7 @@ root.render(
                             </Elements>
                         } 
                     />
+                    <Route path="/thank-you" element={<ThankYouPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
