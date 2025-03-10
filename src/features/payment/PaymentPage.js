@@ -61,7 +61,7 @@ const PaymentPage = () => {
             order_id: orderId,
           });
 
-          alert('Payment successful! Thank you for your purchase.');
+          //alert('Payment successful! Thank you for your purchase.');
           navigate('/thank-you');
         }
       }

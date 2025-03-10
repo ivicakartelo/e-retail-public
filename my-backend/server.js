@@ -781,7 +781,6 @@ app.delete('/users/:id', async (req, res) => {
   }
 });
 
-// Create a payment intent
 // Endpoint to create PaymentIntent
 app.post('/create-payment-intent', async (req, res) => {
   const { total_amount, order_id } = req.body; // Use total_amount instead of amount
@@ -805,37 +804,6 @@ app.post('/create-payment-intent', async (req, res) => {
     // Handle any errors and return a 500 response
     res.status(500).send({ error: error.message });
   }
-});
-
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET; // Set in .env
-
-// Stripe Webhook to handle automatic payment confirmation
-app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-  } catch (err) {
-    console.error('⚠️ Webhook Error:', err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  if (event.type === 'payment_intent.succeeded') {
-    const paymentIntent = event.data.object;
-    const order_id = paymentIntent.metadata.order_id; // Get order_id from metadata
-
-    try {
-      const updateOrderQuery = "UPDATE orders SET status = 'paid' WHERE order_id = ?";
-      await queryAsync(updateOrderQuery, [order_id]);
-      console.log(`✅ Order ${order_id} marked as paid.`);
-    } catch (error) {
-      console.error('DB Update Error:', error);
-      return res.status(500).json({ error: error.message });
-    }
-  }
-
-  res.sendStatus(200);
 });
 
 app.get('/orders/:order_id', async (req, res) => {
