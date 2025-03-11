@@ -22,6 +22,9 @@ import PaymentPage from './features/payment/PaymentPage';
 import ThankYouPage from './features/payment/ThankYouPage';
 
 const stripePromise = loadStripe('pk_test_51Nsp8pGVpnEZZ9cgc7w8adY5cH1sgLWAhWVxaUmOin7csuXbWZIa0tNIvuQZiIXOJr9oEv6wzZ0cstyVeCX1DK5k00MqzLKQx8');
+//console.log("Stripe Key:", process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+//const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+
 
 const container = document.getElementById('root');
 const root = createRoot(container);
