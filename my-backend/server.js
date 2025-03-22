@@ -8,6 +8,13 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const path = require('path');
 
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+// Initialize Google Generative AI
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY); // Use your API key from .env
+const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' }); // Use the correct model name
+
+
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -842,5 +849,23 @@ app.post('/payment-success', async (req, res) => {
   } catch (error) {
     console.error('Error updating order status:', error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+// Endpoint to handle AI recommendations
+app.post('/recommend', async (req, res) => {
+  const { prompt } = req.body;
+
+  try {
+    // Generate content using the Gemini model
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    // Send the response back to the frontend
+    res.json({ recommendations: text.split('\n').filter((line) => line.trim() !== '') });
+  } catch (error) {
+    console.error('Error fetching recommendations:', error);
+    res.status(500).json({ error: 'Error while fetching recommendations' });
   }
 });

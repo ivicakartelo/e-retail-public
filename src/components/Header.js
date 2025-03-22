@@ -20,6 +20,8 @@ const Header = () => {
       <nav className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/basket">View Basket</Link>
+        {/* Add a link to the Recommendations component */}
+        <Link to="/recommendations">AI Recommendations</Link>
       </nav>
       <div className="auth-buttons">
         <WelcomeMessage />
