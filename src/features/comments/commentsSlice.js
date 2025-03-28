@@ -7,7 +7,7 @@ export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
   async (articleId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/article/${articleId}/comments`);
+      const response = await axios.get(`http://localhost:5000/article/${articleId}/comments`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || 'Failed to fetch comments');

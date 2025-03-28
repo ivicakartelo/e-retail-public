@@ -5,18 +5,18 @@ import { fetchArticleById } from './articleSingleSlice';
 import { addToBasket } from '../basket/basketSlice';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import CommentsList from '../comments/CommentsList';
+import { selectArticle, selectArticleStatus, selectArticleError } from './articleSelectors';
 import './ArticleSingle.css';
 
 const ArticleSingle = () => {
   const { articleId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const { article, status, error } = useSelector(state => ({
-    article: state.articleSingle?.article,
-    status: state.articleSingle?.status || 'idle',
-    error: state.articleSingle?.error
-  }));
+
+  // Use memoized selectors
+  const article = useSelector(selectArticle);
+  const status = useSelector(selectArticleStatus);
+  const error = useSelector(selectArticleError);
 
   useEffect(() => {
     if (articleId) {

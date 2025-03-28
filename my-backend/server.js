@@ -890,29 +890,38 @@ app.post('/recommend', async (req, res) => {
 
 // Helper function to build comment tree (for nested comments)
 function buildCommentTree(comments) {
-  const map = {};
-  const roots = [];
-  
+  // Create a map of comments by their ID
+  const commentMap = new Map();
   comments.forEach(comment => {
-    map[comment.comment_id] = { ...comment, replies: [] };
+    comment.replies = [];  // Initialize replies array for each comment
+    commentMap.set(comment.comment_id, comment);
   });
-  
+
+  // Root array for top-level comments
+  let rootComments = [];
+
+  // Loop through comments to construct the tree structure
   comments.forEach(comment => {
-    if (comment.parent_comment_id) {
-      map[comment.parent_comment_id].replies.push(map[comment.comment_id]);
+    if (comment.parent_comment_id === null) {
+      // If parent_comment_id is null, it's a top-level comment
+      rootComments.push(comment);
     } else {
-      roots.push(map[comment.comment_id]);
+      // Otherwise, find the parent and add the comment to its replies
+      const parentComment = commentMap.get(comment.parent_comment_id);
+      if (parentComment) {
+        parentComment.replies.push(comment);
+      }
     }
   });
-  
-  return roots;
+
+  return rootComments;
 }
 
 // Get approved comments for an article
 app.get('/article/:articleId/comments', async (req, res) => {
   try {
-    const [comments] = await queryAsync(`
-      SELECT c.*, u.username, u.avatar 
+    const result = await queryAsync(`
+      SELECT c.*, u.name AS username
       FROM article_comments c
       JOIN users u ON c.user_id = u.user_id
       WHERE c.article_id = ? 
@@ -920,9 +929,20 @@ app.get('/article/:articleId/comments', async (req, res) => {
         AND c.deleted_at IS NULL
       ORDER BY c.created_at DESC
     `, [req.params.articleId]);
+
+    // Log the full result object
+    console.log("Fetched result:", result);
+
+    // Check if the result has the comments in a property (e.g., result.rows)
+    const comments = result.rows || result; // Adjust based on your query result structure
     
-    const commentTree = buildCommentTree(comments);
-    res.json(commentTree);
+    if (Array.isArray(comments)) {
+      const commentTree = buildCommentTree(comments);
+      res.json(commentTree);
+    } else {
+      throw new Error('Comments data is not in an expected array format');
+    }
+
   } catch (err) {
     console.error('Error fetching comments:', err);
     res.status(500).json({ error: 'Failed to fetch comments' });
