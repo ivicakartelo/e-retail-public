@@ -92,7 +92,6 @@ const Basket = () => {
       alert('Your basket is empty.');
       return;
     }
-
     const orderData = {
       user_id: user.user_id,
       articles: basketArticles.map(({ article_id, name, price, quantity }) => ({ article_id, name, price, quantity })),

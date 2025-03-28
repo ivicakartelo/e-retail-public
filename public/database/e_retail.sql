@@ -220,3 +220,53 @@ CREATE TABLE `order_items` (
   CONSTRAINT `fk_order_items_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_order_items_article` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `article_comments` (
+  `comment_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `article_id` INT(10) UNSIGNED NOT NULL,
+  `user_id` INT(10) UNSIGNED NOT NULL,
+  `parent_comment_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'For reply comments, NULL if top-level',
+  `comment_text` TEXT NOT NULL,
+  `rating` TINYINT(1) UNSIGNED DEFAULT NULL COMMENT 'Rating 1-5 stars (NULL if no rating)',
+  `is_approved` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=pending, 1=approved, 2=rejected',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL COMMENT 'Soft delete',
+  
+  PRIMARY KEY (`comment_id`),
+  KEY `article_id` (`article_id`),
+  KEY `user_id` (`user_id`),
+  KEY `parent_comment_id` (`parent_comment_id`),
+  
+  CONSTRAINT `fk_comment_article` 
+    FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) 
+    ON DELETE CASCADE,
+    
+  CONSTRAINT `fk_comment_user` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) 
+    ON DELETE CASCADE,
+    
+  CONSTRAINT `fk_comment_parent` 
+    FOREIGN KEY (`parent_comment_id`) REFERENCES `article_comments` (`comment_id`) 
+    ON DELETE SET NULL
+    
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='User comments and ratings for articles';
+
+-- Top-level comment with rating
+INSERT INTO `article_comments` 
+(`article_id`, `user_id`, `comment_text`, `rating`, `is_approved`)
+VALUES
+(56, 1, 'Great smartphone! The camera quality is amazing.', 5, 1);
+
+-- Reply to a comment
+INSERT INTO `article_comments` 
+(`article_id`, `user_id`, `parent_comment_id`, `comment_text`, `is_approved`)
+VALUES
+(56, 2, 1, 'I agree! The battery life is excellent too.', 1);
+
+-- Unapproved comment
+INSERT INTO `article_comments` 
+(`article_id`, `user_id`, `comment_text`, `rating`)
+VALUES
+(56, 3, 'Had some issues with the touchscreen.', 2);
+

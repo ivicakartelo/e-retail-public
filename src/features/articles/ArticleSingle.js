@@ -1,79 +1,82 @@
+// src/features/articles/ArticleSingle.js
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticleById } from './articleSingleSlice';
-import { addToBasket } from '../basket/basketSlice'; // Import the addToBasket action
-import { useParams, Link, useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-import './ArticleSingle.css'; // Import the CSS
+import { addToBasket } from '../basket/basketSlice';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import CommentsList from '../comments/CommentsList';
+import './ArticleSingle.css';
 
 const ArticleSingle = () => {
   const { articleId } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize useNavigate
-  const article = useSelector((state) => state.articleSingle.article);
-  const status = useSelector((state) => state.articleSingle.status);
-  const error = useSelector((state) => state.articleSingle.error);
+  const navigate = useNavigate();
+  
+  const { article, status, error } = useSelector(state => ({
+    article: state.articleSingle?.article,
+    status: state.articleSingle?.status || 'idle',
+    error: state.articleSingle?.error
+  }));
 
   useEffect(() => {
     if (articleId) {
       dispatch(fetchArticleById(articleId));
-    } else {
-      console.error("No articleId found in URL parameters.");
     }
   }, [articleId, dispatch]);
 
   const handleAddToBasket = () => {
-    if (!article || !article.article_id) {
-      console.error('Invalid article object:', article);
-      return; // Prevent dispatching if article_id is missing
+    if (article?.article_id) {
+      dispatch(addToBasket(article));
+      navigate('/basket');
     }
-    dispatch(addToBasket(article));
-    console.log('Added to basket:', article);
-    navigate('/basket'); // Navigate to the basket page
   };
 
-  if (status === 'loading') return <p>Loading...</p>;
-  if (status === 'failed') return <p>Error: {error}</p>;
-  if (!article) return <p>No article found.</p>;
+  if (status === 'loading') return <div className="loading">Loading...</div>;
+  if (status === 'failed') return <div className="error">Error: {error}</div>;
+  if (!article) return <div className="error">No article found.</div>;
 
-  const price = article.price && !isNaN(article.price) ? Number(article.price).toFixed(2) : null;
+  const price = article.price && !isNaN(article.price) 
+    ? Number(article.price).toFixed(2) 
+    : null;
 
   return (
     <div className="article-single">
-  <div className="article-content">
-    {/* Images Section */}
-    <div className="images-wrapper">
-      <img
-        src={article.image_1 
-          ? `http://localhost:5000/assets/images/${article.image_1}` 
-          : '/assets/images/placeholder.jpg'}
-        alt={article.name}
-        className="article-image"
-      />
-      <img
-        src={article.image_2 
-          ? `http://localhost:5000/assets/images/${article.image_2}` 
-          : '/assets/images/placeholder.jpg'}
-        alt={`${article.name} alternate`}
-        className="article-image"
-      />
-    </div>
+      <div className="article-content">
+        <div className="images-wrapper">
+          <img
+            src={article.image_1 
+              ? `http://localhost:5000/assets/images/${article.image_1}` 
+              : '/assets/images/placeholder.jpg'}
+            alt={article.name}
+            className="article-image"
+          />
+          <img
+            src={article.image_2 
+              ? `http://localhost:5000/assets/images/${article.image_2}` 
+              : '/assets/images/placeholder.jpg'}
+            alt={`${article.name} alternate`}
+            className="article-image"
+          />
+        </div>
 
-    {/* Text and Buttons Section */}
-    <div className="text-content">
-      <h2>{article.name}</h2>
-      <p>{article.description}</p>
-      <p>
-        <strong>Price:</strong> {price ? `$${price}` : 'Price not available'}
-      </p>
-      <button className="add-to-basket" onClick={handleAddToBasket}>
-        Add to Basket
-      </button>
-      <Link to="/" className="back-to-home">
-        Back to Home
-      </Link>
+        <div className="text-content">
+          <h2>{article.name}</h2>
+          <p>{article.description}</p>
+          <p><strong>Price:</strong> {price ? `$${price}` : 'Price not available'}</p>
+          <button className="add-to-basket" onClick={handleAddToBasket}>
+            Add to Basket
+          </button>
+          <Link to="/" className="back-to-home">
+            Back to Home
+          </Link>
+        </div>
+      </div>
+
+      {/* Comments Section */}
+      <div className="article-comments">
+        <CommentsList articleId={articleId} />
+      </div>
     </div>
-  </div>
-</div>
   );
 };
 

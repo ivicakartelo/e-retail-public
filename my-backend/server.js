@@ -107,6 +107,22 @@ app.get('/users/protected', (req, res) => {
   res.json({ message: 'This is a protected route.', user: req.session.user });
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  
+  if (err.name === 'JsonWebTokenError') {
+    return res.status(401).json({ error: 'Invalid token' });
+  }
+  
+  if (err.name === 'TokenExpiredError') {
+    return res.status(401).json({ error: 'Token expired' });
+  }
+  
+  res.status(500).json({ error: 'Something went wrong!' });
+});
+
+
 // Start the server
   app.listen(5000, () => {
     console.log('Server is running on port 5000');
@@ -867,5 +883,116 @@ app.post('/recommend', async (req, res) => {
   } catch (error) {
     console.error('Error fetching recommendations:', error);
     res.status(500).json({ error: 'Error while fetching recommendations' });
+  }
+});
+
+// Add these endpoints after your existing routes but before the server starts
+
+// Helper function to build comment tree (for nested comments)
+function buildCommentTree(comments) {
+  const map = {};
+  const roots = [];
+  
+  comments.forEach(comment => {
+    map[comment.comment_id] = { ...comment, replies: [] };
+  });
+  
+  comments.forEach(comment => {
+    if (comment.parent_comment_id) {
+      map[comment.parent_comment_id].replies.push(map[comment.comment_id]);
+    } else {
+      roots.push(map[comment.comment_id]);
+    }
+  });
+  
+  return roots;
+}
+
+// Get approved comments for an article
+app.get('/article/:articleId/comments', async (req, res) => {
+  try {
+    const [comments] = await queryAsync(`
+      SELECT c.*, u.username, u.avatar 
+      FROM article_comments c
+      JOIN users u ON c.user_id = u.user_id
+      WHERE c.article_id = ? 
+        AND c.is_approved = 1 
+        AND c.deleted_at IS NULL
+      ORDER BY c.created_at DESC
+    `, [req.params.articleId]);
+    
+    const commentTree = buildCommentTree(comments);
+    res.json(commentTree);
+  } catch (err) {
+    console.error('Error fetching comments:', err);
+    res.status(500).json({ error: 'Failed to fetch comments' });
+  }
+});
+
+// Post a new comment (protected route)
+app.post('/article/:articleId/comments', async (req, res) => {
+  try {
+    const { text, userId, rating = null } = req.body;
+    
+    // Validate required fields
+    if (!text || !userId) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Validate rating if provided
+    if (rating && (rating < 1 || rating > 5)) {
+      return res.status(400).json({ error: 'Rating must be between 1-5' });
+    }
+
+    // Insert into database with all fields
+    const result = await queryAsync(
+      `INSERT INTO article_comments 
+       (article_id, user_id, comment_text, rating, is_approved, created_at) 
+       VALUES (?, ?, ?, ?, 0, NOW())`, // Default to pending approval (0)
+      [req.params.articleId, userId, text, rating]
+    );
+
+    // Return the created comment
+    const [comment] = await queryAsync(
+      `SELECT * FROM article_comments WHERE comment_id = ?`,
+      [result.insertId]
+    );
+
+    res.status(201).json({
+      success: true,
+      comment: {
+        comment_id: comment.comment_id,
+        article_id: comment.article_id,
+        user_id: comment.user_id,
+        comment_text: comment.comment_text,
+        rating: comment.rating,
+        created_at: comment.created_at
+      }
+    });
+
+  } catch (err) {
+    console.error('Comment submission error:', err);
+    res.status(500).json({ 
+      error: 'Internal server error',
+      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  }
+});
+
+// Get comment count for an article
+app.get('/article/:articleId/comments/count', async (req, res) => {
+  try {
+    const [result] = await queryAsync(`
+      SELECT COUNT(*) as count 
+      FROM article_comments 
+      WHERE article_id = ? 
+        AND is_approved = 1 
+        AND deleted_at IS NULL
+    `, [req.params.articleId]);
+    
+    res.json({ count: result[0].count });
+  } catch (err) {
+    console.error('Error fetching comment count:', err);
+    res.status(500).json({ error: 'Failed to fetch comment count' });
   }
 });
