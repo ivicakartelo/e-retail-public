@@ -4,6 +4,7 @@ import { fetchArticleById } from './articleSingleSlice';
 import { addToBasket } from '../basket/basketSlice';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import CommentsList from '../comments/CommentsList';
+import CustomersAlsoBoughtList from '../customersalsobought/CustomersAlsoBoughtList';
 import './ArticleSingle.css';
 
 const ArticleSingle = () => {
@@ -11,7 +12,6 @@ const ArticleSingle = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Use the correct state structure for articles
   const article = useSelector(state => state.articleSingle.article);
   const status = useSelector(state => state.articleSingle.status);
   const error = useSelector(state => state.articleSingle.error);
@@ -35,18 +35,18 @@ const ArticleSingle = () => {
 
   return (
     <div className="article-single">
-      <div className="article-content">
+      <div className="article-block">
         <div className="images-wrapper">
           <img
-            src={article.image_1 
-              ? `http://localhost:5000/assets/images/${article.image_1}` 
+            src={article.image_1
+              ? `http://localhost:5000/assets/images/${article.image_1}`
               : '/assets/images/placeholder.jpg'}
             alt={article.name || 'Article'}
             className="article-image"
           />
           <img
-            src={article.image_2 
-              ? `http://localhost:5000/assets/images/${article.image_2}` 
+            src={article.image_2
+              ? `http://localhost:5000/assets/images/${article.image_2}`
               : '/assets/images/placeholder.jpg'}
             alt={article.name ? `${article.name} alternate` : 'Article alternate'}
             className="article-image"
@@ -61,8 +61,15 @@ const ArticleSingle = () => {
           <Link to="/" className="back-to-home">Back to Home</Link>
         </div>
       </div>
-      <div className="article-comments">
+
+      <div className="article-block">
+        <h3>Comments</h3>
         <CommentsList articleId={articleId} />
+      </div>
+
+      <div className="article-block">
+        <h3>Customers Also Bought</h3>
+        <CustomersAlsoBoughtList articleId={articleId} />
       </div>
     </div>
   );

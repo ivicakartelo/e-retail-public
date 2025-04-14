@@ -8,6 +8,7 @@ import articleSingleReducer from '../features/articles/articleSingleSlice';
 import basketReducer from '../features/basket/basketSlice';
 import loginReducer from '../components/loginSlice'; // KEEP EXISTING
 import commentsReducer from '../features/comments/commentsSlice'; // ADD THIS
+import customersAlsoBoughtReducer from '../features/customersalsobought/CustomersAlsoBoughtSlice';
 
 const store = configureStore({
   reducer: {
@@ -18,8 +19,9 @@ const store = configureStore({
     categoryArticles: categoryArticlesReducer,
     articleSingle: articleSingleReducer,
     basket: basketReducer,
-    login: loginReducer, // NO CHANGES
-    comments: commentsReducer // NEW
+    login: loginReducer,
+    comments: commentsReducer,
+    customersAlsoBought: customersAlsoBoughtReducer,
   }
 });
 

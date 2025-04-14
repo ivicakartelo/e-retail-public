@@ -1016,3 +1016,27 @@ app.get('/article/:articleId/comments/count', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch comment count' });
   }
 });
+
+// TODO: Improve logic - using ORDER BY RAND() temporarily for random related articles.
+// In future, replace with smarter logic (e.g. "frequently bought together", same category, etc.)
+app.get('/api/article/:articleId/related', (req, res) => {
+  const { articleId } = req.params;
+
+  const sql = `
+    SELECT a.article_id, a.name, a.price, a.image_1
+    FROM article a
+    WHERE a.deleted_at IS NULL
+      AND a.article_id != ? 
+    ORDER BY RAND() 
+    LIMIT 4
+  `;
+
+  db.query(sql, [articleId], (err, result) => {
+    if (err) {
+      console.error('Error fetching related articles:', err);
+      return res.status(500).json({ error: 'Failed to fetch related articles' });
+    }
+
+    res.json(result);
+  });
+});

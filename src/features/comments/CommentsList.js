@@ -5,7 +5,7 @@ import './CommentsList.css';
 
 const CommentExcerpt = ({ comment }) => (
   <div className="comment">
-    <strong>{comment.name || 'Anonymous'}</strong>
+    <strong>{comment.username || 'Anonymous'}</strong>
     <p>{comment.comment_text}</p>
   </div>
 );
@@ -36,7 +36,7 @@ const CommentForm = ({ articleId }) => {
   return (
     <form onSubmit={handleSubmit} className="comment-form">
       <h3>Leave a Review</h3>
-      <p>{ user.name }</p>
+      <p>{user ? user.name : "Guest"}</p>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
