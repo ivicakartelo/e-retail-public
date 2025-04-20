@@ -58,3 +58,23 @@ header {
     border-right: none; /* Removes sidebar border in mobile */
   }
 }
+
+.content-wrapper {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background-color: #f5f5f5;
+  padding: 1rem;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+.content.full-width {
+  width: 100%;
+}

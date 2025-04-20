@@ -55,7 +55,7 @@ const ArticleSingle = () => {
 
         <div className="text-content">
           <h2>{article.name || 'No Title'}</h2>
-          <p>{article.description || 'No description available.'}</p>
+          <div dangerouslySetInnerHTML={{ __html: article.description || 'No description available.' }} />
           <p><strong>Price:</strong> {article.price ? `$${Number(article.price).toFixed(2)}` : 'Price not available'}</p>
           <button className="add-to-basket" onClick={handleAddToBasket}>Add to Basket</button>
           <Link to="/" className="back-to-home">Back to Home</Link>
