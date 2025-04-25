@@ -1,6 +1,7 @@
 # 🛍️ E-Retail Public
 
-Customer-facing storefront built with **React**, **Redux**, **Express**, **MySQL**, and **Google Generative AI**.  
+This customer-facing storefront is built with React, Redux, Express, MySQL, and Google Generative AI.
+It is currently being migrated to the Next.js framework.  
 Part of the full-stack E-Retail platform for managing products, orders, and users.
 
 ---
