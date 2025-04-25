@@ -1,6 +1,6 @@
 # 🛍️ E-Retail Public
 
-Customer-facing storefront built with **React**, **Redux**, and **Google Generative AI**.  
+Customer-facing storefront built with **React**, **Redux**, **Express**, **MySQL** and **Google Generative AI**.  
 Part of the E-Retail system for managing products, customers, and orders.
 
 ---
