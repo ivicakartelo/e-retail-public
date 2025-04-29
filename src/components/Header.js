@@ -22,6 +22,7 @@ const Header = () => {
         <Link to="/basket">View Basket</Link>
         {/* Add a link to the Recommendations component */}
         <Link to="/recommendations">AI Recommendations</Link>
+        <Link to="/thinking">Gemini 2.5 Thinking</Link>
       </nav>
       <div className="auth-buttons">
         <WelcomeMessage />

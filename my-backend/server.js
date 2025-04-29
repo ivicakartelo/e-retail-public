@@ -1040,3 +1040,32 @@ app.get('/api/article/:articleId/related', (req, res) => {
     res.json(result);
   });
 });
+
+// ✅ Route to get formatted product recommendations
+app.post('/api/gemini', async (req, res) => {
+  const { prompt } = req.body;
+
+  // Wrap the user prompt with formatting instructions
+  const formattedPrompt = `
+Format the following request as HTML for a product recommendation section on an e-commerce site.
+Use readable HTML structure: <h2> for title, <p> for summary, and <ul><li> for list items.
+Make it skimmable and clear for shoppers.
+
+Request: "${prompt}"
+`;
+
+  try {
+    const model = genAI.getGenerativeModel({
+      model: 'models/gemini-2.0-flash-exp',
+    });
+
+    const result = await model.generateContent(formattedPrompt);
+    const response = await result.response;
+    const text = response.text();
+
+    res.json({ reply: text });
+  } catch (error) {
+    console.error('Gemini error:', error);
+    res.status(500).json({ reply: 'Error generating HTML content from Gemini.' });
+  }
+});
