@@ -1,80 +1,183 @@
-/* src/App.css */
-
+/* App Layout */
 .app-layout {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full viewport height */
-  width: 100vw; /* Ensures full width */
-  overflow: hidden; /* Prevents overflow outside screen */
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #f3f3f3;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Header (top bar) */
 header {
   background: #007bff;
   color: white;
-  padding: 10px;
+  padding: 16px;
   text-align: center;
-  width: 100%;
+  font-size: 1.25rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-/* Wrapper for sidebar & main content */
+/* Departments Navigation – black background, white text, small font */
+.departments-nav {
+  background-color: #111111;
+  padding: 8px 16px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.875rem;
+}
+
+.departments-nav a,
+.departments-nav button {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.departments-nav a:hover,
+.departments-nav button:hover {
+  background-color: #333333;
+}
+
+/* Categories Navigation – white background, black text, small font */
+.categories-nav {
+  background-color: #ffffff;
+  padding: 8px 16px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.categories-nav a,
+.categories-nav button {
+  color: #111111;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.categories-nav a:hover,
+.categories-nav button:hover {
+  background-color: #f2f2f2;
+}
+
+/* Banners */
+.home-banner,
+.department-banner,
+.category-banner {
+  padding: 24px;
+  margin: 16px auto;
+  border-radius: 12px;
+  max-width: 1000px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.home-banner {
+  background-color: #e6f0ff;
+  color: #003366;
+}
+
+.department-banner {
+  background-color: #e0f7e9;
+  color: #075e54;
+}
+
+.category-banner {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* Main Content Wrapper */
 .content-wrapper {
   display: flex;
-  flex: 1; /* Takes up remaining space */
-  max-width: 1200px; /* Prevents it from becoming too wide */
+  justify-content: center;
   width: 100%;
-  margin: 0 auto; /* Centers the content */
-  overflow: hidden;
-}
-
-/* Sidebar (Departments or Categories) */
-.sidebar {
-  width: 250px; /* Fixed width */
-  max-width: 25vw; /* Responsive width */
   padding: 20px;
-  background-color: #f4f4f4;
-  border-right: 1px solid #ccc;
-  overflow-y: auto; /* Allows scrolling if needed */
+  box-sizing: border-box;
 }
 
-/* Main content area */
+/* Main Content Area */
 .content {
-  flex-grow: 1;
+  width: 100%;
+  max-width: 1200px;
   padding: 20px;
-  background-color: #fff;
-  overflow-y: auto; /* Allows scrolling if needed */
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .content-wrapper {
-    flex-direction: column; /* Stack sidebar on top of content */
-    max-width: 100%;
-  }
-
-  .sidebar {
-    width: 100%;
-    max-width: 100%;
-    padding: 15px;
-    border-right: none; /* Removes sidebar border in mobile */
-  }
-}
-
-.content-wrapper {
-  display: flex;
-}
-
-.sidebar {
-  width: 250px;
-  flex-shrink: 0;
-  background-color: #f5f5f5;
-  padding: 1rem;
-}
-
-.content {
-  flex-grow: 1;
-  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow-y: auto;
 }
 
 .content.full-width {
   width: 100%;
+}
+
+/* Sidebar (if used in other layouts) */
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .departments-nav,
+  .categories-nav {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 10px 16px;
+  }
+
+  .content-wrapper {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-right: 0;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .content {
+    padding: 16px;
+  }
+
+ /* DepartmentDetails container style */
+.department-details-bar {
+  background-color: #fafafa;
+  padding: 10px 16px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: flex-start;  /* Align items to the left */
+  flex-wrap: nowrap;            /* Prevent items from wrapping */
+  gap: 16px;                    /* Space between items */
+  font-size: 0.875rem;
+  overflow-x: auto;             /* Allow horizontal scroll */
+  width: 100%;                  /* Ensure it uses full width */
+}
 }
