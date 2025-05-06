@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from './loginSlice'; // Import the logout action
@@ -6,8 +6,19 @@ import WelcomeMessage from './WelcomeMessage';
 import './Header.css';
 
 const Header = () => {
-  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchTerm)}`);
+    }
+  };
+
+
+
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.login.user);
 
   const handleLogout = () => {
@@ -24,6 +35,18 @@ const Header = () => {
         <Link to="/recommendations">AI Recommendations</Link>
         <Link to="/thinking">Gemini 2.5 Thinking</Link>
       </nav>
+
+      <form className="search-form" onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search articles..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        <button type="submit" className="search-button">Search</button>
+      </form>
+
       <div className="auth-buttons">
         <WelcomeMessage />
         {user ? (
