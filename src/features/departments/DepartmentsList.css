@@ -14,7 +14,7 @@
   overflow-x: auto;
   gap: 12px;
   padding: 8px 16px;
-  background-color: #111111; /* Match App.css nav */
+  background-color: #343a40; /* Match App.css nav */
   font-size: 0.875rem;
 }
 
@@ -31,5 +31,5 @@
 }
 
 .department-card:hover {
-  background-color: #333333;
+  background-color: #111111;
 }

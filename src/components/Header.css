@@ -26,43 +26,45 @@
 /* Search form styling */
 .search-form {
   display: flex;
-  align-items: center; /* Aligns input and button vertically */
-  flex-grow: 1; /* Fills remaining space */
-  margin: 0 20px; /* Spacing between search and other elements */
-  max-width: 400px; /* Limits maximum width */
-  background-color: #495057; /* Matches header background */
-  border-radius: 4px; /* Rounded corners */
-  padding: 5px; /* Space around the input and button */
+  height: 38px; /* Match input/button height */
+  margin: 0; /* Remove any default margins */
+  padding: 0; /* Remove any default padding */
 }
 
 .search-input {
-  flex-grow: 1; /* Expands input field */
-  padding: 10px;
-  border: none; /* Removes default border */
-  border-radius: 4px 0 0 4px; /* Rounded left corners */
-  font-size: 14px;
-  height: 40px; /* Ensures consistent height with button */
-  box-sizing: border-box; /* Includes padding and border in height calculation */
-}
-
-.search-input::placeholder {
-  color: #aaa; /* Placeholder text in gray */
+  flex: 1; /* Takes up remaining space */
+  min-width: 100px; /* Minimum width for input */
+  height: 38px;
+  padding: 8px 15px;
+  border: 1px solid #f3a847;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  font-size: 15px;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(15,17,17,.15) inset;
 }
 
 .search-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 0 4px 4px 0; /* Rounded right corners */
-  font-size: 14px;
-  height: 40px; /* Matches input height */
-  box-sizing: border-box; /* Includes padding and border in height calculation */
+  width: 50px;
+  height: 38px;
+  background-color: #f0c14b; /* Amazon's golden color */
+  border: 1px solid #a88734; /* Amazon's golden border */
+  border-radius: 0 4px 4px 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s; /* Smooth hover effect */
+}
+
+
+header .search-form .search-button {
+  background-color: #f0c14b !important;
+  border-color: #a88734 !important;
 }
 
 .search-button:hover {
-  background-color: #0056b3; /* Slightly darker blue on hover */
+  background-color: #e6953a; /* Slightly darker orange on hover */
 }
 
 /* Authentication buttons container */

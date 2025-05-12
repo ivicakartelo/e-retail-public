@@ -32,10 +32,9 @@ const ArticleSingle = () => {
   if (status === 'loading') return <div className="loading">Loading...</div>;
   if (status === 'failed') return <div className="error">Error: {error}</div>;
   if (!article) return <div className="error">No article found.</div>;
-
   return (
     <div className="article-single">
-      <div className="article-block">
+      <div className="article-top">
         <div className="images-wrapper">
           <img
             src={article.image_1
@@ -52,7 +51,7 @@ const ArticleSingle = () => {
             className="article-image"
           />
         </div>
-
+  
         <div className="text-content">
           <h2>{article.name || 'No Title'}</h2>
           <div dangerouslySetInnerHTML={{ __html: article.description || 'No description available.' }} />
@@ -61,18 +60,18 @@ const ArticleSingle = () => {
           <Link to="/" className="back-to-home">Back to Home</Link>
         </div>
       </div>
-
-      <div className="article-block">
+  
+      <div className="article-block comments-section">
         <h3>Comments</h3>
         <CommentsList articleId={articleId} />
       </div>
-
-      <div className="article-block">
+  
+      <div className="article-block recommendations-section">
         <h3>Customers Also Bought</h3>
         <CustomersAlsoBoughtList articleId={articleId} />
       </div>
     </div>
-  );
+  );  
 };
 
 export default ArticleSingle;
