@@ -31,7 +31,7 @@ const App = () => {
   const isCategoryPage = departmentId && categoryId;
 
   const getBannerFilename = (name) =>
-    name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+    name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 
   const departmentBannerName = department
     ? getBannerFilename(department.name)

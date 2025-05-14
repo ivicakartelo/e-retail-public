@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2025 at 11:18 PM
+-- Generation Time: May 06, 2025 at 06:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,8 +48,8 @@ INSERT INTO `article` (`article_id`, `name`, `description`, `price`, `image_1`, 
 (56, 'Top 10 Smartphones of 2024: Features and Reviews', '```html\r\n<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Top 10 Smartphones of 2024 (Price Only)</title>\r\n</head>\r\n<body>\r\n\r\n    <h1>Top 10 Smartphones of 2024: Ranked by Price</h1>\r\n\r\n    <p>Looking for a new smartphone but overwhelmed by endless specs? We\'ve simplified things for you! Below is a list of the top 10 smartphones of 2024, ranked <strong>solely by price</strong>, from least expensive to most expensive. This list is perfect if your budget is your primary concern.</p>\r\n\r\n    <p><strong>Please Note:</strong> Prices are approximate and may vary depending on retailer and location. Check current pricing before making a purchase.</p>\r\n\r\n    <h2>2024\'s Top Smartphones (Price-Focused)</h2>\r\n\r\n    <ul>\r\n        <li>Motorola Moto G Power (2024): $199</li>\r\n        <li>Samsung Galaxy A15: $229</li>\r\n        <li>Google Pixel 7a: $449</li>\r\n        <li>Samsung Galaxy S23 FE: $599</li>\r\n        <li>iPhone 13: $599</li>\r\n        <li>Google Pixel 8: $699</li>\r\n        <li>Samsung Galaxy S24: $799</li>\r\n        <li>iPhone 15: $799</li>\r\n        <li>Samsung Galaxy S24+: $999</li>\r\n        <li>iPhone 15 Pro: $999</li>\r\n    </ul>\r\n\r\n    <p>This list provides a quick overview of some of the leading smartphones and their relative price points. Happy shopping!</p>\r\n\r\n</body>\r\n</html>', 19.24, '1732807137337-964721728-1.png', '1732807137337-345654659-2.png', '1', '0', NULL),
 (57, 'Best Laptops for Students: Affordable and Powerful', '```html\r\n<h1>Best Buy Laptops for Students in 2025: Your Guide to Top Models</h1>\r\n\r\n<p>Finding the perfect laptop for college can be overwhelming! This guide cuts through the noise and highlights the best laptops available at Best Buy in 2025, specifically chosen for student needs. We focus on providing you with the essential information: <strong>model names and estimated prices</strong> to help you quickly narrow down your options and stay within budget.</p>\r\n\r\n<h2>Laptop Recommendations (Model & Price Only)</h2>\r\n\r\n<p>Here\'s a curated list of top laptop models perfect for students, available at Best Buy, with estimated prices for 2025. <em>Note: Prices are estimates and subject to change. Please verify with Best Buy directly.</em></p>\r\n\r\n<ul>\r\n  <li><strong>Dell XPS 13:</strong> Estimated Price - $1,200</li>\r\n  <li><strong>Apple MacBook Air (M4 Chip):</strong> Estimated Price - $1,100</li>\r\n  <li><strong>HP Spectre x360 14:</strong> Estimated Price - $1,300</li>\r\n  <li><strong>Lenovo Yoga 7i 14:</strong> Estimated Price - $900</li>\r\n  <li><strong>Microsoft Surface Laptop 6:</strong> Estimated Price - $1,350</li>\r\n  <li><strong>ASUS Zenbook 14 OLED:</strong> Estimated Price - $1,000</li>\r\n</ul>\r\n\r\n<p><strong>Disclaimer:</strong> This list is based on projected specifications and pricing for laptops expected to be popular among students in 2025. Check Best Buy\'s website or visit a store for the most up-to-date information and availability.</p>\r\n```', 27.00, '1732807686614-470342021-3.png', '1732807686614-487583442-4.png', '0', '1', NULL),
 (58, 'The Top 5 Electric Cars', '```html\r\n<h1>Top 5 Electric Cars You Need to Know About</h1>\r\n\r\n<p>Considering making the switch to electric? Navigating the ever-expanding EV market can feel overwhelming.  We\'ve compiled a list of the <strong>Top 5 Electric Cars</strong> currently making waves, focusing on popular brands and providing a quick overview of their price points. This isn\'t a ranking based on performance, features, or range, but rather a starting point to help you identify potential candidates for your next vehicle.</p>\r\n\r\n<h2>Electric Car Showcase: Brands and Prices</h2>\r\n\r\n<p>Below, you\'ll find a concise list of five popular electric cars, listed alphabetically by brand, along with their approximate starting prices.  Keep in mind that prices can vary based on trim levels, options, and incentives.</p>\r\n\r\n<ul>\r\n    <li><strong>Audi e-tron:</strong>  Starting around $75,000 </li>\r\n    <li><strong>Chevrolet Bolt EV:</strong> Starting around $25,000</li>\r\n    <li><strong>Ford Mustang Mach-E:</strong> Starting around $43,000</li>\r\n    <li><strong>Tesla Model 3:</strong> Starting around $40,000</li>\r\n    <li><strong>Volkswagen ID.4:</strong> Starting around $40,000</li>\r\n</ul>\r\n\r\n<p><em>Note:  These prices are estimates and may not reflect the most current offers or incentives. Always consult with a dealer for the most accurate pricing information.</em></p>\r\n\r\n<h2>Next Steps: Further Research</h2>\r\n\r\n<p>This list is just the beginning! We encourage you to delve deeper into researching these models and others that catch your eye.  Consider factors like:</p>\r\n<ul>\r\n    <li>Range and charging time</li>\r\n    <li>Available features and technology</li>\r\n    <li>Driving dynamics and performance</li>\r\n    <li>Incentives and tax credits available in your area</li>\r\n</ul>\r\n\r\n<p>Happy EV hunting!</p>\r\n```', 23.42, '1732812274112-465665101-4.png', '1732812274113-582937207-1.png', '0', '1', NULL),
-(59, 'How to Choose the Perfect Tires and Wheels for You', 'vitae lacus. Etiam ut nunc sed erat dictum...', 12.44, '1732812438698-993007923-4.png', '1732812438699-560100139-2.png', '1', '0', NULL),
-(60, 'Exploring the Best Contemporary Fiction Authors of', 'Pellentesque ornare risus purus...', 16.40, '1732813307830-311826258-3.png', '1732813307832-615631743-1.png', '0', '0', NULL),
+(59, 'How to Choose the Perfect Tires and Wheels for You', '```html\r\n<h1>Choosing the Perfect Tires and Wheels: A Comprehensive Guide</h1>\r\n\r\n<p>Finding the right tires and wheels for your vehicle can dramatically impact its performance, safety, and even its appearance. This guide will walk you through the key considerations to help you make an informed decision and ensure you select the perfect fit for your needs and driving style.</p>\r\n\r\n<h2>Key Factors to Consider:</h2>\r\n\r\n<ul>\r\n  <li><strong>Vehicle Type and Usage:</strong> Are you driving a sedan, truck, SUV, or sports car? How will you primarily be using your vehicle (daily commute, off-roading, performance driving)?</li>\r\n  <li><strong>Tire Size and Load Rating:</strong> Understanding your vehicle\'s recommended tire size is crucial for safety and performance. We\'ll explain how to decipher tire codes and load ratings.</li>\r\n  <li><strong>Wheel Size and Offset:</strong> Learn about the impact of wheel size and offset on handling and aesthetics.</li>\r\n  <li><strong>Tire Type:</strong> Explore different tire types, including all-season, summer, winter, and all-terrain, and determine which is best suited for your climate and driving conditions.</li>\r\n  <li><strong>Budget:</strong>  We\'ll help you understand the cost differences between various tire and wheel options and find a balance between price and performance.</li>\r\n  <li><strong>Aesthetics:</strong> Discover how different wheel styles can enhance the look of your vehicle.</li>\r\n</ul>\r\n\r\n<h2>What You\'ll Learn:</h2>\r\n\r\n<p>In this comprehensive guide, you\'ll discover:</p>\r\n\r\n<ul>\r\n  <li>How to read and understand tire sidewall markings.</li>\r\n  <li>The importance of proper tire pressure and maintenance.</li>\r\n  <li>The pros and cons of different wheel materials (e.g., alloy vs. steel).</li>\r\n  <li>Tips for choosing the right tire and wheel combination for optimal performance and safety.</li>\r\n  <li><em>Where to find reliable resources and expert advice.</em></li>\r\n</ul>\r\n\r\n<p>Don\'t compromise on safety and performance!  Take control of your vehicle\'s handling and appearance.  Read on to find the perfect tires and wheels for <strong><em>you</em></strong>!</p>\r\n```', 12.44, '1732812438698-993007923-4.png', '1732812438699-560100139-2.png', '1', '0', NULL),
+(60, 'Exploring the Best Contemporary Fiction Authors of', '```html\r\n<h1>Exploring the Landscape of Contemporary Fiction: Discover Your Next Read</h1>\r\n\r\n<h2>Delve into the World of Today\'s Most Compelling Storytellers</h2>\r\n\r\n<p>Are you looking for your next literary obsession?  Do you want to discover the voices shaping modern fiction? This exploration takes you on a journey through the works of the <strong>best contemporary fiction authors</strong>. We\'ll examine writers who are pushing boundaries, exploring diverse perspectives, and crafting unforgettable narratives that resonate with our times.</p>\r\n\r\n<p>In this article, you\'ll discover:</p>\r\n\r\n<ul>\r\n  <li><strong>Profiles of Acclaimed Authors:</strong>  Learn about the lives and inspirations of authors making waves in the literary world.</li>\r\n  <li><strong>Genre Spotlights:</strong> Explore popular genres like literary fiction, historical fiction, science fiction, and more, highlighting key authors in each.</li>\r\n  <li><strong>Must-Read Book Recommendations:</strong>  Get a curated list of highly-rated and critically acclaimed novels from these authors.</li>\r\n  <li><strong><em>Why</em> These Authors Matter:</strong>  Understand the impact these writers are having on contemporary literature and culture.</li>\r\n</ul>\r\n\r\n<p>From thought-provoking character studies to gripping plot-driven adventures, we\'ll help you navigate the vast landscape of contemporary fiction and find authors and books that will captivate and inspire you.  Prepare to expand your reading horizons and discover your next favorite author!</p>\r\n```', 16.40, '1732813307830-311826258-3.png', '1732813307832-615631743-1.png', '0', '0', NULL),
 (61, '10 Must-Read Classics That Shaped Modern Literatur', 'ignissim risus AUTOBIOGRAPHY...', 7.25, '1734384110407-985289640-logo.png', '1734384110408-500992828-1.png', '1', '0', NULL);
 
 -- --------------------------------------------------------
@@ -76,103 +76,10 @@ CREATE TABLE `article_comments` (
 --
 
 INSERT INTO `article_comments` (`comment_id`, `article_id`, `user_id`, `parent_comment_id`, `comment_text`, `rating`, `is_approved`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 56, 1, NULL, 'This smartphone exceeded my expectations!', 5, 1, '2025-03-24 19:12:12', '2025-03-24 22:37:45', NULL),
-(2, 56, 1, NULL, 'I am very very satisfy with this mob!', 5, 0, '2025-03-24 20:29:46', '2025-03-24 20:29:57', '2025-03-24 20:29:57'),
-(3, 56, 1, NULL, 'Excellent!!!', NULL, 0, '2025-03-24 20:43:11', '2025-03-24 20:43:16', '2025-03-24 20:43:16'),
-(4, 58, 1, NULL, 'Excellent!!!', 5, 1, '2025-03-24 20:46:44', '2025-04-04 22:21:29', NULL),
-(5, 56, 1, NULL, 'Excellent', 3, 1, '2025-03-24 22:04:08', '2025-04-04 22:19:57', NULL),
-(6, 56, 1, NULL, 'Good', 2, 1, '2025-03-24 22:04:27', '2025-04-04 22:19:50', '2025-04-04 22:19:50'),
-(7, 56, 1, NULL, 'Very very good!!!', 3, 0, '2025-03-24 22:32:56', '2025-04-04 20:40:33', '2025-04-04 20:40:33'),
-(8, 56, 1, NULL, 'Excellent!!!', 1, 0, '2025-03-24 22:34:08', '2025-04-04 20:40:28', '2025-04-04 20:40:28'),
-(9, 56, 1, NULL, 'Excellent', 2, 0, '2025-03-24 22:37:29', '2025-04-04 20:40:24', '2025-04-04 20:40:24'),
-(10, 56, 1, NULL, 'It is new model?', 3, 1, '2025-03-24 22:38:51', '2025-03-25 19:46:18', '2025-03-25 19:46:18'),
-(11, 56, 1, NULL, 'The best for me!', 5, 1, '2025-03-25 19:45:00', '2025-03-25 19:45:13', NULL),
-(12, 56, 15, NULL, 'aaaaaaa', NULL, 1, '2025-03-25 22:39:26', NULL, NULL),
-(13, 56, 14, NULL, 'aaaaaaaa', NULL, 1, '2025-03-25 22:50:54', NULL, NULL),
-(14, 56, 14, NULL, 'KJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn aKJnax msx smx smx smx snxms xan xmas xmasx amnxa xmnax amx amx axmna xamnx axn a', NULL, 1, '2025-03-25 22:54:20', NULL, NULL),
-(15, 56, 1, NULL, 'Today buy it!', 5, 1, '2025-03-26 21:03:34', '2025-03-26 21:04:16', NULL),
-(16, 56, 1, NULL, 'Does somebody has experiances with this?', NULL, 1, '2025-03-26 21:04:11', '2025-03-26 21:04:18', NULL),
-(17, 56, 14, NULL, 'This device is the best buy!', NULL, 1, '2025-03-26 21:08:19', NULL, NULL),
-(18, 56, 14, NULL, 'Test', 5, 1, '2025-03-26 22:15:58', '2025-04-04 20:40:22', NULL),
-(19, 56, 14, NULL, 'aaa', 4, 1, '2025-03-26 22:18:28', '2025-04-04 20:40:18', NULL),
-(20, 57, 14, NULL, 'again test', 3, 0, '2025-03-26 22:20:39', '2025-04-04 20:29:26', '2025-04-04 20:29:26'),
-(21, 56, 14, NULL, 'This is good', 3, 0, '2025-03-26 22:25:40', '2025-04-04 20:29:22', '2025-04-04 20:29:22'),
-(22, 56, 15, NULL, 'Test testTest testTest testTest testTest testTest testTest testTest testTest testTest testTest testTest test', 4, 0, '2025-03-27 20:38:13', '2025-04-04 20:29:14', '2025-04-04 20:29:14'),
-(23, 56, 15, NULL, 'Test', 1, 1, '2025-03-27 20:54:54', '2025-04-04 20:29:12', NULL),
-(24, 56, 15, NULL, 'Test Test', 5, 1, '2025-03-27 20:56:41', '2025-04-04 20:29:08', NULL),
-(25, 56, 15, NULL, 'aaaaaaaaa', 2, 1, '2025-03-27 21:34:45', '2025-04-04 19:47:02', NULL),
-(26, 56, 15, NULL, 'ggggggggggg', 3, 1, '2025-03-27 21:41:05', '2025-04-03 20:07:21', NULL),
-(27, 56, 15, NULL, 'zzzzzzzz', 1, 1, '2025-03-27 21:43:32', '2025-04-03 20:07:17', NULL),
-(28, 56, 15, NULL, 'lllllllllll', 3, 1, '2025-03-27 21:58:45', '2025-04-03 19:50:40', NULL),
-(29, 56, 15, NULL, 'fffffffffffffffffff', 5, 1, '2025-03-27 21:58:55', '2025-04-03 19:50:18', NULL),
-(30, 56, 15, NULL, 'mmmmmmmmmmmm', 3, 1, '2025-03-27 21:59:32', '2025-04-03 19:50:15', NULL),
-(31, 56, 15, NULL, 'kkkkkkkkkkkk', 3, 1, '2025-03-27 22:05:09', '2025-04-03 18:58:45', NULL),
-(32, 56, 15, NULL, 'xy', 2, 1, '2025-03-27 22:13:34', '2025-04-03 19:46:45', NULL),
-(33, 56, 15, NULL, 'oooooooooooooooo', 2, 1, '2025-03-27 22:17:44', '2025-04-03 19:09:32', NULL),
-(34, 56, 15, NULL, 'asdsadsa', 5, 1, '2025-03-27 22:25:50', '2025-04-03 19:28:56', NULL),
-(35, 56, 15, NULL, 'Hellow World', 4, 1, '2025-03-27 22:27:08', '2025-04-03 19:09:09', NULL),
-(36, 56, 15, NULL, 'aaafddsfdsf', 3, 1, '2025-03-27 22:31:39', '2025-04-03 19:03:14', NULL),
-(37, 56, 15, NULL, 'Test Test Test', 3, 1, '2025-03-28 12:36:52', '2025-04-03 18:41:41', NULL),
-(38, 56, 15, NULL, 'adadadad', 4, 1, '2025-03-28 13:39:47', '2025-04-03 18:41:12', NULL),
-(39, 56, 15, NULL, 'cccccccccccccccccc', 2, 1, '2025-03-28 13:48:34', '2025-04-03 18:27:41', '2025-04-03 18:27:41'),
-(40, 56, 15, NULL, 'ddddd', 3, 0, '2025-03-28 18:47:32', '2025-04-02 21:38:10', '2025-04-02 21:38:10'),
-(41, 56, 15, NULL, 'sdfsfdsfdfdsfsdfdsf', 4, 0, '2025-03-28 19:17:50', '2025-04-02 21:38:06', '2025-04-02 21:38:06'),
-(42, 56, 15, NULL, 'dddddddddddd', 2, 1, '2025-03-28 19:22:21', '2025-04-02 21:38:00', '2025-04-02 21:38:00'),
-(43, 56, 15, NULL, 'vvvvvvvvvvvvvvv', 3, 1, '2025-03-28 19:25:46', '2025-04-02 21:37:12', NULL),
-(44, 56, 15, NULL, 'wwwwwwwwwwwwwwwwwwwww', 3, 0, '2025-03-28 21:10:06', '2025-04-02 21:37:03', '2025-04-02 21:37:03'),
-(45, 56, 15, NULL, 'yyyyyyyyyyyyyy', 3, 0, '2025-03-28 21:20:25', '2025-04-02 21:37:02', '2025-04-02 21:37:02'),
-(46, 56, 14, NULL, 'aaaaaaaaaaa', NULL, 0, '2025-03-30 18:06:36', '2025-04-02 21:36:56', '2025-04-02 21:36:56'),
-(47, 56, 15, NULL, 'I have this 5 years and I am very satisfy!', NULL, 0, '2025-03-30 19:08:59', '2025-04-02 21:36:54', '2025-04-02 21:36:54'),
-(48, 56, 1, NULL, 'test', 4, 1, '2025-03-31 19:48:28', '2025-04-01 15:06:28', NULL),
-(49, 57, 15, NULL, 'How much is weitgh?', NULL, 1, '2025-03-31 20:14:06', '2025-04-02 21:36:50', '2025-04-02 21:36:50'),
-(50, 57, 15, NULL, 'Why I do not see real name and commentlist for this article?', NULL, 1, '2025-03-31 20:18:11', NULL, NULL),
-(51, 58, 15, NULL, 'My comment for The Top 5 Electric Cars', NULL, 1, '2025-03-31 20:19:35', NULL, NULL),
-(52, 57, 14, NULL, 'Comments for Best Laptops for Students: Affordable and Powerful', NULL, 1, '2025-03-31 20:43:17', '2025-04-01 15:53:23', NULL),
-(53, 56, 15, NULL, 'Top 10 Smartphones of 2024: Features and Reviews is very realistic analyze.', NULL, 1, '2025-04-05 18:26:15', '2025-04-05 18:39:55', NULL),
-(54, 57, 15, NULL, 'It is the best buying', NULL, 1, '2025-04-05 18:27:03', '2025-04-05 19:10:45', NULL),
-(55, 58, 15, NULL, 'I have not garage with elektricity', NULL, 1, '2025-04-05 18:27:59', '2025-04-05 19:10:52', NULL),
-(56, 56, 14, NULL, 'Yes, I agree', NULL, 1, '2025-04-05 18:28:56', '2025-04-05 18:32:09', NULL),
-(57, 57, 14, NULL, 'So me', NULL, 1, '2025-04-05 18:29:44', '2025-04-05 19:00:17', NULL),
-(58, 58, 14, NULL, 'Absolutlly', NULL, 1, '2025-04-05 18:30:08', '2025-04-05 18:41:57', NULL),
-(59, 59, 14, NULL, 'Think so', NULL, 1, '2025-04-05 18:30:23', '2025-04-05 18:31:55', '2025-04-05 18:31:55'),
-(60, 59, 14, NULL, 'aaaaaa', NULL, 1, '2025-04-05 19:13:33', '2025-04-09 20:15:21', NULL),
-(61, 59, 14, NULL, 'bbbbbb', NULL, 0, '2025-04-05 19:13:38', '2025-04-09 20:15:19', '2025-04-09 20:15:19'),
-(62, 59, 14, NULL, 'cccccc', NULL, 0, '2025-04-05 19:13:45', '2025-04-08 20:53:26', '2025-04-08 20:53:26'),
-(63, 59, 14, NULL, 'ddd', NULL, 1, '2025-04-05 19:13:49', '2025-04-08 20:53:06', NULL),
-(64, 59, 14, NULL, 'eeee', NULL, 1, '2025-04-05 19:13:55', '2025-04-08 20:53:04', NULL),
-(65, 59, 14, NULL, 'ffffff', NULL, 1, '2025-04-05 19:14:02', '2025-04-08 20:53:03', NULL),
-(66, 59, 14, NULL, 'g', NULL, 0, '2025-04-05 19:14:06', '2025-04-08 20:32:21', '2025-04-08 20:32:21'),
-(67, 59, 14, NULL, 'h', NULL, 1, '2025-04-05 19:14:09', '2025-04-08 20:32:19', NULL),
-(68, 57, 14, NULL, 'žžžž', NULL, 1, '2025-04-05 19:14:30', '2025-04-09 20:14:53', NULL),
-(69, 57, 14, NULL, 'mmmm', NULL, 0, '2025-04-05 19:14:35', '2025-04-09 20:14:51', '2025-04-09 20:14:51'),
-(70, 57, 14, NULL, 'nnnn', NULL, 1, '2025-04-05 19:14:44', '2025-04-08 20:52:54', NULL),
-(71, 57, 14, NULL, 'mmmm', NULL, 0, '2025-04-05 19:14:47', '2025-04-08 19:59:23', '2025-04-08 19:59:23'),
-(72, 57, 14, NULL, 'ccccccccccccc', NULL, 1, '2025-04-05 19:14:52', '2025-04-08 19:59:19', NULL),
-(73, 57, 14, NULL, 'xxxxxxxxxxxxxx', NULL, 0, '2025-04-05 19:14:57', '2025-04-08 18:40:17', '2025-04-08 18:40:17'),
-(74, 59, 14, NULL, 'jkjk', NULL, 1, '2025-04-05 19:15:13', '2025-04-08 18:36:58', NULL),
-(75, 59, 14, NULL, 'cgbbcvb', NULL, 0, '2025-04-05 19:15:16', '2025-04-05 19:25:04', '2025-04-05 19:25:04'),
-(76, 59, 14, NULL, 'tzrtzr', NULL, 1, '2025-04-05 19:15:20', '2025-04-05 19:24:59', NULL),
-(77, 60, 14, NULL, 'aaaaa', NULL, 1, '2025-04-05 19:15:34', '2025-04-05 19:24:56', NULL),
-(78, 56, 14, NULL, 'aaa', NULL, 0, '2025-04-09 20:27:58', NULL, NULL),
-(79, 56, 14, NULL, 'bb', NULL, 0, '2025-04-09 20:28:02', NULL, NULL),
-(80, 56, 14, NULL, 'cc', NULL, 0, '2025-04-09 20:28:07', NULL, NULL),
-(81, 56, 14, NULL, 'dd', NULL, 0, '2025-04-09 20:28:14', NULL, NULL),
-(82, 56, 14, NULL, 'ee', NULL, 0, '2025-04-09 20:28:22', NULL, NULL),
-(83, 56, 14, NULL, 'ff', NULL, 0, '2025-04-09 20:28:27', NULL, NULL),
-(84, 57, 14, NULL, 'o', NULL, 0, '2025-04-09 20:29:10', NULL, NULL),
-(85, 57, 14, NULL, 'p', NULL, 0, '2025-04-09 20:29:16', '2025-04-13 16:41:25', '2025-04-13 16:41:25'),
-(86, 57, 14, NULL, 'r', NULL, 1, '2025-04-09 20:29:25', '2025-04-13 16:41:23', NULL),
-(87, 57, 14, NULL, 's', NULL, 1, '2025-04-09 20:29:31', '2025-04-13 16:41:20', NULL),
-(88, 56, 15, NULL, 'qqqqqqqqqqqqqqq', NULL, 0, '2025-04-13 17:25:52', NULL, NULL),
-(89, 56, 15, NULL, 'bbbbbbbbbbbbbb', NULL, 0, '2025-04-13 17:25:59', NULL, NULL),
-(90, 56, 15, NULL, 'aaaaaaaaaaaaaa', NULL, 0, '2025-04-13 17:26:03', NULL, NULL),
-(91, 57, 15, NULL, 'ccccc', NULL, 0, '2025-04-13 17:26:41', NULL, NULL),
-(92, 57, 15, NULL, 'kkkkkkkkkkkkkkkk', NULL, 0, '2025-04-13 17:26:46', NULL, NULL),
-(93, 57, 15, NULL, 'ggggggggggggggggg', NULL, 0, '2025-04-13 17:26:50', NULL, NULL),
-(94, 58, 15, NULL, 'zzzzzzzzzzz', NULL, 0, '2025-04-13 17:27:06', NULL, NULL),
-(95, 58, 15, NULL, 'tttttttttttttttt', NULL, 0, '2025-04-13 17:27:10', NULL, NULL),
-(96, 59, 15, NULL, 'hhhhhhhhhhhhh', NULL, 0, '2025-04-13 17:27:23', NULL, NULL),
-(97, 59, 15, NULL, 'ddddddddddddddd', NULL, 1, '2025-04-13 17:27:29', '2025-04-20 20:56:26', NULL);
+(109, 56, 15, NULL, 'I have bad experiaces with this article.', NULL, 1, '2025-04-24 18:21:07', '2025-04-24 18:30:01', NULL),
+(110, 56, 15, NULL, 'I have good experiance with this article.', NULL, 1, '2025-04-24 18:21:40', '2025-04-24 18:30:02', NULL),
+(111, 56, 15, NULL, 'I recomand it.', NULL, 1, '2025-04-24 18:21:51', '2025-04-24 18:30:02', NULL),
+(112, 56, 15, NULL, 'I do not recomad it.', NULL, 1, '2025-04-24 18:22:01', '2025-04-24 18:30:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -641,49 +548,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `article`
 --
 ALTER TABLE `article`
-  MODIFY `article_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `article_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `article_comments`
 --
 ALTER TABLE `article_comments`
-  MODIFY `comment_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `comment_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `owner_company`
 --
 ALTER TABLE `owner_company`
-  MODIFY `company_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `company_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
