@@ -5,6 +5,7 @@ import { DepartmentsList } from './features/departments/DepartmentsList';
 import DepartmentDetails from './features/departments/DepartmentDetails';
 import Header from './components/Header';
 import { fetchDepartments } from './features/departments/departmentsSlice';
+import { fetchCategoriesByDepartment } from './features/categories/departmentCategoriesSlice';
 import './App.css';
 
 const App = () => {
@@ -15,14 +16,27 @@ const App = () => {
   const departments = useSelector((state) => state.departments.departments);
   const departmentsStatus = useSelector((state) => state.departments.status);
 
+  const categories = useSelector((state) => state.departmentCategories.categories);
+  const categoriesStatus = useSelector((state) => state.departmentCategories.status);
+
   useEffect(() => {
     if (departmentsStatus === 'idle') {
       dispatch(fetchDepartments());
     }
   }, [departmentsStatus, dispatch]);
 
+  useEffect(() => {
+    if (departmentId && categoriesStatus === 'idle') {
+      dispatch(fetchCategoriesByDepartment(departmentId));
+    }
+  }, [departmentId, dispatch, categoriesStatus]);
+
   const department = departments.find(
     (d) => String(d.department_id) === String(departmentId)
+  );
+
+  const category = categories.find(
+    (c) => String(c.category_id) === String(categoryId)
   );
 
   const isArticlePage = /^\/article\/\d+$/.test(location.pathname);
@@ -37,8 +51,16 @@ const App = () => {
     ? getBannerFilename(department.name)
     : null;
 
-  const bannerPath = departmentBannerName
+  const categoryBannerName = category
+    ? getBannerFilename(category.category_name)
+    : null;
+
+  const departmentBannerPath = departmentBannerName
     ? `/assets/e_retail_public/catalog/${departmentBannerName}-banner.png`
+    : null;
+
+  const categoryBannerPath = categoryBannerName
+    ? `/assets/e_retail_public/catalog/${categoryBannerName}-banner.png`
     : null;
 
   const fallbackBanner = `/assets/e_retail_public/catalog/default-banner.png`;
@@ -51,16 +73,10 @@ const App = () => {
         <DepartmentsList />
       </nav>
 
-      {isDepartmentPage && (
+      {(isDepartmentPage || isCategoryPage) && (
         <div className="department-details-bar">
           <DepartmentDetails departmentId={departmentId} />
         </div>
-      )}
-
-      {departmentId && (
-        <nav className="categories-nav">
-          {/* Example placeholder */}
-        </nav>
       )}
 
       {!isArticlePage && (
@@ -74,20 +90,17 @@ const App = () => {
 
           {isDepartmentPage && department && (
             <div className="department-banner">
-              
               <img
-                src={bannerPath}
+                src={departmentBannerPath}
                 onError={(e) => {
                   e.target.src = fallbackBanner;
                 }}
                 alt={`${department.name} banner`}
               />
-              
               <div className="department-banner-text">
                 <h2>Department: {department.name}</h2>
                 <p>Browse categories in this department.</p>
               </div>
-              
             </div>
           )}
 
@@ -97,10 +110,25 @@ const App = () => {
             </div>
           )}
 
-          {isCategoryPage && (
+          {isCategoryPage && category && (
             <div className="category-banner">
-              <h2>Category: {categoryId}</h2>
-              <p>You're viewing products in this category.</p>
+              <img
+                src={categoryBannerPath}
+                onError={(e) => {
+                  e.target.src = fallbackBanner;
+                }}
+                alt={`${category.category_name} banner`}
+              />
+              <div className="category-banner-text">
+                <h2>Category: {category.category_name}</h2>
+                <p>Explore products in this category.</p>
+              </div>
+            </div>
+          )}
+
+          {isCategoryPage && !category && categoriesStatus === 'succeeded' && (
+            <div className="category-banner">
+              <p>Category not found.</p>
             </div>
           )}
         </>

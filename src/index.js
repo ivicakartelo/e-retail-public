@@ -21,6 +21,7 @@ import PaymentPage from './features/payment/PaymentPage';
 import ThankYouPage from './features/payment/ThankYouPage';
 import { Recommendations } from './features/aiprompt/Recommendations'; // Import the Recommendations component
 import Gemini25Thinking from './features/aiprompt/Gemini25Thinking';
+import DepartmentArticlesList from './features/articles/DepartmentArticlesList';
 
 const stripePromise = loadStripe('pk_test_51Nsp8pGVpnEZZ9cgc7w8adY5cH1sgLWAhWVxaUmOin7csuXbWZIa0tNIvuQZiIXOJr9oEv6wzZ0cstyVeCX1DK5k00MqzLKQx8');
 
@@ -33,7 +34,7 @@ root.render(
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route index element={<ArticlesList />} />
-                    <Route path="department/:departmentId" element={<ArticlesList />} />
+                    <Route path="department/:departmentId" element={<DepartmentArticlesList />} />
                     <Route path="department/:departmentId/category/:categoryId" element={<CategoryArticles />} />
                     <Route path="department/:departmentId/category/:categoryId/article/:articleId" element={<ArticleSingle />} />
                     <Route path="article/:articleId" element={<ArticleSingle />} />

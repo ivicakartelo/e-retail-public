@@ -41,3 +41,27 @@ header {
 .departments-nav button {
   color: #ffffff !important;
 }
+
+.category-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 32px;
+  background-color: #fff4e6;
+  color: #9c6500;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.category-banner img {
+  width: 40%;
+  height: auto;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.category-banner-text {
+  padding-left: 16px;
+}

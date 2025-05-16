@@ -1067,3 +1067,29 @@ Request: "${prompt}"
     res.status(500).json({ reply: 'Error generating HTML content from Gemini.' });
   }
 });
+
+app.get('/api/departments/:departmentId/articles', async (req, res) => {
+  const { departmentId } = req.params;
+
+  console.log('Incoming departmentId:', departmentId); // ← Log this!
+
+  try {
+    const articles = await queryAsync(
+      `
+      SELECT DISTINCT a.*
+      FROM article a
+      JOIN category_article ca ON a.article_id = ca.article_id
+      JOIN category c ON ca.category_id = c.category_id
+      WHERE c.department_id = ?
+        AND a.deleted_at IS NULL
+      ORDER BY a.article_id DESC
+      `,
+      [departmentId]
+    );
+
+    res.json(articles);
+  } catch (err) {
+    console.error('Error fetching department articles:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});

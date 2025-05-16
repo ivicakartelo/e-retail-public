@@ -9,6 +9,7 @@ import basketReducer from '../features/basket/basketSlice';
 import loginReducer from '../components/loginSlice'; // KEEP EXISTING
 import commentsReducer from '../features/comments/commentsSlice'; // ADD THIS
 import customersAlsoBoughtReducer from '../features/customersalsobought/CustomersAlsoBoughtSlice';
+import departmentArticlesReducer from '../features/articles/departmentArticlesSlice';
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     login: loginReducer,
     comments: commentsReducer,
     customersAlsoBought: customersAlsoBoughtReducer,
+    departmentArticles: departmentArticlesReducer,
   }
 });
 
