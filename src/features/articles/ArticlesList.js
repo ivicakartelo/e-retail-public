@@ -1,51 +1,53 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticles } from './articlesSlice';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import { addToBasket } from '../basket/basketSlice'; // Import the action
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom';
+import { addToBasket } from '../basket/basketSlice';
 import './ArticlesList.css';
 
 const ArticleExcerpt = ({ article }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleAddToBasket = () => {
     if (!article.article_id) {
       console.error('Invalid article object:', article);
-      return; // Prevent dispatching if article_id is missing
+      return;
     }
     dispatch(addToBasket(article));
-    console.log('Added to basket:', article);
     navigate('/basket');
   };
-  
 
   return (
     <div className="article-card">
-      <h3>
-        <Link to={`/article/${article.article_id}`}>{article.name}</Link>
-      </h3>
-      <p><strong>Price:</strong> ${Number(article.price).toFixed(2)}</p>
-      <div className="article-images">
-        <img
-          src={article.image_1 ? `http://localhost:5000/assets/images/${article.image_1}` : '/assets/images/placeholder.jpg'}
-          alt={`${article.name} - image_1`}
-        />
-        <img
-          src={article.image_2 ? `http://localhost:5000/assets/images/${article.image_2}` : '/assets/images/placeholder.jpg'}
-          alt={`${article.name} - image_2`}
-        />
+      <div className="article-image-wrapper">
+      <img
+        className="image-1"
+        src={article.image_1 ? `http://localhost:5000/assets/images/${article.image_1}` : '/assets/images/placeholder.jpg'}
+        alt={article.name}
+        loading="lazy"  // <--- added
+      />
+      <img
+        className="image-2"
+        src={article.image_2 ? `http://localhost:5000/assets/images/${article.image_2}` : '/assets/images/placeholder.jpg'}
+        alt={article.name}
+        loading="lazy"  // <--- added
+      />
       </div>
-      <button className="add-to-basket" onClick={handleAddToBasket}>
-        Add to Basket
-      </button>
+      <div className="article-info">
+        <h3>
+          <Link to={`/article/${article.article_id}`}>{article.name}</Link>
+        </h3>
+        <p className="article-price">${Number(article.price).toFixed(2)}</p>
+        <button className="add-to-basket" onClick={handleAddToBasket}>
+          Add to Basket
+        </button>
+      </div>
     </div>
   );
 };
 
 export const ArticlesList = () => {
-  console.log("ArticlesList render");
   const dispatch = useDispatch();
   const articles = useSelector((state) => state.articles.articles);
   const status = useSelector((state) => state.articles.status);
@@ -53,7 +55,6 @@ export const ArticlesList = () => {
 
   useEffect(() => {
     if (status === 'idle') {
-      console.log(status);
       dispatch(fetchArticles());
     }
   }, [status, dispatch]);

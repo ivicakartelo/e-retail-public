@@ -83,8 +83,12 @@ const App = () => {
         <>
           {isHomePage && (
             <div className="home-banner">
-              <h1>Welcome to Our Store</h1>
-              <p>Explore departments and categories to find what you need.</p>
+              <img
+                src="/assets/e_retail_public/catalog/homepage-banner.png"
+                alt="Welcome Store Banner"
+                onError={(e) => { e.target.src = fallbackBanner; }}
+                className="home-banner-image"
+              />
             </div>
           )}
 
