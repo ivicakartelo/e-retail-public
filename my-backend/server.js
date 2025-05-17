@@ -319,23 +319,44 @@ app.put('/categories/:id', (req, res) => {
     });
 });
 
-// New route to get articles by category ID
+// New route to get articles by category ID, including category info
 app.get('/categories/:categoryId/articles', (req, res) => {
   const categoryId = req.params.categoryId;
 
-  const query = `
-      SELECT a.*
-      FROM article a
-      JOIN category_article ca ON a.article_id = ca.article_id
-      WHERE ca.category_id = ?;
+  // Query to get category info
+  const categoryQuery = `SELECT category_id, name FROM category WHERE category_id = ?`;
+
+  // Query to get articles of that category
+  const articlesQuery = `
+    SELECT a.*
+    FROM article a
+    JOIN category_article ca ON a.article_id = ca.article_id
+    WHERE ca.category_id = ?;
   `;
 
-  db.query(query, [categoryId], (error, results) => {
-      if (error) {
-          console.error('Error fetching articles:', error);
-          return res.status(500).json({ error: 'An error occurred while fetching articles.' });
+  db.query(categoryQuery, [categoryId], (catErr, catResults) => {
+    if (catErr) {
+      console.error('Error fetching category:', catErr);
+      return res.status(500).json({ error: 'Error fetching category' });
+    }
+
+    if (catResults.length === 0) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    const category = catResults[0];
+
+    db.query(articlesQuery, [categoryId], (artErr, artResults) => {
+      if (artErr) {
+        console.error('Error fetching articles:', artErr);
+        return res.status(500).json({ error: 'Error fetching articles' });
       }
-      res.status(200).json({ articles: results });
+
+      res.status(200).json({
+        category,
+        articles: artResults,
+      });
+    });
   });
 });
 
