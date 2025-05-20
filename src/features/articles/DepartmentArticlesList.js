@@ -56,7 +56,7 @@ const DepartmentArticlesList = () => {
               <h3>
                 <Link to={`/article/${article.article_id}`}>{article.name}</Link>
               </h3>
-              <p className="article-description">{article.description}</p>
+              <div dangerouslySetInnerHTML={{ __html: article.description || 'No description available.' }} />
               <p className="article-price">
                 {article.price ? `${parseFloat(article.price).toFixed(2)} €` : 'Price not available'}
               </p>
