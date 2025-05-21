@@ -7,6 +7,7 @@ import Header from './components/Header';
 import { fetchDepartments } from './features/departments/departmentsSlice';
 import { fetchCategoriesByDepartment } from './features/categories/departmentCategoriesSlice';
 import './App.css';
+import Footer from './components/Footer';
 
 const App = () => {
   const { departmentId, categoryId } = useParams();
@@ -73,12 +74,6 @@ const App = () => {
         <DepartmentsList />
       </nav>
 
-      {(isDepartmentPage || isCategoryPage) && (
-        <div className="department-details-bar">
-          <DepartmentDetails departmentId={departmentId} />
-        </div>
-      )}
-
       {!isArticlePage && (
         <>
           {isHomePage && (
@@ -92,20 +87,18 @@ const App = () => {
             </div>
           )}
 
+          {/* Department Page */}
           {isDepartmentPage && department && (
-            <div className="department-banner">
-              <img
-                src={departmentBannerPath}
-                onError={(e) => {
-                  e.target.src = fallbackBanner;
-                }}
-                alt={`${department.name} banner`}
-              />
-              <div className="department-banner-text">
-                <h2>Department: {department.name}</h2>
-                <p>Browse categories in this department.</p>
+            <>
+              <div className="department-banner" style={{ backgroundImage: `url(${departmentBannerPath})` }}>
+                <div className="department-banner-title">
+                  Department: {department.name}
+                </div>
               </div>
-            </div>
+              <div className="department-details-bar">
+                <DepartmentDetails departmentId={departmentId} />
+              </div>
+            </>
           )}
 
           {isDepartmentPage && !department && departmentsStatus === 'succeeded' && (
@@ -114,20 +107,18 @@ const App = () => {
             </div>
           )}
 
+          {/* Category Page */}
           {isCategoryPage && category && (
-            <div className="category-banner">
-              <img
-                src={categoryBannerPath}
-                onError={(e) => {
-                  e.target.src = fallbackBanner;
-                }}
-                alt={`${category.category_name} banner`}
-              />
-              <div className="category-banner-text">
-                <h2>Category: {category.category_name}</h2>
-                <p>Explore products in this category.</p>
+            <>
+              <div className="category-banner" style={{ backgroundImage: `url(${categoryBannerPath})` }}>
+                <div className="category-banner-title">
+                  Category: {category.category_name}
+                </div>
               </div>
-            </div>
+              <div className="department-details-bar">
+                <DepartmentDetails departmentId={departmentId} />
+              </div>
+            </>
           )}
 
           {isCategoryPage && !category && categoriesStatus === 'succeeded' && (
@@ -142,6 +133,7 @@ const App = () => {
         <main className="content full-width">
           <Outlet />
         </main>
+        <Footer />
       </div>
     </div>
   );
