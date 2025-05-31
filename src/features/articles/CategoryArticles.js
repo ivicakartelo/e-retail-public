@@ -60,9 +60,6 @@ const CategoryArticles = () => {
                 />
               )}
             </div>
-
-            <p className="article-description">{article.description}</p>
-
             <p className="article-price">
               <strong>Price: </strong>
               {article.price ? `$${Number(article.price).toFixed(2)}` : 'Price not available'}

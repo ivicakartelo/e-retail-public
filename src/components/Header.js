@@ -34,6 +34,8 @@ const Header = () => {
         {/* Add a link to the Recommendations component */}
         <Link to="/recommendations">AI Recommendations</Link>
         <Link to="/thinking">Gemini 2.5 Thinking</Link>
+        <Link to="/agenticai">AIPromptSearch</Link>
+
       </nav>
       
         <form className="search-form" onSubmit={handleSearch}>

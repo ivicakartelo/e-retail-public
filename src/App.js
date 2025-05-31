@@ -41,7 +41,7 @@ const App = () => {
   );
 
   const isArticlePage = /^\/article\/\d+$/.test(location.pathname);
-  const isHomePage = !departmentId && !categoryId && !isArticlePage;
+  const isHomePage = location.pathname === '/';
   const isDepartmentPage = departmentId && !categoryId;
   const isCategoryPage = departmentId && categoryId;
 

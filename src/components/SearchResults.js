@@ -46,7 +46,8 @@ const SearchResults = () => {
                   <h3>
                     <Link to={`/article/${article.article_id}`}>{article.name}</Link>
                   </h3>
-                  <p>{article.description}</p>
+                  
+                  <div dangerouslySetInnerHTML={{ __html: article.description || 'No description available.' }} />
                   <p><strong>Categories:</strong> {article.category_ids.join(', ')}</p>
                 </li>
               ))}

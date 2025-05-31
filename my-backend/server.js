@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const path = require('path');
 
+const { generateSQLFromVertex } = require('./vertex'); // adjust path as needed
+
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 // Initialize Google Generative AI
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY); // Use your API key from .env
@@ -1112,5 +1114,18 @@ app.get('/api/departments/:departmentId/articles', async (req, res) => {
   } catch (err) {
     console.error('Error fetching department articles:', err);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/articles/ai', async (req, res) => {
+  const { userPrompt } = req.body;
+
+  try {
+    const sql = await generateSQLFromVertex(userPrompt);
+    const [results] = await db.promise().query(sql);
+    res.status(200).json({ sql, results });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to generate or execute SQL' });
   }
 });
