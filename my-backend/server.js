@@ -1129,3 +1129,39 @@ app.post('/articles/ai', async (req, res) => {
     res.status(500).json({ error: 'Failed to generate or execute SQL' });
   }
 });
+
+const ExcelJS = require('exceljs');
+
+app.post('/ai-excel', async (req, res) => {
+  const { userPrompt } = req.body;
+
+  try {
+    const sql = await generateSQLFromVertex(userPrompt);
+    const [results] = await db.promise().query(sql);
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Articles');
+
+    if (results.length > 0) {
+      worksheet.columns = Object.keys(results[0]).map(key => ({
+        header: key,
+        key: key,
+        width: 20,
+      }));
+
+      results.forEach(row => worksheet.addRow(row));
+    }
+
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    res.setHeader('Content-Disposition', 'attachment; filename=articles.xlsx');
+    res.send(buffer);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to generate Excel file' });
+  }
+});

@@ -26,6 +26,30 @@ const AIPromptSearch = () => {
     }
   };
 
+  const exportToExcel = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/ai-excel',
+        { userPrompt: prompt },
+        { responseType: 'blob' }
+      );
+
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'articles.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      alert('Failed to export Excel file');
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-semibold mb-4">🔍 AI-Powered Article Search</h1>
@@ -44,6 +68,12 @@ const AIPromptSearch = () => {
         >
           Ask AI
         </button>
+        <button
+          onClick={exportToExcel}
+          className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
+        >
+          📥 Export Excel
+        </button>
       </div>
 
       {loading && <p className="text-gray-600">Loading...</p>}
@@ -61,11 +91,11 @@ const AIPromptSearch = () => {
           <div key={article.article_id} className="border p-4 rounded shadow-sm bg-white">
             {article.image_1 && (
               <img
-        className="image-1"
-        src={article.image_1 ? `http://localhost:5000/assets/images/${article.image_1}` : '/assets/images/placeholder.jpg'}
-        alt={article.name}
-        loading="lazy"  // <--- added
-      />
+                className="w-full h-40 object-cover rounded mb-2"
+                src={article.image_1 ? `http://localhost:5000/assets/images/${article.image_1}` : '/assets/images/placeholder.jpg'}
+                alt={article.name}
+                loading="lazy"
+              />
             )}
             <h2 className="font-bold text-lg mb-2">{article.name}</h2>
             <p
