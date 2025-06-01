@@ -25,16 +25,22 @@ const AIPromptSearch = () => {
       const response = await axios.post('http://localhost:5000/articles/ai', {
         userPrompt: prompt,
       });
+
       setSQL(response.data.sql);
 
-      // Convert sales values to numbers for consistent chart rendering
       const results = response.data.results.map(item => {
-        const total =
-          parseFloat(item.total_sales ?? item.total_per_quarter ?? item.total_amount ?? item.sum ?? 0);
-        return {
-          ...item,
-          total_per_quarter: isNaN(total) ? 0 : total,
-        };
+        // Only add total_per_quarter if it's a quarterly result
+        if ('quarter' in item && (
+          'total_sales' in item || 'total_amount' in item || 'sum' in item
+        )) {
+          const total = parseFloat(item.total_sales ?? item.total_amount ?? item.sum ?? 0);
+          return {
+            ...item,
+            total_per_quarter: isNaN(total) ? 0 : total,
+          };
+        }
+
+        return item;
       });
 
       setArticles(results);
@@ -72,8 +78,7 @@ const AIPromptSearch = () => {
 
   const isArticleResult = articles.length > 0 && articles[0]?.article_id && articles[0]?.name;
   const isQuarterSummary = articles.length > 0 &&
-    articles[0]?.quarter !== undefined &&
-    articles[0]?.total_per_quarter !== undefined;
+    articles.every(item => 'quarter' in item && 'total_per_quarter' in item);
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -117,20 +122,16 @@ const AIPromptSearch = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {articles.map((article) => (
                 <div key={article.article_id} className="border p-4 rounded shadow-sm bg-white">
-                  {article.image_1 ? (
-                    <img
-                      className="w-full h-40 object-cover rounded mb-2"
-                      src={`http://localhost:5000/assets/images/${article.image_1}`}
-                      alt={article.name}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <img
-                      className="w-full h-40 object-cover rounded mb-2"
-                      src="/assets/images/placeholder.jpg"
-                      alt="placeholder"
-                    />
-                  )}
+                  <img
+                    className="w-full h-40 object-cover rounded mb-2"
+                    src={
+                      article.image_1
+                        ? `http://localhost:5000/assets/images/${article.image_1}`
+                        : '/assets/images/placeholder.jpg'
+                    }
+                    alt={article.name || 'placeholder'}
+                    loading="lazy"
+                  />
                   <h2 className="font-bold text-lg mb-2">{article.name}</h2>
                   <p className="text-sm mb-2" dangerouslySetInnerHTML={{ __html: article.description }} />
                   <p className="text-green-600 font-semibold">${article.price}</p>
