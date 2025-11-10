@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Outlet, useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { DepartmentsList } from './features/departments/DepartmentsList';
@@ -10,6 +10,7 @@ import './App.css';
 import Footer from './components/Footer';
 
 const App = () => {
+  console.log('App rendered')
   const { departmentId, categoryId } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -40,7 +41,6 @@ const App = () => {
     (c) => String(c.category_id) === String(categoryId)
   );
 
-  const isArticlePage = /^\/article\/\d+$/.test(location.pathname);
   const isHomePage = location.pathname === '/';
   const isDepartmentPage = departmentId && !categoryId;
   const isCategoryPage = departmentId && categoryId;
@@ -74,7 +74,7 @@ const App = () => {
         <DepartmentsList />
       </nav>
 
-      {!isArticlePage && (
+      
         <>
           {isHomePage && (
             <div className="home-banner">
@@ -112,7 +112,7 @@ const App = () => {
             <>
               <div className="category-banner" style={{ backgroundImage: `url(${categoryBannerPath})` }}>
                 <div className="category-banner-title">
-                  Category: {category.category_name}
+                  Category: {category.category_name} 
                 </div>
               </div>
               <div className="department-details-bar">
@@ -127,8 +127,7 @@ const App = () => {
             </div>
           )}
         </>
-      )}
-
+      
       <div className="content-wrapper">
         <main className="content full-width">
           <Outlet />

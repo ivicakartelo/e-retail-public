@@ -5,7 +5,8 @@ import { logout } from './loginSlice'; // Import the logout action
 import WelcomeMessage from './WelcomeMessage';
 import './Header.css';
 
-const Header = () => {
+const Header = React.memo(() => {
+  console.log("Header rendering")
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
@@ -70,6 +71,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+});
 
 export default Header;

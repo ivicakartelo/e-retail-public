@@ -47,7 +47,8 @@ const ArticleExcerpt = ({ article }) => {
   );
 };
 
-export const ArticlesList = () => {
+export const ArticlesList = React.memo(() => {
+  console.log("Articles rendering")
   const dispatch = useDispatch();
   const articles = useSelector((state) => state.articles.articles);
   const status = useSelector((state) => state.articles.status);
@@ -81,4 +82,4 @@ export const ArticlesList = () => {
       {content}
     </section>
   );
-};
+});

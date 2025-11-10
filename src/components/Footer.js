@@ -3,7 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 
-const Footer = () => {
+const Footer = React.memo(() => {
+  console.log("Footer rendering")
   return (
     <footer className="app-footer">
       <div className="footer-section">
@@ -31,6 +32,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
 
 export default Footer;

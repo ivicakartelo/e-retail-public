@@ -10,7 +10,7 @@ const CategoryArticles = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const category = useSelector(state => state.categoryArticles.category);
+  //const category = useSelector(state => state.categoryArticles.category);
   const articles = useSelector(state => state.categoryArticles.articles);
   const status = useSelector(state => state.categoryArticles.status);
   const error = useSelector(state => state.categoryArticles.error);
@@ -36,8 +36,7 @@ const CategoryArticles = () => {
 
   return (
     <div className="category-articles-wrapper">
-      {/* <h2>Category: {category ? category.name : categoryId}</h2> */}
-      <div className="category-articles-grid">
+      {/* <h2>Category: {category ? category.name : categoryId}</h2> */}      <div className="category-articles-grid">
         {articles.map(article => (
           <div key={article.article_id} className="article-card">
             <Link to={`/article/${article.article_id}`} className="article-title-link">
