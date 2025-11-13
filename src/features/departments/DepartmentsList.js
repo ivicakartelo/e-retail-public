@@ -1,7 +1,8 @@
 // src/features/departments/DepartmentsList.js
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchDepartments } from './departmentsSlice';
 import './DepartmentsList.css';
 
 const DepartmentExcerpt = ({ department }) => (
@@ -14,7 +15,17 @@ export const DepartmentsList = React.memo(() => {
     console.log("DepartmentsList render");
 
     // Read departments from Redux state (App already fetched them)
+    const dispatch = useDispatch();
     const departments = useSelector((state) => state.departments.departments);
+    const departmentsStatus = useSelector((state) => state.departments.status);
+
+  
+    useEffect(() => {
+    if (departmentsStatus === 'idle') {
+      dispatch(fetchDepartments());
+    }
+  }, [departmentsStatus, dispatch]);
+
 
     return (
         <section className="departments-list">

@@ -22,11 +22,11 @@ const App = () => {
   const categoriesStatus = useSelector((state) => state.departmentCategories.status);
 
   useEffect(() => {
-    if (departmentsStatus === 'idle') {
-      dispatch(fetchDepartments());
-    }
-  }, [departmentsStatus, dispatch]);
-
+      if (departmentsStatus === 'idle') {
+        dispatch(fetchDepartments());
+      }
+    }, [departmentsStatus, dispatch]);
+  
   useEffect(() => {
     if (departmentId && categoriesStatus === 'idle') {
       dispatch(fetchCategoriesByDepartment(departmentId));
@@ -73,8 +73,6 @@ const App = () => {
       <nav className="departments-nav">
         <DepartmentsList />
       </nav>
-
-      
         <>
           {isHomePage && (
             <div className="home-banner">
